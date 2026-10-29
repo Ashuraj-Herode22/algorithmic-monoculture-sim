@@ -97,7 +97,7 @@ Real-world deliberating crowds communicate across complex networks $G = (V, E)$ 
 \section{Model \& Simulation Methodology}
 
 \subsection{Simulation Engine Architecture}
-We model an epistemic community of $N = 1,000$ agents situated on a graph $G = (V, E)$. The simulation advances across discrete time steps $t \in \{0, 1, \dots, T\}$.
+We model an epistemic community of $N = 1,000$ agents situated on a graph $G = (V, E)$ constructed using NetworkX \cite{hagberg2008exploring}. The simulation advances across discrete time steps $t \in \{0, 1, \dots, T\}$.
 
 \begin{figure*}[t]
 \centering
@@ -145,7 +145,7 @@ At each timestep, we record:
     \begin{equation}
     \mathcal{M}(t) = 1.0 - \frac{H(t)}{H_{\max}}
     \end{equation}
-    where $H(t) = -\sum p_k \log_2 p_k$ represents the empirical Shannon Entropy of the belief distribution across 20 uniform bins, and $H_{\max} = \log_2(20)$. $\mathcal{M} = 0$ denotes maximal diversity; $\mathcal{M} = 1$ denotes complete collapse.
+    where $H(t) = -\sum p_k \log_2 p_k$ represents the empirical Shannon Entropy \cite{shannon1948mathematical} of the belief distribution across 20 uniform bins, and $H_{\max} = \log_2(20)$. $\mathcal{M} = 0$ denotes maximal diversity; $\mathcal{M} = 1$ denotes complete collapse.
 \end{enumerate}
 
 \section{Experimental Results}
@@ -215,7 +215,7 @@ Figure \ref{fig:page_verification} empirically validates Page's Theorem identity
 \section{Discussion \& Sociotechnical Governance}
 
 \subsection{The Ecological Fallacy of Local AI Auditing}
-Current regulatory and technical approaches to AI safety focus almost exclusively on **individual-level auditing**: benchmarking prompt accuracy, evaluating toxicity, and measuring individual bias. Our results prove that such micro-level auditing is fundamentally insufficient. A foundation model can be demonstrably ``accurate'' for an individual user, yet deployment across an interconnected network can simultaneously trigger macroscopic collective error through variance destruction.
+Current regulatory and technical approaches to AI safety focus almost exclusively on \textbf{individual-level auditing}: benchmarking prompt accuracy, evaluating toxicity, and measuring individual bias. Our results prove that such micro-level auditing is fundamentally insufficient. A foundation model can be demonstrably ``accurate'' for an individual user, yet deployment across an interconnected network can simultaneously trigger macroscopic collective error through variance destruction and synchronized error cascades \cite{lazer2018science}.
 
 \subsection{Algorithmic Diversity as Public Infrastructure}
 Policymakers frequently debate antitrust in AI through the lens of market concentration. Our findings formalize antitrust as an **epistemic necessity**. If multiple commercial AI vendors fine-tune their architectures on identical pre-training data, they produce an effective oligopoly ($\rho \ge 0.50$) that fails to preserve collective intelligence. Preserving societal resilience requires structural interventions:
@@ -228,7 +228,7 @@ Policymakers frequently debate antitrust in AI through the lens of market concen
 \section{Limitations \& Future Work}
 While our framework incorporates macro-scale graphs ($N = 1,000$) and 2,970 Monte Carlo runs, several natural extensions remain:
 \begin{enumerate}
-    \item \textbf{Non-Linear Opinion Dynamics:} We evaluated linear DeGroot consensus. Future research should integrate non-linear bounded confidence models (e.g., Hegselmann-Krause), which may reveal emergent clustering or echo chambers.
+    \item \textbf{Non-Linear Opinion Dynamics:} We evaluated linear DeGroot consensus. Future research should integrate non-linear bounded confidence models (e.g., Hegselmann-Krause \cite{hegselmann2002opinion}), which may reveal emergent clustering or echo chambers.
     \item \textbf{Endogenous Reliance Dynamics:} We modeled reliance $\alpha$ as a static parameter. In real-world environments, users dynamically adapt their trust based on perceived model performance.
     \item \textbf{Empirical Multi-Agent Experiments:} Applying this framework to large-scale empirical behavioral trials on platforms like Prolific will provide granular validation of model parameters.
 \end{enumerate}
