@@ -45,6 +45,10 @@ class SimulationEngine:
         ws_p: float = 0.1,
         ba_m: int = 3,
         er_p: float = 0.05,
+        # Pre-constructed graph and trust matrix for fast caching
+        graph: Optional[nx.Graph] = None,
+        W: Optional[np.ndarray] = None,
+        network_metrics: Optional[Dict[str, Any]] = None,
     ):
         self.num_agents = num_agents
         self.topology = topology.lower()
@@ -63,11 +67,17 @@ class SimulationEngine:
         self.ba_m = ba_m
         self.er_p = er_p
 
-        # Initialize network graph
-        self.graph = self._build_graph()
-        self.actual_agents = self.graph.number_of_nodes()
-        self.W = get_degroot_trust_matrix(self.graph, self_weight=self.self_weight)
-        self.network_metrics = compute_network_metrics(self.graph)
+        # Initialize or use pre-constructed network graph & trust matrix
+        if graph is not None and W is not None:
+            self.graph = graph
+            self.W = W
+            self.actual_agents = self.graph.number_of_nodes()
+            self.network_metrics = network_metrics or {"avg_clustering_coeff": 0.0, "avg_path_length": 0.0}
+        else:
+            self.graph = self._build_graph()
+            self.actual_agents = self.graph.number_of_nodes()
+            self.W = get_degroot_trust_matrix(self.graph, self_weight=self.self_weight)
+            self.network_metrics = compute_network_metrics(self.graph)
 
     def _build_graph(self) -> nx.Graph:
         """Instantiates graph according to requested topology."""
