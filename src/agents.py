@@ -93,3 +93,4 @@ def execute_hybrid_degroot_step(
     social_deliberation = W @ beliefs
     updated_beliefs = (1.0 - alpha) * social_deliberation + alpha * ai_advice
     return updated_beliefs
+

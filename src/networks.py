@@ -117,3 +117,4 @@ def get_degroot_trust_matrix(G: nx.Graph, self_weight: float = 0.5) -> np.ndarra
                 W[i, j] = neighbor_weight
 
     return W
+

@@ -94,3 +94,4 @@ def compute_monoculture_index(entropy: float, max_entropy: float) -> float:
         return 0.0
     val = 1.0 - (entropy / max_entropy)
     return float(np.clip(val, 0.0, 1.0))
+
