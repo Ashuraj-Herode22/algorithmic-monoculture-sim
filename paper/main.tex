@@ -22,7 +22,7 @@
     \textbf{Ashuraj Santosh Herode} \\
     Department of Computer Engineering, Vidyalankar Institute of Technology \\
     Mumbai University, Mumbai, India \\
-    \texttt{ashurajherode22@gmail.com}
+    \texttt{herodeashuraj@gmail.com}
 }
 
 \date{\today}
@@ -53,8 +53,6 @@ This paper addresses a fundamental open question at the intersection of network 
 
 Through a macro-scale computational framework encompassing 2,970 Monte Carlo simulations across $1,000$-agent networks, we formalize the interaction between Scott Page's Diversity Prediction Theorem \cite{page2007difference} and hybrid DeGroot consensus dynamics \cite{degroot1974reaching, golub2010naive}. Our findings demonstrate that algorithmic monoculture acts as an epistemic variance-destroyer, triggering non-linear surges in collective error even when individual models appear locally accurate.
 
----
-
 \section{Theoretical Framework \& Related Work}
 
 \subsection{The Diversity Prediction Theorem}
@@ -67,7 +65,7 @@ Page \cite{page2007difference} established that collective squared error can be 
 \end{equation}
 which is expressed conceptually as:
 \begin{equation}
-\textbf{Collective Error} = \overline{\textbf{Individual Error}} - \textbf{Cognitive Diversity}
+\text{Collective Error} = \overline{\text{Individual Error}} - \text{Diversity}
 \end{equation}
 
 Equation \ref{eq:page_theorem} holds as an exact mathematical identity. Crucially, the minus sign demonstrates that cognitive diversity (the variance of individual estimates around the crowd mean) is not merely a social virtue, but a direct mathematical offset against collective error. If an algorithmic intervention reduces individual error by a modest margin but severely collapses cognitive diversity, the collective prediction must strictly degrade.
@@ -95,8 +93,6 @@ Real-world deliberating crowds communicate across complex networks $G = (V, E)$ 
     \item \textbf{Watts-Strogatz Small-World Graphs:} Characterized by high clustering coefficients ($C \gg C_{\text{random}}$) and short average path lengths ($L \sim \ln N$), typical of dense professional disciplines and localized communities \cite{watts1998collective}.
     \item \textbf{Barab\'asi-Albert Scale-Free Graphs:} Generated via preferential attachment, yielding power-law degree distributions $P(k) \sim k^{-\gamma}$, where central hubs dominate communication cascades \cite{barabasi1999emergence}.
 \end{enumerate}
-
----
 
 \section{Model \& Simulation Methodology}
 
@@ -152,8 +148,6 @@ At each timestep, we record:
     where $H(t) = -\sum p_k \log_2 p_k$ represents the empirical Shannon Entropy of the belief distribution across 20 uniform bins, and $H_{\max} = \log_2(20)$. $\mathcal{M} = 0$ denotes maximal diversity; $\mathcal{M} = 1$ denotes complete collapse.
 \end{enumerate}
 
----
-
 \section{Experimental Results}
 
 \begin{figure}[t]
@@ -166,6 +160,7 @@ At each timestep, we record:
 \begin{table*}[t]
 \centering
 \small
+\setlength{\tabcolsep}{4.5pt}
 \caption{\textbf{Macro-Scale Simulation Results ($N = 1,000$ Agents, 2,970 Total Monte Carlo Runs).}}
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
@@ -188,9 +183,9 @@ $\alpha = 1.0$ (Pure AI)       & \textbf{3.974 $\pm$ 0.25} & \textbf{15.694 $\pm
 \subsection{The Monoculture Phase Transition}
 Figure \ref{fig:phase_transition} and Table \ref{tab:macro_results} illustrate the primary phase transition. 
 
-Under the \textbf{Monopoly Monoculture} regime ($\rho = 0.90$), crowds situated on pure social deliberation ($\alpha = 0.0$) achieve remarkable collective accuracy, exhibiting an average Collective Error of $0.246 \pm 0.07$. As reliance increases, collective error escalates monotonically: at $\alpha = 0.4$, error increases to $9.453$, and at complete reliance ($\alpha = 1.0$), error reaches $16.833$—representing a **68.4-fold deterioration** in collective wisdom ($F = 189.4$, $p < 10^{-40}$).
+Under the \textbf{Monopoly Monoculture} regime ($\rho = 0.90$), crowds situated on pure social deliberation ($\alpha = 0.0$) achieve remarkable collective accuracy, exhibiting an average Collective Error of $0.246 \pm 0.07$. As reliance increases, collective error escalates monotonically: at $\alpha = 0.4$, error increases to $9.453$, and at complete reliance ($\alpha = 1.0$), error reaches $16.833$—representing a 68.4-fold deterioration in collective wisdom ($F = 189.4$, $p < 10^{-40}$).
 
-\subsection{The Oligopoly Trap ($\rho = 0.50$)}
+\subsection{The Oligopoly Trap (\texorpdfstring{$\rho = 0.50$}{rho = 0.50})}
 A central defense often posited by industry proponents is that market competition between multiple frontier models (e.g., GPT-4, Claude, Gemini) prevents monoculture. 
 
 Our empirical data decisively refutes this assumption. In the Oligopoly condition ($\rho = 0.50$), Collective Error still experiences a substantial escalation from $0.340$ up to $10.314 \pm 1.02$ at $\alpha = 1.0$. Because contemporary foundation models share substantial overlapping web pre-training corpora (Common Crawl, Wikipedia, GitHub) and convergent alignment methodologies, their residual error correlation ($\rho \approx 0.50$) is more than sufficient to eliminate the uncorrelated error cancellation mechanism.
@@ -202,7 +197,7 @@ Our empirical data decisively refutes this assumption. In the Oligopoly conditio
 \label{fig:diversity_collapse}
 \end{figure}
 
-\subsection{The Polyculture Invariance ($\rho = 0.00$)}
+\subsection{The Polyculture Invariance (\texorpdfstring{$\rho = 0.00$}{rho = 0.00})}
 In stark contrast, when advice vectors are generated with zero inter-agent correlation ($\rho = 0.00$, Figure \ref{fig:phase_transition}C), Collective Error remains strictly invariant across all reliance levels: starting at $3.673$ at $\alpha = 0.1$ and stabilizing at $3.974 \pm 0.25$ at $\alpha = 1.0$. 
 
 Cognitive diversity in the polyculture regime expands proportionally with reliance, reaching $15.694 \pm 0.18$. This establishes the critical theoretical insight: **AI assistance does not inherently harm collective intelligence; rather, it is the structural correlation of advice that systematically impairs societal reasoning.**
@@ -217,8 +212,6 @@ Figure \ref{fig:page_verification} empirically validates Page's Theorem identity
 \label{fig:trajectories}
 \end{figure}
 
----
-
 \section{Discussion \& Sociotechnical Governance}
 
 \subsection{The Ecological Fallacy of Local AI Auditing}
@@ -232,8 +225,6 @@ Policymakers frequently debate antitrust in AI through the lens of market concen
     \item \textbf{Epistemic Buffering in Platforms:} Preserving modular community architectures (such as small-world communication networks) that shield local deliberative clusters from global synthetic cascades.
 \end{enumerate}
 
----
-
 \section{Limitations \& Future Work}
 While our framework incorporates macro-scale graphs ($N = 1,000$) and 2,970 Monte Carlo runs, several natural extensions remain:
 \begin{enumerate}
@@ -242,16 +233,11 @@ While our framework incorporates macro-scale graphs ($N = 1,000$) and 2,970 Mont
     \item \textbf{Empirical Multi-Agent Experiments:} Applying this framework to large-scale empirical behavioral trials on platforms like Prolific will provide granular validation of model parameters.
 \end{enumerate}
 
----
-
 \section{Conclusion}
 This study identifies and models the \textbf{Algorithmic Monoculture Paradox}: individual optimization via centralized foundation models precipitates collective epistemic collapse. Through extensive macro-scale network simulations, we demonstrate that cognitive diversity is a necessary mathematical buffer against collective delusion. As artificial intelligence becomes deeply woven into human deliberative networks, safeguarding uncorrelated, diverse human inquiry is not merely a social preference, but a structural requirement for collective intelligence.
 
----
-
 \section*{Reproducibility \& Code Availability}
-In accordance with open-science standards, the complete simulation engine, parameter-sweep scripts, and raw simulation datasets are publicly available on GitHub: \\
-\url{https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}
+In accordance with open-science standards, the complete simulation engine, parameter-sweep scripts, and raw simulation datasets are publicly available on GitHub at \url{https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}.
 
 \bibliographystyle{plain}
 \bibliography{references}
