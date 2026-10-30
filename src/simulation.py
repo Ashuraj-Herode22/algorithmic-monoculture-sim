@@ -7,14 +7,14 @@ from typing import Dict, Any, List, Optional
 import numpy as np
 import networkx as nx
 
-from metrics import compute_page_decomposition, compute_shannon_entropy, compute_monoculture_index
-from networks import (
+from src.metrics import compute_page_decomposition, compute_shannon_entropy, compute_monoculture_index
+from src.networks import (
     generate_watts_strogatz_graph,
     generate_barabasi_albert_graph,
     get_degroot_trust_matrix,
     compute_network_metrics,
 )
-from agents import (
+from src.agents import (
     initialize_human_beliefs,
     generate_correlated_ai_advice,
     execute_hybrid_degroot_step,

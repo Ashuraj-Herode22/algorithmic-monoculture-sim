@@ -7,19 +7,16 @@ import sys
 from pathlib import Path
 import numpy as np
 
-# Add src directory to path for execution and static analysis
+# Ensure project root and src are available on path
+ROOT_PATH = str(Path(__file__).resolve().parent.parent)
 SRC_PATH = str(Path(__file__).resolve().parent.parent / "src")
-if SRC_PATH not in sys.path:
-    sys.path.insert(0, SRC_PATH)
+for p in (ROOT_PATH, SRC_PATH):
+    if p not in sys.path:
+        sys.path.insert(0, p)
 
-try:
-    from metrics import compute_page_decomposition, compute_shannon_entropy, compute_monoculture_index
-    from networks import generate_watts_strogatz_graph, generate_barabasi_albert_graph, get_degroot_trust_matrix
-    from agents import initialize_human_beliefs, generate_correlated_ai_advice, execute_hybrid_degroot_step
-except ImportError:
-    from src.metrics import compute_page_decomposition, compute_shannon_entropy, compute_monoculture_index
-    from src.networks import generate_watts_strogatz_graph, generate_barabasi_albert_graph, get_degroot_trust_matrix
-    from src.agents import initialize_human_beliefs, generate_correlated_ai_advice, execute_hybrid_degroot_step
+from src.metrics import compute_page_decomposition, compute_shannon_entropy, compute_monoculture_index
+from src.networks import generate_watts_strogatz_graph, generate_barabasi_albert_graph, get_degroot_trust_matrix
+from src.agents import initialize_human_beliefs, generate_correlated_ai_advice, execute_hybrid_degroot_step
 
 
 def test_page_diversity_theorem():

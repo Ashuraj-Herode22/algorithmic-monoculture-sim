@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algorithmic-monoculture-sim"
+version = "0.1.0"
+description = "Simulating the Collapse of Collective Intelligence in Foundation-Model-Mediated Social Networks"
+authors = [{ name = "Ashuraj Santosh Herode", email = "herodeashuraj@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26.0",
+    "scipy>=1.12.0",
+    "networkx>=3.2.0",
+    "matplotlib>=3.8.0",
+    "pandas>=2.2.0",
+    "statsmodels>=0.14.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
