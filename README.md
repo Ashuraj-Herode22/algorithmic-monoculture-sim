@@ -80,11 +80,6 @@ algorithmic-monoculture-sim/
 │   ├── fig3_monoculture_index.{png,pdf}
 │   ├── fig4_page_decomposition_verification.{png,pdf}
 │   └── fig5_trajectory_convergence.{png,pdf}
-├── paper/                 # Academic pre-print manuscript
-│   ├── main.tex           # Two-column conference manuscript
-│   ├── references.bib     # Complete BibTeX bibliography
-│   └── figures/           # Local figure assets
-├── paper.zip              # One-click Overleaf compilation archive
 ├── requirements.txt       # Core dependencies
 └── README.md
 ```
@@ -120,15 +115,6 @@ Execute the complete sweep across $N=1,000$ agents, 3 topologies, 11 reliance le
 python experiments/run_experiments.py
 ```
 *Execution takes under 10 seconds on Apple Silicon (M-series).* All datasets in `data/` and figures in `figures/` will be regenerated.
-
----
-
-## Academic Manuscript
-
-The complete pre-print paper is available in the [`paper/`](paper/) directory:
-* **LaTeX Source:** [`paper/main.tex`](paper/main.tex)
-* **Bibliography:** [`paper/references.bib`](paper/references.bib)
-* **One-Click Overleaf Bundle:** Upload [`paper.zip`](paper.zip) directly to [Overleaf](https://www.overleaf.com) to compile the clean, two-column publication PDF.
 
 ---
 
