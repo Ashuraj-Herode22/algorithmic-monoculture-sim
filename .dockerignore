@@ -1,0 +1,13 @@
+.git
+.gitignore
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.DS_Store
+paper/
+paper.zip
+.vscode/
+algorithmic_monoculture_sim.egg-info/

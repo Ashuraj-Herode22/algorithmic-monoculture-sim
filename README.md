@@ -81,40 +81,67 @@ algorithmic-monoculture-sim/
 │   ├── fig4_page_decomposition_verification.{png,pdf}
 │   └── fig5_trajectory_convergence.{png,pdf}
 ├── requirements.txt       # Core dependencies
+├── Dockerfile             # Containerized, hermetic simulation environment
+├── docker-compose.yml     # Turnkey 1-command execution and volume mounting
 └── README.md
 ```
 
 ---
 
-## Quickstart & Reproduction
+## Quickstart & Zero-Friction Reproduction
 
-### 1. Setup Virtual Environment
+You can reproduce all mathematical proofs, data sweeps, and figures either via **Docker (1-click turnkey execution)** or natively in Python.
+
+### Option A: Turnkey Execution with Docker (Recommended)
+
+To run the entire reproduction pipeline (mathematical theorem verification + 2,970-run parameter sweep + figure rendering) with zero local configuration:
+
+```bash
+# Clone the repository
+git clone https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim.git
+cd algorithmic-monoculture-sim
+
+# Build and execute with Docker Compose (mounts data/ and figures/ to host)
+docker compose run --rm simulation
+```
+
+Alternatively, using standard Docker CLI:
+```bash
+docker build -t monoculture-sim .
+docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/figures:/app/figures" monoculture-sim
+```
+
+---
+
+### Option B: Native Python Environment
+
+#### 1. Setup Virtual Environment
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Verify Mathematical Integrity
+#### 2. Verify Mathematical Integrity
 Run the test suite to verify the Diversity Prediction Theorem equality to machine precision ($< 10^{-12}$):
 ```bash
 python tests/test_math.py
 ```
 Expected output:
 ```text
-✓ Page's Diversity Prediction Theorem verified to residual: 7.24e-14
+✓ Page's Diversity Prediction Theorem verified to residual: 4.40e-14
 ✓ DeGroot trust matrix row-stochasticity verified (all rows sum to 1.0).
 ✓ Hybrid DeGroot boundary conditions (alpha=0.0 and alpha=1.0) verified.
 
 ALL MATHEMATICAL INTEGRITY CHECKS PASSED SUCCESSFULLY.
 ```
 
-### 3. Re-run Macro-Scale Simulation Suite (2,970 Runs)
+#### 3. Re-run Macro-Scale Simulation Suite (2,970 Runs)
 Execute the complete sweep across $N=1,000$ agents, 3 topologies, 11 reliance levels, and 3 correlation regimes:
 ```bash
 python experiments/run_experiments.py
 ```
-*Execution takes under 10 seconds on Apple Silicon (M-series).* All datasets in `data/` and figures in `figures/` will be regenerated.
+*Execution takes ~15–20 seconds.* All datasets in `data/` and high-DPI figures in `figures/` will be generated.
 
 ---
 

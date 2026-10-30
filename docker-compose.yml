@@ -1,0 +1,10 @@
+services:
+  simulation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: monoculture-sim:latest
+    container_name: monoculture-simulation
+    volumes:
+      - ./data:/app/data
+      - ./figures:/app/figures
