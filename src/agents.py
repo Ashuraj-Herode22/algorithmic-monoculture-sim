@@ -4,12 +4,12 @@ Implements belief initialization, correlated AI advice generation (Kleinberg mod
 and vectorized DeGroot belief updating.
 """
 
-from typing import Tuple
+from typing import Tuple, Optional
 import numpy as np
 
 
 def initialize_human_beliefs(
-    n: int, truth: float, noise_std: float = 15.0, seed: int = None
+    n: int, truth: float, noise_std: float = 15.0, seed: Optional[int] = None
 ) -> np.ndarray:
     """
     Initializes human agent prior beliefs centered around the truth with independent noise.
@@ -28,7 +28,7 @@ def generate_correlated_ai_advice(
     ai_bias: float = 2.0,
     ai_std: float = 5.0,
     correlation_rho: float = 0.85,
-    seed: int = None,
+    seed: Optional[int] = None,
 ) -> np.ndarray:
     """
     Generates AI advice according to Kleinberg & Raghavan's correlated noise model.

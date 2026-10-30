@@ -21,3 +21,8 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+
+[tool.pyrefly]
+search-path = [".", "src"]
+python-interpreter-path = "venv/bin/python"
+

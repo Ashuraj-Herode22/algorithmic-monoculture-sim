@@ -74,6 +74,8 @@ def run_parameter_sweep() -> pd.DataFrame:
             if not nx.is_connected(cached_graph):
                 largest_cc = max(nx.connected_components(cached_graph), key=len)
                 cached_graph = cached_graph.subgraph(largest_cc).copy()
+        else:
+            raise ValueError(f"Unknown topology: {topology}")
         
         cached_W = get_degroot_trust_matrix(cached_graph, self_weight=0.5)
         cached_metrics = compute_network_metrics(cached_graph)

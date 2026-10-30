@@ -1,0 +1,5 @@
+search-path = [
+  "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim",
+  "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim/src"
+]
+python-interpreter-path = "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim/venv/bin/python"

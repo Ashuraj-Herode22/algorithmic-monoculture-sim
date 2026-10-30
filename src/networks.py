@@ -4,13 +4,13 @@ Generates Watts-Strogatz (Small-World) and Barabási-Albert (Scale-Free) graphs
 and constructs row-stochastic DeGroot influence matrices.
 """
 
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Optional
 import networkx as nx
 import numpy as np
 
 
 def generate_watts_strogatz_graph(
-    n: int, k: int = 6, p: float = 0.1, seed: int = None
+    n: int, k: int = 6, p: float = 0.1, seed: Optional[int] = None
 ) -> nx.Graph:
     """
     Generates a Watts-Strogatz small-world graph.
@@ -33,7 +33,7 @@ def generate_watts_strogatz_graph(
 
 
 def generate_barabasi_albert_graph(
-    n: int, m: int = 3, seed: int = None
+    n: int, m: int = 3, seed: Optional[int] = None
 ) -> nx.Graph:
     """
     Generates a Barabási-Albert scale-free graph using preferential attachment.

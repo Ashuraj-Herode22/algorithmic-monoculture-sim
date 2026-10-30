@@ -1,7 +1,7 @@
 {
-  "python.defaultInterpreterPath": "${workspaceFolder}/venv/bin/python",
+  "python.defaultInterpreterPath": "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim/venv/bin/python",
   "python.analysis.extraPaths": [
-    "${workspaceFolder}/src"
+    "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim",
+    "/Users/ashurajherode/.gemini/antigravity/scratch/algorithmic-monoculture-sim/src"
   ]
 }
-
