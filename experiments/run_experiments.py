@@ -14,15 +14,27 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Add src to path
-sys.path.append(str(Path(__file__).parent.parent / "src"))
-from simulation import SimulationEngine
-from networks import (
-    generate_watts_strogatz_graph,
-    generate_barabasi_albert_graph,
-    get_degroot_trust_matrix,
-    compute_network_metrics,
-)
+# Add src to path for execution and static analysis
+SRC_PATH = str(Path(__file__).resolve().parent.parent / "src")
+if SRC_PATH not in sys.path:
+    sys.path.insert(0, SRC_PATH)
+
+try:
+    from simulation import SimulationEngine
+    from networks import (
+        generate_watts_strogatz_graph,
+        generate_barabasi_albert_graph,
+        get_degroot_trust_matrix,
+        compute_network_metrics,
+    )
+except ImportError:
+    from src.simulation import SimulationEngine
+    from src.networks import (
+        generate_watts_strogatz_graph,
+        generate_barabasi_albert_graph,
+        get_degroot_trust_matrix,
+        compute_network_metrics,
+    )
 import networkx as nx
 
 # Ensure output directories exist
