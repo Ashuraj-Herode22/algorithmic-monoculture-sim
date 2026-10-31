@@ -152,8 +152,9 @@ If you use this simulation framework, models, or empirical findings in your rese
 ```bibtex
 @article{herode2026algorithmic,
   title={The Algorithmic Monoculture Paradox: Simulating the Collapse of Collective Intelligence in Foundation-Model-Mediated Social Networks},
-  author={Herode, Ashuraj},
-  journal={Pre-print under review},
+  author={Herode, Ashuraj and Parmar, Prakash},
+  journal={Zenodo Preprint},
+  doi={10.5281/zenodo.23836280},
   year={2026},
   url={https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}
 }
