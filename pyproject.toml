@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "algorithmic-monoculture-sim"
 version = "0.1.0"
 description = "Simulating the Collapse of Collective Intelligence in Foundation-Model-Mediated Social Networks"
-authors = [{ name = "Ashuraj Santosh Herode", email = "herodeashuraj@gmail.com" }]
+authors = [{ name = "Ashuraj Herode", email = "herodeashuraj@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

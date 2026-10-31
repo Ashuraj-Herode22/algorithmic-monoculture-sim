@@ -5,7 +5,7 @@
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Reproducibility: 100%](https://img.shields.io/badge/reproducibility-verified-brightgreen.svg)](#quickstart)
 
-**Author:** [Ashuraj Santosh Herode](mailto:herodeashuraj@gmail.com)  
+**Author:** [Ashuraj Herode](mailto:herodeashuraj@gmail.com)  
 *Department of Computer Engineering, Vidyalankar Institute of Technology, Mumbai University, India*
 
 ---
@@ -152,7 +152,7 @@ If you use this simulation framework, models, or empirical findings in your rese
 ```bibtex
 @article{herode2026algorithmic,
   title={The Algorithmic Monoculture Paradox: Simulating the Collapse of Collective Intelligence in Foundation-Model-Mediated Social Networks},
-  author={Herode, Ashuraj Santosh},
+  author={Herode, Ashuraj},
   journal={Pre-print under review},
   year={2026},
   url={https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}
