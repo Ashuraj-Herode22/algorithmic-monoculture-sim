@@ -3,7 +3,7 @@ Mathematical Metrics Module
 Implements Page's Diversity Prediction Theorem, Shannon Entropy, and Monoculture Metrics.
 """
 
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
 import numpy as np
 
 
@@ -51,7 +51,7 @@ def compute_page_decomposition(estimates: np.ndarray, truth: float) -> Dict[str,
 
 
 def compute_shannon_entropy(
-    estimates: np.ndarray, bins: int = 20, value_range: Tuple[float, float] = None
+    estimates: np.ndarray, bins: int = 20, value_range: Optional[Tuple[float, float]] = None
 ) -> float:
     """
     Computes Shannon Entropy of the belief distribution.
