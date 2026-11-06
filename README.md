@@ -17,7 +17,7 @@ The **"Wisdom of Crowds"** principle establishes that distributed groups of impe
 
 Under the parameterized error distributions evaluated here, incorporating foundation-model advice produces substantial reductions in individual expected squared error: for an isolated individual with no social interaction, consulting AI reduces expected squared estimation error by over 12-fold relative to unassisted heuristics (from $225.0$ to $18.37$ at single-shot optimal mixing weight $\alpha_{\text{isolated}}^* \approx 0.92$) and up to 46-fold under dynamic sampling ($\alpha_{\text{isolated}}^{\text{dyn}} \approx 0.106$, error $4.89$). However, when an interconnected crowd queries foundation models with correlated errors ($\rho = 0.90$), shared machine error and directional bias accumulate in the crowd consensus.
 
-Through finite-time mathematical derivations and a 199,000-run Monte Carlo simulation suite ($N = 1,000$ agents, $T = 30$ timesteps, across 3 canonical network topologies and static vs.\ dynamic persistence regimes), we formalize this fundamental tension:
+Through finite-time mathematical derivations and a 193,000-run Monte Carlo simulation suite (199,000 total executed trials; $N = 1,000$ agents, $T = 30$ timesteps, across 3 canonical network topologies and static vs.\ dynamic persistence regimes), we formalize this fundamental tension:
 
 1. **The Idealized Crowd Baseline ($\rho_h = 0$):** In crowds with strictly orthogonal human errors, pure monoculture causes Collective Squared Error $(c(T) - \theta)^2$ to escalate from $0.327 \pm 0.009$ (pooled baseline) to $18.648 \pm 0.468$ at complete reliance $\alpha = 1.0$ (a 36- to 81-fold escalation depending on network topology, averaging 57-fold; crowd error remains $12\times$ lower than unassisted individual error of $225.0$ due to baseline error scaling as $\mathcal{O}(1/N)$).
 2. **The Optimal Reliance Trade-Off ($\rho_h > 0$):** Because initial reliance reduces error ($\left.\frac{\partial E}{\partial \alpha}\right|_{\alpha=0} = -2T \cdot \text{MSE}_{\text{human}} < 0$), an interior optimum exists even for orthogonal humans ($\alpha^* \approx 0.002$); when human crowds exhibit correlated estimation errors ($\rho_h > 0$), this negative initial gradient is amplified by orders of magnitude, deepening a pronounced **U-shaped** trade-off. Across dynamic and static machine noise models, socially optimal per-step reliance lies in $\alpha^* \in [0.008, 0.056]$ (cumulative reliance $w_{\text{cum}} \in [20\%, 82\%]$ over $T=30$ rounds), achieving a $20\% - 83\%$ reduction in collective error relative to unassisted deliberation.
@@ -109,14 +109,14 @@ The crossover correlation threshold $\rho_h^*(\alpha)$ evaluates to:
 
 ---
 
-## Full Replication Suite (199,000 Monte Carlo Runs)
+## Full Replication Suite (193,000 Unique Monte Carlo Runs / 199,000 Total Executed Trials)
 
 The simulation suite comprises three targeted computational experiments:
-1. **Experiment 1 (Core Sweep across Topologies and Correlation Regimes):** 11 reliance levels $\times$ 3 correlation regimes ($\rho \in \{0.00, 0.50, 0.90\}$) $\times$ 3 topologies (WS, ER, BA) $\times$ 1,000 independent trials = **99,000 runs**.
+1. **Experiment 1 (Core Sweep across Topologies and Correlation Regimes):** 11 reliance levels $\times$ 3 correlation regimes ($\rho \in \{0.00, 0.50, 0.90\}$) $\times$ 3 topologies (WS, ER, BA) $\times$ 1,000 independent trials = **93,000 unique runs** (99,000 total executed trials; each topology executes 1,000 independent baseline trials at $\alpha = 0.0$ evaluated identically across the three correlation arms).
 2. **Experiment 2 (Human Correlation Sweep):** 20 fine reliance levels $\times$ 4 human correlation levels ($\rho_h \in \{0.00, 0.02, 0.05, 0.10\}$) under monopoly monoculture ($\rho = 0.90$) on WS $\times$ 1,000 trials = **80,000 runs**.
 3. **Experiment 3 (Static vs. Dynamic Machine Persistence Sweep):** 20 fine reliance levels under static machine noise ($\rho = 0.90, \rho_h = 0.00$) on WS $\times$ 1,000 trials = **20,000 runs** (compared against the 20,000 dynamic-noise runs from Experiment 2, yielding 40,000 runs across both arms).
 
-**Total Simulation Volume:** $99,000 + 80,000 + 20,000 = \mathbf{199,000\text{ runs}}$.
+**Total Simulation Volume:** $93,000 + 80,000 + 20,000 = \mathbf{193,000\text{ unique runs}}$ ($99,000 + 80,000 + 20,000 = \mathbf{199,000\text{ total executed trials}}$).
 
 ---
 
