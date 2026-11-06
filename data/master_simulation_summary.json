@@ -1,0 +1,1226 @@
+{
+  "parameters": {
+    "n": 1000,
+    "truth": 100.0,
+    "sigma_h": 15.0,
+    "var_h": 225.0,
+    "mu_ai": 2.0,
+    "sigma_ai": 4.0,
+    "var_ai": 16.0,
+    "T": 30,
+    "K_TRIALS": 500,
+    "total_simulations": 77000
+  },
+  "exp1_parameter_sweep": {
+    "0.0": {
+      "0.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 0.21770606432943418,
+            "sem_error": 0.014601640660455767,
+            "mean_diversity": 1.473658651897456,
+            "sem_diversity": 0.015349309138567501
+          },
+          "erdos_renyi": {
+            "mean_error": 0.2056702013794082,
+            "sem_error": 0.012861429374880273,
+            "mean_diversity": 6.810200071586948e-12,
+            "sem_diversity": 6.813115313289989e-14
+          },
+          "barabasi_albert": {
+            "mean_error": 0.5589415094243791,
+            "sem_error": 0.03561498209957606,
+            "mean_diversity": 0.0003603822497389538,
+            "sem_diversity": 4.6698608753489865e-06
+          }
+        },
+        "pooled": {
+          "mean_error": 0.3274392583777405,
+          "sem_error": 0.01417343353763248,
+          "mean_diversity": 0.49133967805133505,
+          "sem_diversity": 0.01865015085386878
+        }
+      },
+      "0.1": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.672251423686249,
+            "sem_error": 0.006322542819317587,
+            "mean_diversity": 0.2415156388665728,
+            "sem_diversity": 0.0005550574027329453
+          },
+          "erdos_renyi": {
+            "mean_error": 3.6596517921051337,
+            "sem_error": 0.0059714353558024905,
+            "mean_diversity": 0.2026295856433441,
+            "sem_diversity": 0.0004161206105165221
+          },
+          "barabasi_albert": {
+            "mean_error": 3.670161187519822,
+            "sem_error": 0.008361313621578633,
+            "mean_diversity": 0.22697515327900386,
+            "sem_diversity": 0.0004730861791341667
+          }
+        },
+        "pooled": {
+          "mean_error": 3.6673548011037345,
+          "sem_error": 0.0040239081544515875,
+          "mean_diversity": 0.22370679259630688,
+          "sem_diversity": 0.0004999141365885215
+        }
+      },
+      "0.2": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.9923882940994058,
+            "sem_error": 0.00775927778170714,
+            "mean_diversity": 0.8312907527627106,
+            "sem_diversity": 0.0016855280848610977
+          },
+          "erdos_renyi": {
+            "mean_error": 3.964965889333382,
+            "sem_error": 0.0071104129918269894,
+            "mean_diversity": 0.7655792867092264,
+            "sem_diversity": 0.0015956391278066527
+          },
+          "barabasi_albert": {
+            "mean_error": 3.9452386739929834,
+            "sem_error": 0.00938882183975547,
+            "mean_diversity": 0.8228429723384125,
+            "sem_diversity": 0.0017391966676300267
+          }
+        },
+        "pooled": {
+          "mean_error": 3.967530952475257,
+          "sem_error": 0.004727662864809052,
+          "mean_diversity": 0.8065710039367832,
+          "sem_diversity": 0.0012258421974584363
+        }
+      },
+      "0.3": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.9912026699724636,
+            "sem_error": 0.009441808250431567,
+            "mean_diversity": 1.7201445756066611,
+            "sem_diversity": 0.0035987369854510805
+          },
+          "erdos_renyi": {
+            "mean_error": 4.006118851528568,
+            "sem_error": 0.009732981286003917,
+            "mean_diversity": 1.6505624067739477,
+            "sem_diversity": 0.0032857071324182727
+          },
+          "barabasi_albert": {
+            "mean_error": 3.9978074528411227,
+            "sem_error": 0.011166009824453111,
+            "mean_diversity": 1.7221742328391276,
+            "sem_diversity": 0.003531956037254389
+          }
+        },
+        "pooled": {
+          "mean_error": 3.9983763247807182,
+          "sem_error": 0.0058573970941733075,
+          "mean_diversity": 1.6976270717399122,
+          "sem_diversity": 0.002182528102737036
+        }
+      },
+      "0.4": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.9997165193961526,
+            "sem_error": 0.011354278233972417,
+            "mean_diversity": 2.896048555348456,
+            "sem_diversity": 0.005464287266573838
+          },
+          "erdos_renyi": {
+            "mean_error": 3.9949315972351753,
+            "sem_error": 0.011730704127681088,
+            "mean_diversity": 2.8223665990867666,
+            "sem_diversity": 0.005760172223769479
+          },
+          "barabasi_albert": {
+            "mean_error": 4.010778817105288,
+            "sem_error": 0.01188516423242674,
+            "mean_diversity": 2.8984486609046045,
+            "sem_diversity": 0.00567929445591294
+          }
+        },
+        "pooled": {
+          "mean_error": 4.001808977912205,
+          "sem_error": 0.006733419569604088,
+          "mean_diversity": 2.8722879384466093,
+          "sem_diversity": 0.003379260040193087
+        }
+      },
+      "0.5": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.008763297088063,
+            "sem_error": 0.013309634462844206,
+            "mean_diversity": 4.3449801533466825,
+            "sem_diversity": 0.00894032530384327
+          },
+          "erdos_renyi": {
+            "mean_error": 4.025320571979932,
+            "sem_error": 0.012619704847524066,
+            "mean_diversity": 4.26918525448587,
+            "sem_diversity": 0.008727412178116
+          },
+          "barabasi_albert": {
+            "mean_error": 4.043631722929594,
+            "sem_error": 0.014542764096140394,
+            "mean_diversity": 4.350883959751156,
+            "sem_diversity": 0.008668647356367461
+          }
+        },
+        "pooled": {
+          "mean_error": 4.02590519733253,
+          "sem_error": 0.007811047305012007,
+          "mean_diversity": 4.321683122527903,
+          "sem_diversity": 0.005159086054194546
+        }
+      },
+      "0.6": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.02383857559592,
+            "sem_error": 0.01458741243817279,
+            "mean_diversity": 6.031578957320612,
+            "sem_diversity": 0.012071770226567491
+          },
+          "erdos_renyi": {
+            "mean_error": 4.022068573096336,
+            "sem_error": 0.013864839209940815,
+            "mean_diversity": 5.994945597702503,
+            "sem_diversity": 0.012039060489850685
+          },
+          "barabasi_albert": {
+            "mean_error": 4.020079457515629,
+            "sem_error": 0.015755687946766114,
+            "mean_diversity": 6.040903834399458,
+            "sem_diversity": 0.011447323142640554
+          }
+        },
+        "pooled": {
+          "mean_error": 4.021995535402628,
+          "sem_error": 0.008519795365350281,
+          "mean_diversity": 6.022476129807525,
+          "sem_diversity": 0.0068643083728633075
+        }
+      },
+      "0.7": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.027780934278214,
+            "sem_error": 0.01729643771417068,
+            "mean_diversity": 8.054066602037517,
+            "sem_diversity": 0.016236943412769694
+          },
+          "erdos_renyi": {
+            "mean_error": 4.025487733275941,
+            "sem_error": 0.01707189116292362,
+            "mean_diversity": 8.001107690593342,
+            "sem_diversity": 0.016505138327542104
+          },
+          "barabasi_albert": {
+            "mean_error": 3.9766426808761652,
+            "sem_error": 0.01730225729497086,
+            "mean_diversity": 8.105726139215278,
+            "sem_diversity": 0.015587177628030524
+          }
+        },
+        "pooled": {
+          "mean_error": 4.009970449476773,
+          "sem_error": 0.009962829875931568,
+          "mean_diversity": 8.053633477282046,
+          "sem_diversity": 0.009368763772307907
+        }
+      },
+      "0.8": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.987482366603337,
+            "sem_error": 0.018519269155151376,
+            "mean_diversity": 10.34763004263588,
+            "sem_diversity": 0.020013026599226668
+          },
+          "erdos_renyi": {
+            "mean_error": 4.006469721081882,
+            "sem_error": 0.01896006125418843,
+            "mean_diversity": 10.335201600817472,
+            "sem_diversity": 0.02023360867525385
+          },
+          "barabasi_albert": {
+            "mean_error": 4.035871153985691,
+            "sem_error": 0.018004860920866436,
+            "mean_diversity": 10.355473736391342,
+            "sem_diversity": 0.020601040821639438
+          }
+        },
+        "pooled": {
+          "mean_error": 4.00994108055697,
+          "sem_error": 0.01069267607777197,
+          "mean_diversity": 10.346101793281564,
+          "sem_diversity": 0.011712960545853607
+        }
+      },
+      "0.9": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.9977937303510016,
+            "sem_error": 0.019707906871906638,
+            "mean_diversity": 12.988874972633559,
+            "sem_diversity": 0.025166133169450232
+          },
+          "erdos_renyi": {
+            "mean_error": 3.9736489472792926,
+            "sem_error": 0.019566919151010467,
+            "mean_diversity": 12.98207957912317,
+            "sem_diversity": 0.024254184373943416
+          },
+          "barabasi_albert": {
+            "mean_error": 3.997378787339087,
+            "sem_error": 0.020563480849164095,
+            "mean_diversity": 13.012975703578084,
+            "sem_diversity": 0.025253426277192625
+          }
+        },
+        "pooled": {
+          "mean_error": 3.989607154989794,
+          "sem_error": 0.01152237836331044,
+          "mean_diversity": 12.994643418444939,
+          "sem_diversity": 0.014377411498183595
+        }
+      },
+      "1.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 3.992875127926509,
+            "sem_error": 0.021394133966601482,
+            "mean_diversity": 15.98049774634423,
+            "sem_diversity": 0.0317376880384615
+          },
+          "erdos_renyi": {
+            "mean_error": 3.99150333760811,
+            "sem_error": 0.022241565188247263,
+            "mean_diversity": 15.962004419955457,
+            "sem_diversity": 0.031386455522203136
+          },
+          "barabasi_albert": {
+            "mean_error": 3.9858727258913795,
+            "sem_error": 0.02225246745467449,
+            "mean_diversity": 16.01943358350663,
+            "sem_diversity": 0.032078129686328935
+          }
+        },
+        "pooled": {
+          "mean_error": 3.990083730475333,
+          "sem_error": 0.012682549592573547,
+          "mean_diversity": 15.987311916602106,
+          "sem_diversity": 0.01833283103560984
+        }
+      }
+    },
+    "0.5": {
+      "0.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 0.23130247545997087,
+            "sem_error": 0.014664169568623913,
+            "mean_diversity": 1.4868549072797264,
+            "sem_diversity": 0.015392642795678164
+          },
+          "erdos_renyi": {
+            "mean_error": 0.23151938311488424,
+            "sem_error": 0.013728194610301496,
+            "mean_diversity": 6.721421735249106e-12,
+            "sem_diversity": 6.391502396337944e-14
+          },
+          "barabasi_albert": {
+            "mean_error": 0.5532964268067571,
+            "sem_error": 0.03366755256190919,
+            "mean_diversity": 0.00036698390435241834,
+            "sem_diversity": 4.842161901634461e-06
+          }
+        },
+        "pooled": {
+          "mean_error": 0.33870609512720407,
+          "sem_error": 0.013642875105524812,
+          "mean_diversity": 0.49574063039693345,
+          "sem_diversity": 0.01880855638586321
+        }
+      },
+      "0.1": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.490259589063427,
+            "sem_error": 0.11944355813121828,
+            "mean_diversity": 0.12204264396954438,
+            "sem_diversity": 0.0002858680637978975
+          },
+          "erdos_renyi": {
+            "mean_error": 4.566046211912923,
+            "sem_error": 0.11679797556938612,
+            "mean_diversity": 0.10143431389438134,
+            "sem_diversity": 0.00020332168964153316
+          },
+          "barabasi_albert": {
+            "mean_error": 4.47213576835657,
+            "sem_error": 0.10946263507726813,
+            "mean_diversity": 0.11369380836745405,
+            "sem_diversity": 0.00023394323423168255
+          }
+        },
+        "pooled": {
+          "mean_error": 4.509480523110974,
+          "sem_error": 0.06658372061509207,
+          "mean_diversity": 0.11239025541045992,
+          "sem_diversity": 0.0002598270184485911
+        }
+      },
+      "0.2": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.992706395876347,
+            "sem_error": 0.177916488878673,
+            "mean_diversity": 0.4167356717308335,
+            "sem_diversity": 0.0008874930335397466
+          },
+          "erdos_renyi": {
+            "mean_error": 4.4536069481086855,
+            "sem_error": 0.1768239291679072,
+            "mean_diversity": 0.38220585376876615,
+            "sem_diversity": 0.0007394455590580589
+          },
+          "barabasi_albert": {
+            "mean_error": 4.841646441667268,
+            "sem_error": 0.17724371155631372,
+            "mean_diversity": 0.4105914506442633,
+            "sem_diversity": 0.0008719308561433505
+          }
+        },
+        "pooled": {
+          "mean_error": 4.7626532618840995,
+          "sem_error": 0.10254844936770671,
+          "mean_diversity": 0.40317765871462097,
+          "sem_diversity": 0.0006193086017764522
+        }
+      },
+      "0.3": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 5.341231129528682,
+            "sem_error": 0.2186622270708429,
+            "mean_diversity": 0.8611659958580963,
+            "sem_diversity": 0.0016627496183479165
+          },
+          "erdos_renyi": {
+            "mean_error": 5.155321102333431,
+            "sem_error": 0.21021871792775845,
+            "mean_diversity": 0.8229600895683891,
+            "sem_diversity": 0.0016684079366429147
+          },
+          "barabasi_albert": {
+            "mean_error": 4.885188483816411,
+            "sem_error": 0.22075910870317086,
+            "mean_diversity": 0.8621001771091855,
+            "sem_diversity": 0.0016228989765119629
+          }
+        },
+        "pooled": {
+          "mean_error": 5.127246905226175,
+          "sem_error": 0.12514436213453098,
+          "mean_diversity": 0.8487420875118902,
+          "sem_diversity": 0.0010633871132073303
+        }
+      },
+      "0.4": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 7.002038904048845,
+            "sem_error": 0.3160443867186896,
+            "mean_diversity": 1.4454959834156653,
+            "sem_diversity": 0.002896614249540615
+          },
+          "erdos_renyi": {
+            "mean_error": 6.460482086865064,
+            "sem_error": 0.31089875407417344,
+            "mean_diversity": 1.4086626819754402,
+            "sem_diversity": 0.0028650627864288242
+          },
+          "barabasi_albert": {
+            "mean_error": 5.3971487854601,
+            "sem_error": 0.260306752511968,
+            "mean_diversity": 1.4486395195297705,
+            "sem_diversity": 0.002758593726015971
+          }
+        },
+        "pooled": {
+          "mean_error": 6.286556592124669,
+          "sem_error": 0.17222985855165213,
+          "mean_diversity": 1.434266061640292,
+          "sem_diversity": 0.0017057184604254026
+        }
+      },
+      "0.5": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 6.713871183164174,
+            "sem_error": 0.33314226033226885,
+            "mean_diversity": 2.1606020889922726,
+            "sem_diversity": 0.004199631906887928
+          },
+          "erdos_renyi": {
+            "mean_error": 5.48959432716508,
+            "sem_error": 0.3107761486150485,
+            "mean_diversity": 2.1332390643852923,
+            "sem_diversity": 0.004067856918791279
+          },
+          "barabasi_albert": {
+            "mean_error": 6.126082538963604,
+            "sem_error": 0.3157230337880884,
+            "mean_diversity": 2.1763780603677043,
+            "sem_diversity": 0.004379798963030112
+          }
+        },
+        "pooled": {
+          "mean_error": 6.1098493497642865,
+          "sem_error": 0.18521646753073673,
+          "mean_diversity": 2.15673973791509,
+          "sem_diversity": 0.002478187807060493
+        }
+      },
+      "0.6": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 7.188204861677041,
+            "sem_error": 0.3601903700541768,
+            "mean_diversity": 3.036576256038871,
+            "sem_diversity": 0.006121638768244727
+          },
+          "erdos_renyi": {
+            "mean_error": 7.363333935614827,
+            "sem_error": 0.41622526146839117,
+            "mean_diversity": 3.0014167654525252,
+            "sem_diversity": 0.0059645473489520736
+          },
+          "barabasi_albert": {
+            "mean_error": 8.057719019317654,
+            "sem_error": 0.4239469504218607,
+            "mean_diversity": 3.0370613359537995,
+            "sem_diversity": 0.00556706844295088
+          }
+        },
+        "pooled": {
+          "mean_error": 7.536419272203173,
+          "sem_error": 0.23179433369734237,
+          "mean_diversity": 3.0250181191483985,
+          "sem_diversity": 0.003427241267106575
+        }
+      },
+      "0.7": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 8.554422834154979,
+            "sem_error": 0.4624813170482147,
+            "mean_diversity": 4.036476988691926,
+            "sem_diversity": 0.008106515183817739
+          },
+          "erdos_renyi": {
+            "mean_error": 7.789385248603081,
+            "sem_error": 0.4259068290407487,
+            "mean_diversity": 4.009594635974933,
+            "sem_diversity": 0.00811286412364811
+          },
+          "barabasi_albert": {
+            "mean_error": 8.758300933442591,
+            "sem_error": 0.488846055024443,
+            "mean_diversity": 4.036437962064311,
+            "sem_diversity": 0.007773269020979334
+          }
+        },
+        "pooled": {
+          "mean_error": 8.367369672066884,
+          "sem_error": 0.26568565917385806,
+          "mean_diversity": 4.027503195577057,
+          "sem_diversity": 0.004629854989700689
+        }
+      },
+      "0.8": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 9.244016668378148,
+            "sem_error": 0.5731416046843955,
+            "mean_diversity": 5.186998870224775,
+            "sem_diversity": 0.010690824864340026
+          },
+          "erdos_renyi": {
+            "mean_error": 8.953236282157707,
+            "sem_error": 0.5200968921347974,
+            "mean_diversity": 5.172584340714471,
+            "sem_diversity": 0.010400044118999287
+          },
+          "barabasi_albert": {
+            "mean_error": 9.68028253624343,
+            "sem_error": 0.5508603733649328,
+            "mean_diversity": 5.182662055752858,
+            "sem_diversity": 0.010267353547059793
+          }
+        },
+        "pooled": {
+          "mean_error": 9.292511828926429,
+          "sem_error": 0.31674996777507547,
+          "mean_diversity": 5.180748422230701,
+          "sem_diversity": 0.00603776970833711
+        }
+      },
+      "0.9": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 10.465656492830796,
+            "sem_error": 0.6322365812692552,
+            "mean_diversity": 6.496519078117805,
+            "sem_diversity": 0.012764070266592374
+          },
+          "erdos_renyi": {
+            "mean_error": 11.594139730024057,
+            "sem_error": 0.6794316190661671,
+            "mean_diversity": 6.495764184048419,
+            "sem_diversity": 0.013063434136389898
+          },
+          "barabasi_albert": {
+            "mean_error": 10.170088291748465,
+            "sem_error": 0.638723533327492,
+            "mean_diversity": 6.493401966709242,
+            "sem_diversity": 0.012804555595476731
+          }
+        },
+        "pooled": {
+          "mean_error": 10.743294838201106,
+          "sem_error": 0.3758807942478542,
+          "mean_diversity": 6.495228409625154,
+          "sem_diversity": 0.007435216672851124
+        }
+      },
+      "1.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 11.411234451282398,
+            "sem_error": 0.691693607229796,
+            "mean_diversity": 7.979507424284867,
+            "sem_diversity": 0.016170966410915057
+          },
+          "erdos_renyi": {
+            "mean_error": 11.60673755939587,
+            "sem_error": 0.7494628134990019,
+            "mean_diversity": 8.000974564297229,
+            "sem_diversity": 0.015524188088574413
+          },
+          "barabasi_albert": {
+            "mean_error": 11.581268973152135,
+            "sem_error": 0.643309901441117,
+            "mean_diversity": 8.00519020692276,
+            "sem_diversity": 0.016281423718180064
+          }
+        },
+        "pooled": {
+          "mean_error": 11.533080327943466,
+          "sem_error": 0.4019435245424481,
+          "mean_diversity": 7.995224065168284,
+          "sem_diversity": 0.00923967374849721
+        }
+      }
+    },
+    "0.9": {
+      "0.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 0.2613110721145717,
+            "sem_error": 0.016820469407477383,
+            "mean_diversity": 1.4424230732170682,
+            "sem_diversity": 0.014496415169297833
+          },
+          "erdos_renyi": {
+            "mean_error": 0.21370692896457144,
+            "sem_error": 0.013749782433398715,
+            "mean_diversity": 6.639141331968439e-12,
+            "sem_diversity": 5.982278512834011e-14
+          },
+          "barabasi_albert": {
+            "mean_error": 0.5715472344293521,
+            "sem_error": 0.03636399409779209,
+            "mean_diversity": 0.00037032240346572277,
+            "sem_diversity": 5.242911235027362e-06
+          }
+        },
+        "pooled": {
+          "mean_error": 0.3488550785028317,
+          "sem_error": 0.014702102337105817,
+          "mean_diversity": 0.4809311318757244,
+          "sem_diversity": 0.018207283271569234
+        }
+      },
+      "0.1": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 4.338160740052497,
+            "sem_error": 0.18713377357572494,
+            "mean_diversity": 0.026619462880380446,
+            "sem_diversity": 7.133790345032437e-05
+          },
+          "erdos_renyi": {
+            "mean_error": 4.226237435991714,
+            "sem_error": 0.15156967646583536,
+            "mean_diversity": 0.020316647731397155,
+            "sem_diversity": 4.206884205535617e-05
+          },
+          "barabasi_albert": {
+            "mean_error": 4.330273301023413,
+            "sem_error": 0.15019682269353601,
+            "mean_diversity": 0.022690202431395256,
+            "sem_diversity": 4.928714384531475e-05
+          }
+        },
+        "pooled": {
+          "mean_error": 4.298223825689208,
+          "sem_error": 0.09461448674400395,
+          "mean_diversity": 0.023208771014390946,
+          "sem_diversity": 7.440155719476934e-05
+        }
+      },
+      "0.2": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 5.8885136256636175,
+            "sem_error": 0.25926719419662797,
+            "mean_diversity": 0.08322291004650077,
+            "sem_diversity": 0.0001680556569102098
+          },
+          "erdos_renyi": {
+            "mean_error": 5.890944566615155,
+            "sem_error": 0.2525796220652354,
+            "mean_diversity": 0.0765335727066807,
+            "sem_diversity": 0.00016299568266213286
+          },
+          "barabasi_albert": {
+            "mean_error": 5.565008012058133,
+            "sem_error": 0.2538692842339005,
+            "mean_diversity": 0.08197436656102201,
+            "sem_diversity": 0.00016498555871004126
+          }
+        },
+        "pooled": {
+          "mean_error": 5.78148873477897,
+          "sem_error": 0.14742461522420544,
+          "mean_diversity": 0.08057694977140116,
+          "sem_diversity": 0.00012139745836005659
+        }
+      },
+      "0.3": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 5.996674319396438,
+            "sem_error": 0.2979968028037704,
+            "mean_diversity": 0.1722154778625043,
+            "sem_diversity": 0.0003540043256355808
+          },
+          "erdos_renyi": {
+            "mean_error": 5.97446640223439,
+            "sem_error": 0.309732798210698,
+            "mean_diversity": 0.16419255676410704,
+            "sem_diversity": 0.0003389261529227215
+          },
+          "barabasi_albert": {
+            "mean_error": 6.456859971132737,
+            "sem_error": 0.32147181385815327,
+            "mean_diversity": 0.1725333687789574,
+            "sem_diversity": 0.0003466017924690261
+          }
+        },
+        "pooled": {
+          "mean_error": 6.142666897587855,
+          "sem_error": 0.17900256761905362,
+          "mean_diversity": 0.1696471344685229,
+          "sem_diversity": 0.00022352755502068688
+        }
+      },
+      "0.4": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 6.914196077292625,
+            "sem_error": 0.3692798460545718,
+            "mean_diversity": 0.2893522069755993,
+            "sem_diversity": 0.0005921909412706097
+          },
+          "erdos_renyi": {
+            "mean_error": 7.42540651815465,
+            "sem_error": 0.40851387638879166,
+            "mean_diversity": 0.2812952485631333,
+            "sem_diversity": 0.0005220379879701287
+          },
+          "barabasi_albert": {
+            "mean_error": 7.7522195208451175,
+            "sem_error": 0.42106916056497223,
+            "mean_diversity": 0.28973147145261197,
+            "sem_diversity": 0.0005605397074837653
+          }
+        },
+        "pooled": {
+          "mean_error": 7.363940705430799,
+          "sem_error": 0.23124399026749998,
+          "mean_diversity": 0.28679297566378154,
+          "sem_diversity": 0.0003380068025015646
+        }
+      },
+      "0.5": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 8.921085769257122,
+            "sem_error": 0.434832228276819,
+            "mean_diversity": 0.43357811497579424,
+            "sem_diversity": 0.0008943755607834982
+          },
+          "erdos_renyi": {
+            "mean_error": 8.635032631983899,
+            "sem_error": 0.4744022174483865,
+            "mean_diversity": 0.4277836373140012,
+            "sem_diversity": 0.0008505651626973027
+          },
+          "barabasi_albert": {
+            "mean_error": 8.248352114711235,
+            "sem_error": 0.45213211084514743,
+            "mean_diversity": 0.4344074769150318,
+            "sem_diversity": 0.0008772146950716508
+          }
+        },
+        "pooled": {
+          "mean_error": 8.601490171984086,
+          "sem_error": 0.26225854973569834,
+          "mean_diversity": 0.4319230764016091,
+          "sem_diversity": 0.0005104428436908745
+        }
+      },
+      "0.6": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 11.154675487397906,
+            "sem_error": 0.5480658528700844,
+            "mean_diversity": 0.6039784788906816,
+            "sem_diversity": 0.0011862071115120057
+          },
+          "erdos_renyi": {
+            "mean_error": 10.16281496524018,
+            "sem_error": 0.539701908624858,
+            "mean_diversity": 0.6008280035697112,
+            "sem_diversity": 0.0012043094830205413
+          },
+          "barabasi_albert": {
+            "mean_error": 10.178128567901295,
+            "sem_error": 0.5943609101751284,
+            "mean_diversity": 0.6043031191667863,
+            "sem_diversity": 0.0012318436494905584
+          }
+        },
+        "pooled": {
+          "mean_error": 10.498539673513127,
+          "sem_error": 0.32424459182073373,
+          "mean_diversity": 0.6030365338757263,
+          "sem_diversity": 0.0006983811144140353
+        }
+      },
+      "0.7": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 12.12111820653957,
+            "sem_error": 0.7359571617269098,
+            "mean_diversity": 0.8072675122035516,
+            "sem_diversity": 0.0014770483010327904
+          },
+          "erdos_renyi": {
+            "mean_error": 12.45862598502943,
+            "sem_error": 0.7305973784441412,
+            "mean_diversity": 0.8000913539445699,
+            "sem_diversity": 0.001629356722865527
+          },
+          "barabasi_albert": {
+            "mean_error": 10.690671572605643,
+            "sem_error": 0.6591157681553931,
+            "mean_diversity": 0.8093516462039074,
+            "sem_diversity": 0.00156666790111498
+          }
+        },
+        "pooled": {
+          "mean_error": 11.756805254724881,
+          "sem_error": 0.41006271928174365,
+          "mean_diversity": 0.8055701707840096,
+          "sem_diversity": 0.0009058647950823806
+        }
+      },
+      "0.8": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 13.501453117351707,
+            "sem_error": 0.8189406944658091,
+            "mean_diversity": 1.0331339346508184,
+            "sem_diversity": 0.0020970352438923557
+          },
+          "erdos_renyi": {
+            "mean_error": 13.166099466909895,
+            "sem_error": 0.6898336397425724,
+            "mean_diversity": 1.0326885549646285,
+            "sem_diversity": 0.0019717164237365165
+          },
+          "barabasi_albert": {
+            "mean_error": 13.494323831086966,
+            "sem_error": 0.8173474487136706,
+            "mean_diversity": 1.0349990148778578,
+            "sem_diversity": 0.001959086689270815
+          }
+        },
+        "pooled": {
+          "mean_error": 13.387292138449522,
+          "sem_error": 0.44904070502348853,
+          "mean_diversity": 1.033607168164435,
+          "sem_diversity": 0.0011609025799266392
+        }
+      },
+      "0.9": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 16.965592798996894,
+            "sem_error": 1.0437563330031476,
+            "mean_diversity": 1.3015750670187325,
+            "sem_diversity": 0.002571701475311105
+          },
+          "erdos_renyi": {
+            "mean_error": 16.099545737063295,
+            "sem_error": 0.9815813165053163,
+            "mean_diversity": 1.29679074706946,
+            "sem_diversity": 0.0025804423938548594
+          },
+          "barabasi_albert": {
+            "mean_error": 14.294814488866407,
+            "sem_error": 0.9258350176479714,
+            "mean_diversity": 1.3031870944465096,
+            "sem_diversity": 0.002610845965143255
+          }
+        },
+        "pooled": {
+          "mean_error": 15.786651008308866,
+          "sem_error": 0.5693589386919113,
+          "mean_diversity": 1.3005176361782338,
+          "sem_diversity": 0.0014956646913121465
+        }
+      },
+      "1.0": {
+        "topologies": {
+          "watts_strogatz": {
+            "mean_error": 17.985697336208904,
+            "sem_error": 1.1241852851678482,
+            "mean_diversity": 1.598490004008355,
+            "sem_diversity": 0.003133061257429593
+          },
+          "erdos_renyi": {
+            "mean_error": 18.56758671043969,
+            "sem_error": 1.2916881461707899,
+            "mean_diversity": 1.5974546513081174,
+            "sem_diversity": 0.003407786310330369
+          },
+          "barabasi_albert": {
+            "mean_error": 16.699265865722065,
+            "sem_error": 1.0309829813699265,
+            "mean_diversity": 1.598161631948407,
+            "sem_diversity": 0.003252274440717918
+          }
+        },
+        "pooled": {
+          "mean_error": 17.750849970790217,
+          "sem_error": 0.6665693939747183,
+          "mean_diversity": 1.5980354290882928,
+          "sem_diversity": 0.0018858387215750984
+        }
+      }
+    }
+  },
+  "exp2_human_correlation": {
+    "0.0": {
+      "0.0": {
+        "mean_error": 0.21228353343730244,
+        "sem_error": 0.012412712052962675
+      },
+      "0.1": {
+        "mean_error": 4.850982510030787,
+        "sem_error": 0.1630272383927244
+      },
+      "0.2": {
+        "mean_error": 5.645347559584876,
+        "sem_error": 0.22837886159825685
+      },
+      "0.3": {
+        "mean_error": 6.497445077359778,
+        "sem_error": 0.30604123677252576
+      },
+      "0.4": {
+        "mean_error": 6.033334114044333,
+        "sem_error": 0.34164835035056856
+      },
+      "0.5": {
+        "mean_error": 7.288370410944294,
+        "sem_error": 0.41416314223158374
+      },
+      "0.6": {
+        "mean_error": 10.832981001619261,
+        "sem_error": 0.6726312145605937
+      },
+      "0.7": {
+        "mean_error": 11.458004975950466,
+        "sem_error": 0.7104263720686154
+      },
+      "0.8": {
+        "mean_error": 13.145524056531665,
+        "sem_error": 0.7996325026358072
+      },
+      "0.9": {
+        "mean_error": 17.034367680575087,
+        "sem_error": 1.078030501063642
+      },
+      "1.0": {
+        "mean_error": 16.8846346084557,
+        "sem_error": 1.0227461430513054
+      }
+    },
+    "0.02": {
+      "0.0": {
+        "mean_error": 4.839549740705578,
+        "sem_error": 0.3080554224751905
+      },
+      "0.1": {
+        "mean_error": 4.193858823413497,
+        "sem_error": 0.14234520671138584
+      },
+      "0.2": {
+        "mean_error": 5.230361084274445,
+        "sem_error": 0.24232800320827197
+      },
+      "0.3": {
+        "mean_error": 5.883506610674162,
+        "sem_error": 0.3016624092904548
+      },
+      "0.4": {
+        "mean_error": 6.469709397145374,
+        "sem_error": 0.34835927844078984
+      },
+      "0.5": {
+        "mean_error": 7.847780886223216,
+        "sem_error": 0.4319617093806941
+      },
+      "0.6": {
+        "mean_error": 10.522781243660887,
+        "sem_error": 0.6114332046662564
+      },
+      "0.7": {
+        "mean_error": 11.601199294609927,
+        "sem_error": 0.655125602708703
+      },
+      "0.8": {
+        "mean_error": 14.045244906484964,
+        "sem_error": 0.8455309592036644
+      },
+      "0.9": {
+        "mean_error": 15.607878732834605,
+        "sem_error": 0.9231779345233956
+      },
+      "1.0": {
+        "mean_error": 19.890274487041342,
+        "sem_error": 1.2144824581740612
+      }
+    },
+    "0.05": {
+      "0.0": {
+        "mean_error": 10.478895257870455,
+        "sem_error": 0.7113578128675192
+      },
+      "0.1": {
+        "mean_error": 4.910157378745111,
+        "sem_error": 0.15157678677045192
+      },
+      "0.2": {
+        "mean_error": 6.192381253727269,
+        "sem_error": 0.24777835231442882
+      },
+      "0.3": {
+        "mean_error": 6.57327328978473,
+        "sem_error": 0.3007535649223335
+      },
+      "0.4": {
+        "mean_error": 7.290797210565346,
+        "sem_error": 0.37902050414247795
+      },
+      "0.5": {
+        "mean_error": 10.504105537678953,
+        "sem_error": 0.5728015460176601
+      },
+      "0.6": {
+        "mean_error": 10.825893748941635,
+        "sem_error": 0.6160587977557851
+      },
+      "0.7": {
+        "mean_error": 11.861048825175835,
+        "sem_error": 0.7111591523067422
+      },
+      "0.8": {
+        "mean_error": 13.027621815054502,
+        "sem_error": 0.8695566104452569
+      },
+      "0.9": {
+        "mean_error": 14.186202669280652,
+        "sem_error": 0.9203709741376589
+      },
+      "1.0": {
+        "mean_error": 19.781622569946677,
+        "sem_error": 1.2081817121588827
+      }
+    },
+    "0.1": {
+      "0.0": {
+        "mean_error": 21.900547439543377,
+        "sem_error": 1.4090659734087951
+      },
+      "0.1": {
+        "mean_error": 4.555477483044957,
+        "sem_error": 0.17747323784798394
+      },
+      "0.2": {
+        "mean_error": 5.5602161424918535,
+        "sem_error": 0.2415061427096916
+      },
+      "0.3": {
+        "mean_error": 7.262067133455122,
+        "sem_error": 0.371904939198919
+      },
+      "0.4": {
+        "mean_error": 8.05640050470744,
+        "sem_error": 0.413685339162177
+      },
+      "0.5": {
+        "mean_error": 8.287795301364024,
+        "sem_error": 0.48155913498897734
+      },
+      "0.6": {
+        "mean_error": 11.462474079750901,
+        "sem_error": 0.6345296191539269
+      },
+      "0.7": {
+        "mean_error": 11.193729881151416,
+        "sem_error": 0.6598327208454349
+      },
+      "0.8": {
+        "mean_error": 13.724914887299851,
+        "sem_error": 0.8111294964354651
+      },
+      "0.9": {
+        "mean_error": 16.585175525929785,
+        "sem_error": 0.9819340219682456
+      },
+      "1.0": {
+        "mean_error": 16.728496098798203,
+        "sem_error": 1.0572258611602698
+      }
+    }
+  },
+  "exp3_static_vs_dynamic": {
+    "dynamic": {
+      "0.0": {
+        "mean": 0.2377907526470808,
+        "sem": 0.017498938297013676
+      },
+      "0.1": {
+        "mean": 3.997801727458767,
+        "sem": 0.13969011090608535
+      },
+      "0.2": {
+        "mean": 5.627348739250285,
+        "sem": 0.2695889228099559
+      },
+      "0.3": {
+        "mean": 7.050923847556745,
+        "sem": 0.3722114701167729
+      },
+      "0.4": {
+        "mean": 6.844445934088367,
+        "sem": 0.365479847820333
+      },
+      "0.5": {
+        "mean": 7.530669034044931,
+        "sem": 0.4432088313477645
+      },
+      "0.6": {
+        "mean": 10.608397336658399,
+        "sem": 0.6179167071023902
+      },
+      "0.7": {
+        "mean": 11.68817079913676,
+        "sem": 0.6813100016118623
+      },
+      "0.8": {
+        "mean": 12.548434740436864,
+        "sem": 0.748515466547441
+      },
+      "0.9": {
+        "mean": 16.382757225726706,
+        "sem": 1.1630932238525524
+      },
+      "1.0": {
+        "mean": 18.25222963984361,
+        "sem": 1.082725817746604
+      }
+    },
+    "static": {
+      "0.0": {
+        "mean": 0.2377907526470808,
+        "sem": 0.017498938297013676
+      },
+      "0.1": {
+        "mean": 15.349719693992323,
+        "sem": 0.9528015517417004
+      },
+      "0.2": {
+        "mean": 16.9139857461633,
+        "sem": 1.005733982635741
+      },
+      "0.3": {
+        "mean": 17.922335670659084,
+        "sem": 0.985750747543087
+      },
+      "0.4": {
+        "mean": 18.207946091178375,
+        "sem": 1.0695067826348685
+      },
+      "0.5": {
+        "mean": 18.219565390017664,
+        "sem": 1.1577430016236105
+      },
+      "0.6": {
+        "mean": 19.97457532891995,
+        "sem": 1.2747297091823415
+      },
+      "0.7": {
+        "mean": 19.588135247217817,
+        "sem": 1.206493509380029
+      },
+      "0.8": {
+        "mean": 18.589035471070115,
+        "sem": 1.1100102778586804
+      },
+      "0.9": {
+        "mean": 18.190495201184422,
+        "sem": 1.093222800928054
+      },
+      "1.0": {
+        "mean": 17.23301440905577,
+        "sem": 1.0446031241036793
+      }
+    }
+  }
+}

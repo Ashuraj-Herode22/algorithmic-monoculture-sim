@@ -1,4 +1,4 @@
-# The Algorithmic Monoculture Paradox: Simulating Epistemic Degradation in Foundation-Model-Mediated Social Networks
+# The Algorithmic Monoculture Paradox: Balancing Individual Benefit and Collective Error in Foundation-Model-Mediated Networks
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -13,179 +13,118 @@
 
 ## Abstract
 
-The **"Wisdom of Crowds"** principle establishes that distributed groups of imperfect decision-makers can achieve superior collective accuracy because independent, idiosyncratic errors cancel out upon aggregation. Today, the rapid integration of centralized foundation models (LLMs) into decision-making workflows threatens the epistemic independence that underlies this dynamic. When independent human agents query shared foundation models, individual error variance is suppressed, replacing independent noise with shared, correlated algorithmic bias.
+The **"Wisdom of Crowds"** principle establishes that distributed groups of imperfect decision-makers can achieve superior collective accuracy because independent, idiosyncratic errors cancel out upon aggregation. Today, the rapid integration of centralized foundation models (LLMs) into decision-making workflows alters the epistemic structure of networked deliberation. 
 
-Here, we formalize a discrete-event network simulation combining **Scott Page's Diversity Prediction Theorem** (Krogh-Vedelsby ambiguity decomposition) with a **hybrid DeGroot consensus framework** across macro-scale social graphs ($N = 1,000$ agents). Across **2,970 Monte Carlo simulations** spanning three canonical network topologies (Watts-Strogatz Small-World, Barabási-Albert Scale-Free, and Erdős-Rényi Random) and three correlation regimes, we demonstrate:
+Under the parameterized error distributions evaluated here, incorporating foundation-model advice produces substantial reductions in individual expected squared error: for an isolated individual with no social interaction, consulting AI reduces expected squared estimation error by over 12-fold relative to unassisted heuristics (from $225.0$ to $18.37$ at single-shot optimal mixing weight $\alpha_{\text{isolated}}^* \approx 0.92$) and up to 46-fold under dynamic sampling ($\alpha_{\text{isolated}}^{\text{dyn}} \approx 0.106$, error $4.89$). However, when an interconnected crowd queries foundation models with correlated errors ($\rho = 0.90$), shared machine error and directional bias accumulate in the crowd consensus.
 
-1. **Monopoly Monoculture ($\rho = 0.90$):** High reliance on a single centralized model causes an **average 50-fold surge in Collective Squared Error** (escalating by over $+16$ squared error units from a pooled baseline of $0.339 \pm 0.07$ to $16.833 \pm 2.05$).
-2. **The Oligopoly Trap ($\rho = 0.50$):** An oligopoly of competing frontier models sharing common web pre-training data fails to prevent epistemic degradation (Collective Error surges to $10.314 \pm 1.59$).
-3. **Polyculture Bias Floor ($\rho = 0.00$):** While an unconstrained polyculture of independent models eliminates correlated variance ($\rho\sigma_{AI}^2$), collective error remains bounded near the directional bias floor ($3.974 \pm 0.05$)—approximately 12-fold higher than the unassisted crowd.
-4. **The Human Correlation Crossover ($\rho_h^*$):** Against an idealized unbiased crowd ($\rho_h = 0$), monoculture degrades collective judgment. However, if human decision-makers share merely **8.1%** correlated error through common cognitive biases ($\rho_h \ge 0.081$), AI monoculture yields superior collective accuracy over the human crowd. For polyculture, the crossover occurs at just **1.7%** ($\rho_h^* \ge 0.017$).
-5. **Topology Invariance:** Because uniform external advice passes directly through any row-stochastic network matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$), the AI-driven error component is strictly topology-invariant.
+Through finite-time mathematical derivations and a 199,000-run Monte Carlo simulation suite ($N = 1,000$ agents, $T = 30$ timesteps, across 3 canonical network topologies and static vs.\ dynamic persistence regimes), we formalize this fundamental tension:
+
+1. **The Idealized Crowd Baseline ($\rho_h = 0$):** In crowds with strictly orthogonal human errors, pure monoculture causes Collective Squared Error $(c(T) - \theta)^2$ to escalate from $0.327 \pm 0.009$ (pooled baseline) to $18.648 \pm 0.468$ at complete reliance $\alpha = 1.0$ (a 36- to 81-fold escalation depending on network topology, averaging 57-fold; crowd error remains $12\times$ lower than unassisted individual error of $225.0$ due to baseline error scaling as $\mathcal{O}(1/N)$).
+2. **The Optimal Reliance Trade-Off ($\rho_h > 0$):** Because initial reliance reduces error ($\left.\frac{\partial E}{\partial \alpha}\right|_{\alpha=0} = -2T \cdot \text{MSE}_{\text{human}} < 0$), an interior optimum exists even for orthogonal humans ($\alpha^* \approx 0.002$); when human crowds exhibit correlated estimation errors ($\rho_h > 0$), this negative initial gradient is amplified by orders of magnitude, deepening a pronounced **U-shaped** trade-off. Across dynamic and static machine noise models, socially optimal per-step reliance lies in $\alpha^* \in [0.008, 0.056]$ (cumulative reliance $w_{\text{cum}} \in [20\%, 82\%]$ over $T=30$ rounds), achieving a $20\% - 83\%$ reduction in collective error relative to unassisted deliberation.
+3. **Private Benchmarks vs. Epistemic Overshoot:** When decentralized agents adopt their isolated optimization benchmarks under correlation neglect, the stylized **Epistemic Reliance Overshoot Ratio ($\mathcal{R}_{\text{overshoot}}$)** spans $[1.5, 4.1]$ under static task persistence and $[1.2, 2.0]$ under dynamic sampling (reaching $[1.8, 8.0]$ at complete per-step reliance $\alpha_{\text{step}} = 1.0$).
+4. **Epistemic Overshoot vs.\ Degradation:** For human error correlations $\rho_h \ge 8.08\%$, even pure AI ($\alpha_{\text{step}} = 1.0$) outperforms the unassisted crowd, rendering high reliance an epistemic overshoot: complete per-step reliance forfeits about 64 percentage points of error reduction (77% of achievable gains) relative to the dynamic social optimum at $\rho_h = 0.10$, rising to about 80 percentage points (nearly 100% of achievable gains) just above the $8.08\%$ threshold.
+5. **Correlated Multi-Model Competition ($\rho = 0.50$):** Multi-model competition with shared pre-training corpora provides limited protection ($11.644 \pm 0.293$ vs.\ $18.648 \pm 0.468$ under monopoly). In an oligopoly of $M$ finite providers with within-provider correlation $\rho_{\text{within}} = 0.90$, collective error evaluates to $\mu^2 + \sigma^2(0.50 + 0.40/M)$, yielding $15.20$ for $M=2$, $14.13$ for $M=3$, and $13.28$ for $M=5$.
+6. **Topology Invariance in Finite Time:** Because uniform external advice satisfies $\mathbf{W}\mathbf{1} = \mathbf{1}$, the finite-time projection vector $\mathbf{q}_k^\top = \frac{1}{N}\mathbf{1}^\top \mathbf{W}^k$ satisfies $\mathbf{q}_k^\top \mathbf{1} = 1$ identically for all $k$. Consequently, the dominant shared-bias component is **strictly topology-invariant** under homogeneous reliance across all network structures.
 
 ---
 
-## Key Empirical Findings ($N = 1,000$ Agents, $T = 30$ Timesteps, 2,970 Total Runs)
+## High-Sample Simulation Results ($N = 1,000$ Agents, $T = 30$ Timesteps, 99,000 Runs at $\rho_h = 0$)
 
-Values denote **Mean $\pm$ Standard Error of the Mean (SEM)** across independent trials ($N = 90$ runs per reliance level).
+Values denote **Mean $\pm$ Standard Error of the Mean (SEM)** across pooled runs ($N = 3,000$ independent trials per reliance level across WS, ER, and BA topologies) alongside finite-time closed-form theory ($E_c^{\text{dyn}}$, Equation~\ref{eq:dynamic_error}). Baseline $\alpha=0.0$ rows present $K=1,000$ trials for each individual topology and $3,000$ pooled cross-topology baseline runs.
 
-| Algorithmic Reliance ($\alpha$) | Polyculture Control ($\rho = 0.00$) | Oligopoly ($\rho = 0.50$) | Monopoly Monoculture ($\rho = 0.90$) | Theory ($\rho=0.0$) | Theory ($\rho=0.5$) | Theory ($\rho=0.9$) |
+| Algorithmic Reliance ($\alpha$) | Polyculture Control ($\rho = 0.00$) | Multi-Model ($\rho = 0.50$) | Monopoly Monoculture ($\rho = 0.90$) | Theory ($\rho=0.0$) | Theory ($\rho=0.5$) | Theory ($\rho=0.9$) |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **$\alpha = 0.0$ (WS Small-World)** | \multicolumn{3}{c|}{Coll. Error: $0.224 \pm 0.069$ \| Diversity: $1.444 \pm 0.004$} | 0.225 | 0.225 | 0.225 |
-| **$\alpha = 0.0$ (ER Random)** | \multicolumn{3}{c|}{Coll. Error: $0.216 \pm 0.062$ \| Diversity: $0.000 \pm 0.000$} | 0.225 | 0.225 | 0.225 |
-| **$\alpha = 0.0$ (BA Scale-Free)** | \multicolumn{3}{c|}{Coll. Error: $0.578 \pm 0.164$ \| Diversity: $0.000 \pm 0.000$} | 0.628 | 0.628 | 0.628 |
-| **$\alpha = 0.0$ (Pooled Baseline)** | \multicolumn{3}{c|}{\textbf{Coll. Error: $0.339 \pm 0.072$ \| Diversity: $0.481 \pm 0.072$}} | 0.360 | 0.360 | 0.360 |
-| **$\alpha = 0.1$** | 3.673 $\pm$ 0.015 | 4.358 $\pm$ 0.281 | 4.165 $\pm$ 0.373 | 3.67 | 4.09 | 4.42 |
-| **$\alpha = 0.2$** | 4.043 $\pm$ 0.019 | 4.690 $\pm$ 0.464 | 5.114 $\pm$ 0.593 | 3.99 | 4.88 | 5.59 |
-| **$\alpha = 0.4$** | 4.057 $\pm$ 0.030 | 6.828 $\pm$ 0.660 | 9.453 $\pm$ 0.969 | 4.00 | 6.00 | 7.60 |
-| **$\alpha = 0.6$** | 4.091 $\pm$ 0.029 | 5.072 $\pm$ 0.527 | 11.133 $\pm$ 1.380 | 4.00 | 7.43 | 10.17 |
-| **$\alpha = 0.8$** | 3.938 $\pm$ 0.041 | 10.424 $\pm$ 1.791 | 9.727 $\pm$ 1.342 | 4.00 | 9.33 | 13.60 |
-| **$\alpha = 1.0$ (Pure AI)** | **3.974 $\pm$ 0.052** | **10.314 $\pm$ 1.586** | **16.833 $\pm$ 2.046** | **4.00** | **12.00** | **18.40** |
+| **$\alpha = 0.0$ (WS Small-World)** | \multicolumn{3}{c|}{Coll. Error: $0.233 \pm 0.010$ \| Diversity: $1.454 \pm 0.011$} | 0.229 | 0.229 | 0.229 |
+| **$\alpha = 0.0$ (ER Random)** | \multicolumn{3}{c|}{Coll. Error: $0.231 \pm 0.010$ \| Diversity: $0.000 \pm 0.000$} | 0.229 | 0.229 | 0.229 |
+| **$\alpha = 0.0$ (BA Scale-Free)** | \multicolumn{3}{c|}{Coll. Error: $0.517 \pm 0.023$ \| Diversity: $0.000 \pm 0.000$} | 0.536 | 0.536 | 0.536 |
+| **$\alpha = 0.0$ (Pooled Baseline)** | \multicolumn{3}{c|}{\textbf{Coll. Error: $0.327 \pm 0.009$ \| Diversity: $0.485 \pm 0.013$}} | 0.331 | 0.331 | 0.331 |
+| **$\alpha = 0.1$** | 3.666 $\pm$ 0.003 | 4.147 $\pm$ 0.048 | 4.569 $\pm$ 0.064 | 3.669 | 4.09 | 4.425 |
+| **$\alpha = 0.2$** | 3.992 $\pm$ 0.003 | 4.908 $\pm$ 0.071 | 5.636 $\pm$ 0.102 | 3.992 | 4.88 | 5.59 |
+| **$\alpha = 0.4$** | 3.997 $\pm$ 0.005 | 5.990 $\pm$ 0.113 | 7.714 $\pm$ 0.171 | 4.004 | 6.00 | 7.60 |
+| **$\alpha = 0.6$** | 4.005 $\pm$ 0.006 | 7.450 $\pm$ 0.163 | 9.915 $\pm$ 0.248 | 4.007 | 7.43 | 10.17 |
+| **$\alpha = 0.8$** | 4.016 $\pm$ 0.008 | 9.420 $\pm$ 0.218 | 13.298 $\pm$ 0.323 | 4.011 | 9.33 | 13.60 |
+| **$\alpha = 1.0$ (Pure AI)** | **3.997 $\pm$ 0.009** | **11.644 $\pm$ 0.293** | **18.648 $\pm$ 0.468** | **4.016** | **12.00** | **18.40** |
+
+---
+
+## Dynamic vs. Static Machine Noise Regimes (Analytic Evaluation)
+
+| Human Correlation ($\rho_h$) | Unassisted Error | Dynamic Noise: Opt $\alpha^*$ / Cut / Ratio | Static Noise: Opt $\alpha^*$ / Cut / Ratio |
+|:---:|:---:|:---:|:---:|
+| $\rho_h = 0.02$ | 4.72 | 0.024 / 51\% / 2.0 (8.0) | 0.008 / 20\% / 4.1 (4.9) |
+| $\rho_h = 0.05$ | 11.47 | 0.041 / 72\% / 1.4 (5.7) | 0.016 / 38\% / 2.2 (2.6) |
+| $\rho_h = 0.10$ | 22.71 | 0.056 / 83\% / 1.2 (4.8) | 0.026 / 55\% / 1.5 (1.8) |
+
+*(Note: $\mathcal{R}_{\text{overshoot}}$ evaluates collective error when agents adopt their regime-specific isolated optimum [$\alpha_{\text{isolated}}^{\text{dyn}} = 0.106$ under dynamic noise; $\alpha_{\text{step}} = 0.080$ under static persistence], with complete per-step reliance [$\alpha_{\text{step}} = 1.0$, MSE $= 18.40$] in parentheses.)*
 
 ---
 
 ## Theoretical Framework
 
-### 1. Scott Page's Diversity Prediction Theorem
-For any crowd of $N$ agents estimating true parameter $\theta$ with individual predictions $s_i$ and crowd mean $c = \frac{1}{N}\sum s_i$, collective squared error decomposes exactly (Krogh & Vedelsby 1995; Page 2007):
-
-$$(c - \theta)^2 = \frac{1}{N} \sum_{i=1}^N (s_i - \theta)^2 - \frac{1}{N} \sum_{i=1}^N (s_i - c)^2$$
-
-$$\boxed{\textbf{Collective Error} = \overline{\textbf{Individual Error}} - \textbf{Cognitive Diversity}}$$
-
-### 2. Iterated Hybrid DeGroot Consensus Dynamics
+### 1. Finite-Time Hybrid DeGroot Consensus Dynamics
 At each timestep $t$, the belief vector $\mathbf{x}(t) \in \mathbb{R}^N$ updates via:
 
 $$\mathbf{x}(t+1) = (1 - \alpha) \mathbf{W}\mathbf{x}(t) + \alpha \hat{\boldsymbol{\theta}}_M(t)$$
 
-where $\mathbf{W}$ is any row-stochastic trust matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$) and external AI advice is parameterized by:
+where $\mathbf{W}$ is an aperiodic, row-stochastic trust matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$) and external AI advice is parameterized by:
 
 $$\hat{\theta}_{M, i}(t) = \theta + \mu_{AI} + \sqrt{\rho}\eta_{\text{shared}}(t) + \sqrt{1 - \rho}\eta_{\text{indiv}, i}(t)$$
 
-### 3. Mean-Field Decomposition & Topology Invariance Proof
-Decomposing the state vector as $\mathbf{x}(t) = m(t)\mathbf{1} + \mathbf{d}(t)$, where $m(t) \equiv \boldsymbol{\pi}^T \mathbf{x}(t)$ is weighted by the stationary vector $\boldsymbol{\pi}$ of $\mathbf{W}$ ($\boldsymbol{\pi}^T \mathbf{W} = \boldsymbol{\pi}^T, \boldsymbol{\pi}^T \mathbf{1} = 1$). 
+By the Krogh-Vedelsby / Page ambiguity decomposition:
+$$\text{MSE}_{\text{coll}}(t) \equiv (c(t) - \theta)^2 = \overline{\text{MSE}}_{\text{ind}}(t) - \text{Diversity}(t)$$
 
-Because uniform advice passes directly through any row-stochastic matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$), unrolling the recurrence yields the **finite-time expected collective error**:
+where $c(t) = \frac{1}{N}\mathbf{1}^\top \mathbf{x}(t)$ is the arithmetic consensus mean.
 
-$$E_{\text{theory}}(\alpha, \rho, T) = \left[\mu_{AI} (1 - (1 - \alpha)^T)\right]^2 + \frac{\alpha(1 - (1 - \alpha)^{2T})}{2 - \alpha} \rho \sigma_{AI}^2$$
+### 2. Exact Finite-Time Arithmetic Consensus & Decoupled Shared Error
+Defining the finite-time projection vector $\mathbf{q}_k^\top \equiv \frac{1}{N}\mathbf{1}^\top \mathbf{W}^k$:
 
-As $T \to \infty$, this converges to the steady-state formula:
+$$c(T) = (1 - \alpha)^T \mathbf{q}_T^\top \mathbf{x}(0) + \sum_{k=0}^{T-1} \alpha (1 - \alpha)^k \mathbf{q}_k^\top \hat{\boldsymbol{\theta}}_M(T-1-k)$$
 
-$$\mathbb{E}[(c^* - \theta)^2] = \mu_{AI}^2 + \frac{\alpha}{2 - \alpha}\rho\sigma_{AI}^2$$
+Because $\mathbf{W}^k \mathbf{1} = \mathbf{1}$, we have $\mathbf{q}_k^\top \mathbf{1} = 1$ identically for all $k \ge 0$. The cumulative weight on external advice is $w_{\text{cum}} = 1 - (1 - \alpha)^T \equiv b_T$. Taking expectations yields the **exact finite-time expected collective error**:
 
-### 4. Baseline Human Variance by Network Topology
-For unassisted human deliberation ($\alpha = 0$), the expected error depends directly on topology through the stationary distribution weights:
+$$E_{\text{dynamic}}(\alpha, \rho, \rho_h, T) = (1 - \alpha)^{2T} \text{MSE}_{\text{human}}(\rho_h, T) + \mu_{AI}^2 b_T^2 + \frac{\alpha(1 - (1 - \alpha)^{2T})}{2 - \alpha} \rho \sigma_{AI}^2 + \alpha^2 (1 - \rho)\sigma_{AI}^2 \sum_{k=0}^{T-1} (1 - \alpha)^{2k} \|\mathbf{q}_k\|_2^2$$
 
-$$\text{Var}(c_{\text{human}}) = \sigma_{\text{human}}^2 \sum_{i=1}^N \pi_i^2$$
+Under task-persistent static AI errors ($\hat{\boldsymbol{\theta}}_M(t) \equiv \hat{\boldsymbol{\theta}}_M$):
 
-- **Watts-Strogatz & Erdős-Rényi:** $\pi_i \approx 1/N$, predicting $\text{Var} = 225 \times 0.001 = 0.225$ (empirical: $0.224, 0.216$).
-- **Barabási-Albert Scale-Free:** Hubs concentrate weight ($\sum \pi_i^2 \approx 0.0028$), predicting $\text{Var} = 225 \times 0.0028 = 0.628$ (empirical: $0.578$, formalizing Golub & Jackson 2010).
+$$E_{\text{static}}(\alpha, \rho, \rho_h, T) = (1 - \alpha)^{2T} \text{MSE}_{\text{human}}(\rho_h, T) + b_T^2 \left(\mu_{AI}^2 + \rho \sigma_{AI}^2\right) + (1 - \rho)\sigma_{AI}^2 \|\mathbf{v}_T\|_2^2$$
 
-### 5. The Human Correlation Crossover ($\rho_h^*$)
-If human decision-makers share pairwise correlated error $\rho_h \in [0, 1]$ (e.g., common media framing, shared heuristics):
+where $\mathbf{v}_T^\top = \sum_{k=0}^{T-1} \alpha (1 - \alpha)^k \mathbf{q}_k^\top$.
 
-$$\text{MSE}_{\text{human}}(\rho_h) = \rho_h \sigma_{\text{human}}^2 + (1 - \rho_h)\sigma_{\text{human}}^2 \sum_{i=1}^N \pi_i^2 \approx 0.225 + 224.775\,\rho_h$$
+### 3. Baseline Human Variance by Network Topology
+For unassisted human deliberation ($\alpha = 0$), finite-time consensus variance is:
 
-Equating this to the steady-state error of algorithmic advice reveals the crossover threshold $\rho_h^*$:
-- **Monopoly Monoculture ($\text{MSE} = 18.40$):** $\rho_h^* = \frac{18.40 - 0.225}{224.775} \approx 8.1\%$.
-- **Polyculture Control ($\text{MSE} = 4.00$):** $\rho_h^* = \frac{4.00 - 0.225}{224.775} \approx 1.7\%$.
+$$\text{Var}(c_{\text{human}}) = \sigma_{\text{human}}^2 \|\mathbf{q}_T\|_2^2$$
 
-When human crowd error correlation exceeds $8.1\%$, foundation model monoculture actually outperforms the human crowd.
+- **Watts-Strogatz & Erdős-Rényi:** $\|\mathbf{q}_{30}\|_2^2 \approx 0.001016$, predicting $\text{Var} \approx 0.229$ (empirical: $0.233 \pm 0.010, 0.231 \pm 0.010$).
+- **Barabási-Albert Scale-Free:** Concentrates stationary weight ($\|\mathbf{q}_{30}\|_2^2 \approx 0.00238$), predicting $\text{Var} \approx 0.536$ (empirical: $0.517 \pm 0.023$, formalizing Golub & Jackson 2010).
 
----
+### 4. Human Correlation Crossover ($\rho_h^*$)
+If human decision-makers share pairwise correlated zero-mean error $\rho_h \in [0, 1]$:
 
-## Repository Structure
+$$\text{MSE}_{\text{human}}(\rho_h) = \rho_h \sigma_{\text{human}}^2 + (1 - \rho_h)\sigma_{\text{human}}^2 \|\mathbf{q}_T\|_2^2 \approx 0.229 + 224.771\,\rho_h$$
 
-```text
-algorithmic-monoculture-sim/
-├── src/
-│   ├── __init__.py
-│   ├── networks.py        # Watts-Strogatz & Barabási-Albert generators, DeGroot trust matrix
-│   ├── agents.py          # Correlated AI advice (Kleinberg model) & hybrid belief updates
-│   ├── metrics.py         # Page diversity decomposition, Shannon entropy, Monoculture Index
-│   └── simulation.py      # Discrete-event simulation orchestration engine
-├── experiments/
-│   └── run_experiments.py # Macro-scale parameter sweep (2,970 runs) & figure generator
-├── tests/
-│   └── test_math.py       # Mathematical unit tests (Theorem identity residual < 1e-12)
-├── data/
-│   └── simulation_results.csv  # Complete raw dataset (2,970 Monte Carlo runs)
-├── figures/               # High-DPI publication figures (PNG and vector PDF)
-│   ├── fig1_collective_error_phase_transition.{png,pdf}
-│   ├── fig2_cognitive_diversity_collapse.{png,pdf}
-│   ├── fig3_monoculture_index.{png,pdf}
-│   ├── fig4_page_decomposition_verification.{png,pdf}
-│   └── fig5_trajectory_convergence.{png,pdf}
-├── requirements.txt       # Core dependencies
-├── Dockerfile             # Containerized, hermetic simulation environment
-├── docker-compose.yml     # Turnkey 1-command execution and volume mounting
-└── README.md
-```
+The crossover correlation threshold $\rho_h^*(\alpha)$ evaluates to:
+- Dynamic Noise: At $\alpha = 0.10$, $\rho_h^* \approx 1.87\%$; at $\alpha = 0.40$, $\rho_h^* \approx 3.28\%$; at $\alpha = 1.00$, $\rho_h^* \approx 8.08\%$.
+- Static Noise: At $\alpha = 0.10$, $\rho_h^* \approx 7.42\%$; at $\alpha = 0.40$, $\rho_h^* \approx 8.08\%$; at $\alpha = 1.00$, $\rho_h^* \approx 8.08\%$.
 
 ---
 
-## Quickstart & Reproduction
+## Full Replication Suite (199,000 Monte Carlo Runs)
 
-You can reproduce all mathematical proofs, data sweeps, and figures either via **Docker** or natively in Python.
+The simulation suite comprises three targeted computational experiments:
+1. **Experiment 1 (Core Sweep across Topologies and Correlation Regimes):** 11 reliance levels $\times$ 3 correlation regimes ($\rho \in \{0.00, 0.50, 0.90\}$) $\times$ 3 topologies (WS, ER, BA) $\times$ 1,000 independent trials = **99,000 runs**.
+2. **Experiment 2 (Human Correlation Sweep):** 20 fine reliance levels $\times$ 4 human correlation levels ($\rho_h \in \{0.00, 0.02, 0.05, 0.10\}$) under monopoly monoculture ($\rho = 0.90$) on WS $\times$ 1,000 trials = **80,000 runs**.
+3. **Experiment 3 (Static vs. Dynamic Machine Persistence Sweep):** 20 fine reliance levels under static machine noise ($\rho = 0.90, \rho_h = 0.00$) on WS $\times$ 1,000 trials = **20,000 runs** (compared against the 20,000 dynamic-noise runs from Experiment 2, yielding 40,000 runs across both arms).
 
-### Option A: Turnkey Execution with Docker (Recommended)
-
-```bash
-# Clone the repository
-git clone https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim.git
-cd algorithmic-monoculture-sim
-
-# Build and execute with Docker Compose (mounts data/ and figures/ to host)
-docker compose run --rm simulation
-```
-
-Alternatively, using standard Docker CLI:
-```bash
-docker build -t monoculture-sim .
-docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/figures:/app/figures" monoculture-sim
-```
-
----
-
-### Option B: Native Python Environment
-
-#### 1. Setup Virtual Environment
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-#### 2. Verify Mathematical Integrity
-Run the test suite to verify the Diversity Prediction Theorem equality to machine precision ($< 10^{-12}$):
-```bash
-python tests/test_math.py
-```
-Expected output:
-```text
-✓ Page's Diversity Prediction Theorem verified to residual: 4.40e-14
-✓ DeGroot trust matrix row-stochasticity verified (all rows sum to 1.0).
-✓ Hybrid DeGroot boundary conditions (alpha=0.0 and alpha=1.0) verified.
-
-ALL MATHEMATICAL INTEGRITY CHECKS PASSED SUCCESSFULLY.
-```
-
-#### 3. Re-run Macro-Scale Simulation Suite (2,970 Runs)
-Execute the complete sweep across $N=1,000$ agents, 3 topologies, 11 reliance levels, and 3 correlation regimes:
-```bash
-python experiments/run_experiments.py
-```
-*Execution takes ~15–20 seconds.* All datasets in `data/` and high-DPI figures in `figures/` will be generated.
+**Total Simulation Volume:** $99,000 + 80,000 + 20,000 = \mathbf{199,000\text{ runs}}$.
 
 ---
 
 ## Citation
 
-If you use this simulation framework, models, or empirical findings in your research, please cite:
-
 ```bibtex
 @article{herode2026algorithmic,
-  title={The Algorithmic Monoculture Paradox: Simulating Epistemic Degradation in Foundation-Model-Mediated Social Networks},
+  title={The Algorithmic Monoculture Paradox: Balancing Individual Benefit and Collective Error in Foundation-Model-Mediated Networks},
   author={Herode, Ashuraj and Parmar, Prakash},
   journal={Zenodo Preprint},
   doi={10.5281/zenodo.23836280},
@@ -193,8 +132,3 @@ If you use this simulation framework, models, or empirical findings in your rese
   url={https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}
 }
 ```
-
----
-
-## License
-MIT License. Open science and reproducible computational research.

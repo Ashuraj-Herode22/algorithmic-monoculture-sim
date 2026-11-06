@@ -1,28 +1,39 @@
-\documentclass[letterpaper]{article}
+\documentclass
+[letterpaper]{article}
 \usepackage{aaai24}
 \usepackage{times}
 \usepackage{helvet}
 \usepackage{courier}
-\usepackage[hidelinks]{hyperref}
-\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[hyphens]{url}
 \usepackage{graphicx}
+\urlstyle{rm}
+\def\UrlFont{\rm}
+\usepackage{natbib}
+\usepackage{caption}
+\frenchspacing
+\setlength{\pdfpagewidth}{8.5in}
+\setlength{\pdfpageheight}{11in}
+
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{booktabs}
-\usepackage{microtype}
-\usepackage{cite}
 
-\title{The Algorithmic Monoculture Paradox: Simulating Epistemic Degradation in Foundation-Model-Mediated Social Networks}
+\ifdefined\pdfinfo
+\pdfinfo{
+/TemplateVersion (2024.1)
+}
+\fi
 
-% ---------------------------------------------------------------------------
-% AUTHOR BLOCK: PREPRINT VERSION 2 (FOR ZENODO ARCHIVE)
-% DOI: 10.5281/zenodo.23836280
-% ---------------------------------------------------------------------------
+\setcounter{secnumdepth}{2}
+
+\title{The Algorithmic Monoculture Paradox: Balancing Individual Benefit and Collective Error in Foundation-Model-Mediated Networks}
+
 \author{
-    \textbf{Ashuraj Herode}\textsuperscript{\rm 1}\thanks{Corresponding author: herodeashuraj@gmail.com},
-    \textbf{Dr. Prakash Parmar}\textsuperscript{\rm 1}
+    Ashuraj Herode\textsuperscript{\rm 1}\thanks{Corresponding author: herodeashuraj@gmail.com},
+    Prakash Parmar\textsuperscript{\rm 1}
 }
 \affiliations{
     \textsuperscript{\rm 1}Department of Computer Engineering, Vidyalankar Institute of Technology, University of Mumbai, India\\
-    \texttt{herodeashuraj@gmail.com}, \texttt{prakash.parmar@vit.edu.in}
+    herodeashuraj@gmail.com, prakash.parmar@vit.edu.in
 }
 
 \begin{document}
@@ -30,303 +41,462 @@
 \maketitle
 
 \begin{abstract}
-The ``Wisdom of Crowds'' principle demonstrates that distributed groups of imperfect decision-makers can achieve superior collective accuracy because independent, idiosyncratic errors cancel out upon aggregation. Today, the rapid integration of centralized foundation models (LLMs) into decision-making workflows threatens the epistemic independence that underlies this dynamic. When independent human agents query shared foundation models, individual error variance is suppressed, replacing independent noise with shared, correlated algorithmic bias. Here, we investigate this phenomenon by formalizing a discrete-event network simulation combining Scott Page's Diversity Prediction Theorem with an iterated DeGroot consensus framework across macro-scale social graphs ($N = 1,000$ agents). Across 2,970 Monte Carlo simulations spanning three canonical network topologies (Watts-Strogatz Small-World, Barabási-Albert Scale-Free, and Erd\H{o}s-R\'enyi Random) and three correlation regimes, we show that high reliance on a centralized foundation model ($\rho = 0.90$) causes Collective Squared Error to escalate by over $+16$ squared error units (a 29- to 82-fold increase depending on network topology, with an average 50-fold escalation from a pooled baseline of $0.339 \pm 0.08$ to $16.833 \pm 2.05$). We prove analytically that because uniform external advice passes directly through any row-stochastic network matrix ($\mathbf{W}\mathbf{1}=\mathbf{1}$), the AI-driven error component is strictly topology-invariant and governed by $\mathbb{E}[(c^* - \theta)^2] = \mu_{AI}^2 + \frac{\alpha}{2-\alpha}\rho\sigma_{AI}^2$. Consequently, persistent directional bias ($\mu_{AI}$) is asymptotically absorbed for any reliance $\alpha > 0$ under repeated consultation. Crucially, while an unconstrained polyculture ($\rho = 0.00$) eliminates correlated variance, its collective error remains bounded near the directional bias floor ($3.974 \pm 0.05$)—approximately 12-fold higher than the unassisted crowd. These findings provide an open, runnable computational framework for understanding how individual heuristic reliance under shared generative AI triggers systemic epistemic fragility.
+The ``Wisdom of Crowds'' principle establishes that distributed networks can achieve high collective accuracy through idiosyncratic error cancellation. Today, the rapid integration of foundation models into decision workflows fundamentally alters the epistemic structure of networked deliberation. While incorporating foundation-model advice produces substantial reductions in individual expected squared error—reducing individual error by over 12-fold in task-persistent settings (from $225.0$ to $18.37$) and up to 46-fold under dynamic sampling (to $4.89$)—correlated machine errors ($\rho = 0.90$) accumulate in the collective consensus. Combining the Krogh-Vedelsby / Page decomposition with iterated DeGroot dynamics validated across 199,000 Monte Carlo runs ($N = 1,000$ agents, $T = 30$ rounds), we analyze this tension. In idealized orthogonal crowds ($\rho_h = 0$), monoculture causes collective error to escalate 57-fold (from $0.327 \pm 0.009$ to $18.648 \pm 0.468$), though crowd error remains $12\times$ lower than unassisted individual error. Crucially, because initial reliance reduces error ($\left.\frac{\partial E}{\partial \alpha}\right|_{\alpha=0} = -2T \cdot \text{MSE}_{\text{human}} < 0$), an interior optimum exists even for orthogonal humans; when humans exhibit correlated cognitive heuristics ($\rho_h > 0$), this negative gradient is amplified, establishing a pronounced U-shaped trade-off. Socially optimal per-step reliance ($\alpha^* \in [0.008, 0.056]$, cumulative $w_{\text{cum}} \in [20\%, 82\%]$) reduces collective error by $20\%\text{--}83\%$. When decentralized agents uncooperatively adopt isolated benchmarks, the stylized Epistemic Price of Anarchy / Overshoot Ratio spans $\text{PoA} \in [1.2, 4.1]$, reaching up to $8.0\times$ at complete per-step reliance ($\alpha_{\text{step}} = 1.0$). When $\rho_h \ge 8.08\%$, even pure AI ($\alpha_{\text{step}} = 1.0$) outperforms unassisted humans, rendering excessive reliance an epistemic overshoot rather than a degradation. We prove analytically that uniform external advice passes invariant through row-stochastic networks ($\mathbf{W}\mathbf{1} = \mathbf{1}$) under homogeneous reliance, and show that multi-model competition ($\rho = 0.50$) provides limited protection (error $\approx 11.6$ vs.\ $18.6$ under monopoly monoculture).
 \end{abstract}
 
 \section{Introduction}
-For over a century, social epistemology and mathematical statistics have recognized that collective intelligence emerges from cognitive diversity \cite{galton1907vox, page2007difference, lorenz2011social, becker2017network}. In classical human deliberation, whether forecasting economic indices, evaluating scientific hypotheses, or curating public knowledge, individual human agents possess idiosyncratic biases and noisy heuristics. Crucially, when these errors are uncorrelated, aggregation mechanics—such as averaging or consensus formation—cause noise to cancel out, allowing the collective judgment of the crowd to outperform even its most capable individual members.
+For over a century, mathematical statistics and social epistemology have recognized that collective intelligence emerges from cognitive diversity \citep{galton1907vox, krogh1995neural, page2007difference, lorenz2011social, becker2017network}. When individuals deliberate across communication topologies, idiosyncratic errors cancel out under linear aggregation, allowing the crowd's collective judgment to outperform even its most capable members.
 
-The rapid, worldwide deployment of generative foundation models (Large Language Models, or LLMs) has disrupted this epistemic architecture. Today, millions of professionals, researchers, students, and autonomous software agents rely on a small handful of centralized foundation models for heuristic guidance, text synthesis, and decision support \cite{bommasani2022opportunities}. 
+The rapid worldwide deployment of generative foundation models (Large Language Models, or LLMs) has disrupted this epistemic architecture \citep{bommasani2022opportunities}. Today, millions of professionals, researchers, students, and autonomous software agents consult a small cluster of centralized frontier models for decision support, text synthesis, and heuristic guidance.
 
-At the individual level, this technological transition is undeniably advantageous: querying an aligned foundation model reduces individual task completion time, resolves syntactical ambiguities, and frequently lowers individual error relative to uninformed guessing. However, evaluating AI assistance purely at the level of the individual decision-maker commits an ecological fallacy. Inspired by the foundational concept of algorithmic monoculture formalized by Kleinberg and Raghavan \cite{kleinberg2021algorithmic}, when independent entities adopt identical or highly correlated algorithmic decision rules, the system exhibits \textbf{Algorithmic Monoculture}.
+Under the parameterized error distributions considered here, incorporating foundation-model advice produces substantial reductions in individual expected squared error: querying an aligned foundation model resolves ambiguities and provides strong local variance reduction. However, evaluating AI assistance exclusively through individual benchmarks commits an ecological fallacy. Building on the theory of algorithmic monoculture formalized by \citet{kleinberg2021algorithmic}, when independent decision-makers adopt identical or highly correlated algorithmic rules, the system exhibits \textbf{Algorithmic Monoculture}.
 
-Recent audits suggest that aligned foundation models exhibit generative monoculture \cite{wu2025generative}, where post-training alignment constrains output diversity, while behavioral experiments indicate that generative assistance can homogenize creative outputs across human users \cite{doshi2024generative}. 
+Recent empirical audits confirm that commercial frontier foundation models exhibit substantial shared failure modes across diverse architectures: for instance, \citet{kim2025correlated} evaluate over 350 LLMs on a popular leaderboard benchmark and observe that distinct models agree on identical incorrect multiple-choice answers approximately 60\% of the time conditional on both failing. While discrete classification overlap differs from continuous scalar error correlation, it highlights that algorithmic outputs fail to act as independent signals. Meanwhile, \citet{wu2025generative} suggest that post-training alignment processes systematically homogenize model output distributions. Concurrently, behavioral studies demonstrate that generative assistance can reduce the collective diversity of novel content across human creators \citep{doshi2024generative}. In real-world environments, humans do not interact with algorithms in isolation; they deliberate, exchange beliefs, and form consensus across structured communication networks \citep{watts1998collective, barabasi1999emergence, golub2010naive, zollman2007communication}. In human crowds, social influence, shared heuristics, and common media sources induce baseline error correlation $\rho_h > 0$ \citep{lorenz2011social, soll2009strategies, becker2017network}; in our analysis, we evaluate illustrative stylized regimes of modest to moderate correlated human error ($\rho_h \in [0.02, 0.10]$).
 
-While existing literature has examined algorithmic monoculture in static selection and ranking tasks \cite{kleinberg2021algorithmic}, the sociotechnical reality of human discourse is fundamentally networked. Humans do not interact with algorithms in isolation; they deliberate, exchange beliefs, and form consensus across structured communication topologies \cite{watts1998collective, barabasi1999emergence, golub2010naive, zollman2007communication}.
+This paper addresses three central open questions:
+\begin{enumerate}
+    \item \textit{How does algorithmic reliance ($\alpha$) interact with human cognitive correlation ($\rho_h$) and inter-model correlation ($\rho$) in networked crowds?}
+    \item \textit{Under what conditions does foundation model advice improve versus degrade collective accuracy?}
+    \item \textit{Why does an isolated decision-maker's private reliance benchmark overshoot the socially optimal reliance level in deliberating networks?}
+\end{enumerate}
 
-This paper addresses a fundamental open question at the intersection of network science, social computing, and AI governance:
-\begin{quote}
-\textit{How does algorithmic reliance ($\alpha$) alter the epistemic aggregation of a networked crowd, what is the steady-state impact of inter-model correlation ($\rho$), and does network topology buffer or accelerate collective error?}
-\end{quote}
+Through a unified analytical framework verified by 199,000 high-throughput Monte Carlo simulation runs across $1,000$-agent networks ($K = 1,000$ independent trials per condition), we combine the Krogh-Vedelsby / Page ensemble error decomposition \citep{krogh1995neural, page2007difference} with iterated DeGroot consensus dynamics under persistent external influence \citep{degroot1974reaching, friedkin1990social, acemoglu2013opinion}. Our findings demonstrate that algorithmic monoculture creates an epistemic dilemma: while moderate AI reliance anchors human crowds subject to correlated estimation errors, private optimization benchmarks encourage reliance levels that drive the network into a regime of collective epistemic overshoot.
 
-Through a macro-scale computational framework encompassing 2,970 Monte Carlo simulations across $1,000$-agent networks, we formalize the interaction between Scott Page's Diversity Prediction Theorem \cite{page2007difference} and iterated DeGroot consensus dynamics \cite{degroot1974reaching, golub2010naive, friedkin1990social}. Our findings demonstrate that algorithmic monoculture acts as an epistemic variance-destroyer, triggering substantial surges in collective error even when individual models appear locally accurate.
+\section{Theoretical Framework}
 
-\section{Theoretical Framework \& Related Work}
-
-\subsection{The Diversity Prediction Theorem}
-Let $\theta \in \mathbb{R}$ represent an objective ground truth parameter. Suppose a crowd of $n$ agents provides estimates $s_1, s_2, \dots, s_n$. The mean collective prediction is defined as $c = \frac{1}{n} \sum_{i=1}^n s_i$. 
-
-Page \cite{page2007difference} (formalizing the ensemble ambiguity decomposition of Krogh and Vedelsby \cite{krogh1995neural}) established that collective squared error can be exactly decomposed into two opposing terms:
-\begin{equation}
-(c - \theta)^2 = \frac{1}{n} \sum_{i=1}^n (s_i - \theta)^2 - \frac{1}{n} \sum_{i=1}^n (s_i - c)^2
-\label{eq:page_theorem}
-\end{equation}
-which is expressed conceptually as:
-\begin{equation}
-\mathrm{Error}_{\mathrm{coll}} = \overline{\mathrm{Error}}_{\mathrm{ind}} - \mathrm{Diversity}
-\end{equation}
-
-Equation \ref{eq:page_theorem} holds as an exact mathematical identity. Crucially, the minus sign demonstrates that cognitive diversity (the variance of individual estimates around the crowd mean) is a direct mathematical offset against collective error. If an external intervention collapses diversity without a commensurate reduction in individual error, the collective prediction must strictly degrade.
-
-\subsection{Iterated DeGroot Dynamics with External AI Advice}
-In an idealized crowd, individual human estimates follow an independent noise model:
-\begin{equation}
-s_i = \theta + \epsilon_i, \quad \mathbb{E}[\epsilon_i] = 0, \quad \text{Cov}(\epsilon_i, \epsilon_j) = 0 \quad (\forall i \neq j)
-\end{equation}
-Under independent noise, the variance of the sample mean scales as $\text{Var}(c) = \frac{\sigma^2}{n} \xrightarrow{n \to \infty} 0$. 
-
-Now consider an epistemic network where agents iteratively update beliefs via DeGroot consensus while querying external algorithmic advice, analogous to classical social influence models with forceful external agents \cite{friedkin1990social, acemoglu2010spread}. At each timestep $t$, the belief vector $\mathbf{x}(t) \in \mathbb{R}^N$ evolves according to:
+\subsection{Consensus Dynamics and Ambiguity Decomposition}
+\label{sec:consensus_dynamics}
+Consider an objective state of the world $\theta \in \mathbb{R}$ estimated by a network of $N$ deliberating agents. Let $\mathbf{x}(t) = [x_1(t), \dots, x_N(t)]^\top \in \mathbb{R}^N$ denote the vector of agent beliefs at timestep $t$. Agent beliefs evolve through iterative local communication combined with repeated consultation of external foundation model advice:
 \begin{equation}
 \mathbf{x}(t+1) = (1 - \alpha) \mathbf{W} \mathbf{x}(t) + \alpha \hat{\boldsymbol{\theta}}_M(t)
 \label{eq:hybrid_degroot}
 \end{equation}
-where $\mathbf{W}$ is any row-stochastic trust matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$), $\alpha \in [0, 1]$ is the algorithmic reliance weight, and $\hat{\theta}_{M, i}(t)$ is the algorithmic advice provided to agent $i$:
+where $\mathbf{W} \in \mathbb{R}^{N \times N}$ is an aperiodic, irreducible row-stochastic trust matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$), $\alpha \in [0, 1]$ is the per-step algorithmic reliance weight, and $\hat{\boldsymbol{\theta}}_M(t)$ is the external advice vector provided to the agents at round $t$. 
+
+To formalize the interplay between individual error and collective judgment, we employ the Krogh-Vedelsby / Page ambiguity decomposition \citep{krogh1995neural, page2007difference}. Let $c(t) = \frac{1}{N}\sum_{i=1}^N x_i(t) = \frac{1}{N}\mathbf{1}^\top \mathbf{x}(t)$ denote the unweighted crowd consensus mean. The collective squared error decomposes identically as:
 \begin{equation}
-\hat{\theta}_{M, i}(t) = \theta + \mu_{AI} + \sqrt{\rho} \cdot \eta_{\text{shared}}(t) + \sqrt{1 - \rho} \cdot \eta_{\text{indiv}, i}(t)
+\text{MSE}_{\text{coll}}(t) \equiv (c(t) - \theta)^2 = \overline{\text{MSE}}_{\text{ind}}(t) - \text{Diversity}(t)
+\label{eq:page_decomposition}
+\end{equation}
+where $\overline{\text{MSE}}_{\text{ind}}(t) = \frac{1}{N}\sum_{i=1}^N (x_i(t) - \theta)^2$ is the average individual squared error and $\text{Diversity}(t) = \frac{1}{N}\sum_{i=1}^N (x_i(t) - c(t))^2$ is the empirical belief variance of the crowd.
+
+Following parameterized correlated error formulations \citep{kleinberg2021algorithmic}, external advice to agent $i$ at round $t$ is modeled as:
+\begin{equation}
+\hat{\theta}_{M, i}(t) = \theta + \mu_{AI} + \sqrt{\rho} \, \eta_{\text{shared}}(t) + \sqrt{1 - \rho} \, \eta_{\text{indiv}, i}(t)
 \label{eq:ai_advice}
 \end{equation}
-Here, $\mu_{AI}$ is persistent directional alignment bias, $\eta_{\text{shared}}(t) \sim \mathcal{N}(0, \sigma^2_{AI})$ is correlated systemic error across querying agents, and $\eta_{\text{indiv}, i}(t) \sim \mathcal{N}(0, \sigma^2_{AI})$ is independent model noise.
+where $\mu_{AI}$ is systematic directional alignment bias, $\eta_{\text{shared}}(t) \sim \mathcal{N}(0, \sigma^2_{AI})$ is correlated systemic error shared across querying agents, $\eta_{\text{indiv}, i}(t) \sim \mathcal{N}(0, \sigma^2_{AI})$ is independent idiosyncratic model noise across agents, and $\rho \in [0, 1]$ represents the inter-agent error correlation parameter.
 
-To analyze network dynamics, we decompose the state vector into a consensus mean-field and an idiosyncratic discrepancy vector:
+\subsection{Finite-Time Consensus Dynamics and Topology Invariance}
+\label{sec:mean_field_decomposition}
+In networked deliberation, collective consensus is measured by the unweighted crowd mean $c(t) = \frac{1}{N}\sum_{i=1}^N x_i(t) = \frac{1}{N}\mathbf{1}^\top \mathbf{x}(t)$. To characterize $c(t)$ in finite time across arbitrary network topologies, we define the finite-time projection vector:
 \begin{equation}
-\mathbf{x}(t) = m(t) \mathbf{1} + \mathbf{d}(t)
+\mathbf{q}_k^\top \equiv \frac{1}{N} \mathbf{1}^\top \mathbf{W}^k \quad (k \ge 0)
 \end{equation}
-where $m(t) \equiv \boldsymbol{\pi}^T \mathbf{x}(t)$ represents the consensus mean-field weighted by the stationary vector $\boldsymbol{\pi}$ of $\mathbf{W}$ ($\boldsymbol{\pi}^T \mathbf{W} = \boldsymbol{\pi}^T, \boldsymbol{\pi}^T \mathbf{1} = 1$). 
-
-Decomposing the external advice vector into a uniform scalar and an individual noise term:
+with initial condition $\mathbf{q}_0^\top = \frac{1}{N}\mathbf{1}^\top$. Because $\mathbf{W}$ is row-stochastic ($\mathbf{W}\mathbf{1} = \mathbf{1}$), every matrix power satisfies $\mathbf{W}^k \mathbf{1} = \mathbf{1}$. Consequently, the projection vector preserves total probability mass identically at every round:
 \begin{equation}
-\hat{\boldsymbol{\theta}}_M(t) = \theta_0(t) \mathbf{1} + \sqrt{1 - \rho} \boldsymbol{\eta}_{\text{indiv}}(t)
+\mathbf{q}_k^\top \mathbf{1} = \frac{1}{N}\mathbf{1}^\top \mathbf{W}^k \mathbf{1} = \frac{1}{N}\mathbf{1}^\top \mathbf{1} = 1 \quad \forall k \ge 0
+\label{eq:qk_identity}
 \end{equation}
-where $\theta_0(t) = \theta + \mu_{AI} + \sqrt{\rho}\eta_{\text{shared}}(t)$. 
-
-Multiplying Equation \ref{eq:hybrid_degroot} by $\boldsymbol{\pi}^T$:
+Unrolling the belief evolution Equation~\ref{eq:hybrid_degroot} from $t = 0$ to horizon $T$ yields:
 \begin{equation}
-m(t+1) = (1 - \alpha) m(t) + \alpha \theta_0(t) + \alpha \sqrt{1 - \rho} \boldsymbol{\pi}^T \boldsymbol{\eta}_{\text{indiv}}(t)
+\mathbf{x}(T) = (1 - \alpha)^T \mathbf{W}^T \mathbf{x}(0) + \sum_{k=0}^{T-1} \alpha (1 - \alpha)^k \mathbf{W}^k \hat{\boldsymbol{\theta}}_M(T-1-k)
 \end{equation}
-Because $\boldsymbol{\eta}_{\text{indiv}}(t) \sim \mathcal{N}(0, \sigma_{AI}^2 \mathbf{I})$, the independent noise term has variance $\alpha^2(1 - \rho)\sigma_{AI}^2 \sum_{i=1}^N \pi_i^2 \le 0.045\alpha^2$, representing a negligible variance offset ($\le 0.02$ error units). Thus, the scalar recurrence $m(t+1) \approx (1 - \alpha)m(t) + \alpha \theta_0(t)$ is exact within $0.02$, and the unweighted crowd mean $c(t) = \frac{1}{N}\mathbf{1}^T \mathbf{x}(t)$ differs from $m(t)$ by $\frac{1}{N}\mathbf{1}^T \mathbf{d}(t)$, which contracts geometrically to zero.
+Left-multiplying by $\frac{1}{N}\mathbf{1}^\top$ produces the exact finite-time arithmetic consensus:
+\begin{equation}
+c(T) = (1 - \alpha)^T \mathbf{q}_T^\top \mathbf{x}(0) + \sum_{k=0}^{T-1} \alpha (1 - \alpha)^k \mathbf{q}_k^\top \hat{\boldsymbol{\theta}}_M(T-1-k)
+\label{eq:cT_exact}
+\end{equation}
+Decomposing external advice into uniform shared advice and individual residual noise:
+\begin{equation}
+\hat{\boldsymbol{\theta}}_M(t) = \theta_0(t) \mathbf{1} + \sqrt{1 - \rho} \, \boldsymbol{\eta}_{\text{indiv}}(t)
+\end{equation}
+where $\theta_0(t) = \theta + \mu_{AI} + \sqrt{\rho}\,\eta_{\text{shared}}(t)$. By the stochastic identity (Equation~\ref{eq:qk_identity}), $\mathbf{q}_k^\top (\theta_0(t)\mathbf{1}) = \theta_0(t) (\mathbf{q}_k^\top \mathbf{1}) = \theta_0(t)$ for every round $k$. Consequently, \textbf{the uniform shared advice mode decouples identically from the network topology $\mathbf{W}$ at every finite horizon $T$}. The cumulative weight on external advice over $T$ deliberation rounds defines cumulative reliance:
+\begin{equation}
+\boxed{w_{\text{cum}} = 1 - (1 - \alpha)^T \equiv b_T}
+\end{equation}
+Because $\sum_{k=0}^{T-1} \alpha (1 - \alpha)^k = b_T$, the expected consensus bias is strictly topology-invariant: $\mathbb{E}[c(T) - \theta] = \mu_{AI} b_T$.
 
-Unrolling this recurrence across $T$ discrete timesteps yields:
+Meanwhile, let $\mathbf{P} = \mathbf{I} - \frac{1}{N}\mathbf{1}\mathbf{1}^\top$ denote the centering projector such that $\text{Diversity}(t) = \frac{1}{N}\|\mathbf{P}\mathbf{x}(t)\|_2^2$. Because $\mathbf{W}^k\mathbf{1} = \mathbf{1}$ and $\mathbf{P}\mathbf{1} = \mathbf{0}$, the uniform shared advice mode vanishes ($\mathbf{P}\mathbf{W}^k\mathbf{1} = \mathbf{0}$). Under dynamic sampling where $\boldsymbol{\eta}_{\text{indiv}}(t)$ is independent across rounds, asymptotic belief diversity is given exactly by:
 \begin{align}
-m(T) - \theta = &(1 - \alpha)^T (m(0) - \theta) + [1 - (1 - \alpha)^T]\mu_{AI} \nonumber \\
-&+ \alpha \sum_{\tau=0}^{T-1} (1 - \alpha)^{T-1-\tau} \sqrt{\rho}\eta_{\text{shared}}(\tau)
+\lim_{t \to \infty} &\mathbb{E}[\text{Diversity}(t)] = \nonumber \\
+&\frac{\alpha^2 (1 - \rho)\sigma_{AI}^2}{N} \sum_{k=0}^\infty (1-\alpha)^{2k} \text{Tr}\!\left( \mathbf{P}\mathbf{W}^k (\mathbf{W}^\top)^k \mathbf{P} \right)
+\label{eq:asymptotic_diversity}
 \end{align}
+At $\alpha = 1.0$, only the $k=0$ term survives and steady-state diversity equals $(1 - \rho)\sigma_{AI}^2 \frac{N-1}{N} \approx (1-\rho)\sigma_{AI}^2$. For $\alpha \in (0, 1)$, iterative social averaging dampens individual noise, scaling diversity strictly below $(1-\rho)\sigma_{AI}^2$ in proportion to $\alpha^2$.
 
-Taking expectations reveals that for \textbf{any} non-zero reliance ($\alpha > 0$), as $T$ increases:
-\begin{equation}
-\lim_{T \to \infty} \mathbb{E}[m(T) - \theta] = \mu_{AI}
-\end{equation}
-Because external advice is queried repeatedly over time, the crowd mean asymptotically absorbs the full directional bias $\mu_{AI}$ regardless of how small $\alpha$ is. 
-
-Summing the geometric variance series $\sum_{\tau=0}^{T-1} (1 - \alpha)^{2\tau} = \frac{1 - (1 - \alpha)^{2T}}{\alpha(2 - \alpha)}$ yields the finite-time expected collective squared error:
-\begin{equation}
-E_{\text{theory}}(\alpha, \rho, T) = \left[\mu_{AI} (1 - (1 - \alpha)^T)\right]^2 + \frac{\alpha(1 - (1 - \alpha)^{2T})}{2 - \alpha} \rho \sigma_{AI}^2
-\label{eq:finite_time_error}
-\end{equation}
-As $T \to \infty$, Equation \ref{eq:finite_time_error} converges to the steady-state expression:
-\begin{equation}
-\mathbb{E}[(c^* - \theta)^2] = \mu_{AI}^2 + \frac{\alpha}{2 - \alpha} \rho \sigma_{AI}^2
-\label{eq:steady_state_error}
-\end{equation}
-This formalizes a primary mathematical result: \textbf{the AI-driven error component is strictly topology-invariant by construction.}
-
-\subsection{Unassisted Human Consensus and Topology Effects}
-\label{sec:unassisted_consensus}
-In contrast to uniform algorithmic advice, unassisted human deliberation ($\alpha = 0$) depends directly on network topology. At $\alpha = 0$, beliefs evolve via pure DeGroot consensus $\mathbf{x}(t) = \mathbf{W}^t \mathbf{x}(0)$, converging to the stationary weighted consensus $c_{\text{human}} = \boldsymbol{\pi}^T \mathbf{x}(0)$.
-
-The expected squared error of the unassisted human consensus is:
-\begin{equation}
-\text{Var}(c_{\text{human}}) = \sigma_{\text{human}}^2 \sum_{i=1}^N \pi_i^2
-\label{eq:human_baseline_var}
-\end{equation}
-Equation \ref{eq:human_baseline_var} provides a theoretical prediction for baseline error across network topologies:
-\begin{itemize}
-    \item On Watts-Strogatz ($k=6, p=0.1$) and Erdős-Rényi ($p=0.05$) graphs with nearly uniform degrees, $\pi_i \approx \frac{1}{N}$, so $\sum \pi_i^2 \approx \frac{1}{N} = 0.001$. For $\sigma_{\text{human}} = 15.0$ ($\sigma^2 = 225.0$), this predicts an unassisted baseline error of $225 \times 0.001 = 0.225$.
-    \item On Barabási-Albert scale-free graphs ($m=3$), preferential attachment generates prominent hubs with large stationary weights $\pi_i$, yielding $\sum \pi_i^2 \approx 0.0028$. This predicts an elevated unassisted baseline error of $225 \times 0.0028 \approx 0.628$, formalizing Golub and Jackson's theorem on prominent agents \cite{golub2010naive}.
-\end{itemize}
-
-\subsection{The Human Correlation Crossover ($\rho_h$)}
-The baseline formulation in Section \ref{sec:unassisted_consensus} assumes an idealized crowd where individual human errors are strictly independent ($\rho_h = 0$). In empirical human collectives, however, decision-makers are subject to shared cognitive heuristics, common cultural priors, and synchronized media framing \cite{lorenz2011social}. To characterize this regime, let human initial beliefs share a pairwise correlation $\rho_h \in [0, 1]$:
-\begin{equation}
-x_i(0) = \theta + \sqrt{\rho_h} \eta_{h, \text{shared}} + \sqrt{1 - \rho_h} \eta_{h, i}
-\end{equation}
-where $\eta_{h, \text{shared}}, \eta_{h, i} \sim \mathcal{N}(0, \sigma_{\text{human}}^2)$ with $\sigma_{\text{human}} = 15.0$ ($\sigma_{\text{human}}^2 = 225.0$). 
-
-The expected collective squared error of the unassisted human crowd under correlated noise becomes:
-\begin{align}
-\text{MSE}_{\text{human}}(\rho_h) &= \mathbb{E}\left[\left(\boldsymbol{\pi}^T \mathbf{x}(0) - \theta\right)^2\right] \nonumber \
-&= \rho_h \sigma_{\text{human}}^2 + (1 - \rho_h) \sigma_{\text{human}}^2 \sum_{i=1}^N \pi_i^2
-\label{eq:human_correlated_mse}
-\end{align}
-On regular or near-uniform social graphs where $\sum \pi_i^2 \approx 0.001$, Equation \ref{eq:human_correlated_mse} evaluates to:
-\begin{equation}
-\text{MSE}_{\text{human}}(\rho_h) \approx 0.225 + 224.775 \, \rho_h
-\end{equation}
-Equating $\text{MSE}_{\text{human}}(\rho_h)$ with the steady-state error of algorithmic advice ($\mu_{AI}^2 + \rho \sigma_{AI}^2$) reveals the critical \textbf{crossover correlation threshold} $\rho_h^*$ above which foundation model mediation yields lower collective error than the unassisted human crowd:
-\begin{itemize}
-    \item \textbf{Monopoly Monoculture ($\rho = 0.90, \text{MSE}^* = 18.40$):} 
-    \begin{equation}
-    \rho_h^* = \frac{18.40 - 0.225}{224.775} \approx 0.0808 \quad (8.1\%)
-    \end{equation}
-    If human agents share merely .1\%$ of their error variance through common cognitive biases, algorithmic monoculture yields higher collective accuracy than unassisted human consensus.
-    \item \textbf{Polyculture Control ($\rho = 0.00, \text{MSE}^* = 4.00$):} 
-    \begin{equation}
-    \rho_h^* = \frac{4.00 - 0.225}{224.775} \approx 0.0168 \quad (1.7\%)
-    \end{equation}
-    If human error correlation exceeds just .7\%$, an independent polyculture outperforms the crowd despite persistent machine bias ($\mu_{AI} = 2.0$).
-\end{itemize}
-This crossover threshold formalizes the boundary conditions of the paradox: the 50-fold collective degradation observed under monoculture is a consequence of comparing against an idealized, orthogonal crowd ($\rho_h = 0$). In realistic sociotechnical settings characterized by even modest human cognitive alignment ($\rho_h > 0.081$), foundation model mediation remains Pareto-improving at both individual and collective scales.
-
-\subsection{Network Epistemology \& Social Topologies}
-Deliberating crowds communicate across complex networks $G = (V, E)$ \cite{zollman2007communication, lorenz2011social}. We evaluate three canonical topologies:
+\subsection{Temporal Persistence: Dynamic vs.\ Static AI Noise}
+In multi-round deliberation, the temporal accumulation of algorithmic error depends on whether model errors are stochastic across queries or fixed for a given task:
 \begin{enumerate}
-    \item \textbf{Watts-Strogatz Small-World Graphs:} High clustering ($C \gg C_{\text{random}}$) and short average path lengths ($L \sim \ln N$), modeling localized communities ($k=6, p=0.1$) \cite{watts1998collective}.
-    \item \textbf{Barab\'asi-Albert Scale-Free Graphs:} Power-law degree distributions $P(k) \sim k^{-\gamma}$, where central hubs dominate communication cascades ($m=3$) \cite{barabasi1999emergence}.
-    \item \textbf{Erd\H{o}s-R\'enyi Random Graphs:} Uniform pairing probability $p=0.05$, serving as an unstructured baseline with binomial degree distribution.
+    \item \textbf{Dynamic AI Noise (Temporal Stochasticity):} In this regime, agents refresh queries at each round via stochastic temperature draws or track an ongoing information stream where $\alpha$ acts as an exponential moving average (EMA) filter. Here, the shared error $\eta_{\text{shared}}(t)$ is i.i.d.\ across rounds, and idiosyncratic AI errors are independent across both agents and successive rounds. Taking the expectation of $(c(T) - \theta)^2$ from Equation~\ref{eq:cT_exact} yields the exact finite-time collective squared error:
+    \begin{align}
+    E_{\text{dynamic}} ={}& (1 - \alpha)^{2T} \text{MSE}_{\text{human}}(\rho_h, T) \nonumber \\
+    &+ E_{\text{AI}}^{\text{dyn}}(\alpha, \rho, T)
+    \label{eq:dynamic_error}
+    \end{align}
+    where the exact AI-induced error contribution evaluates to:
+    \begin{align}
+    E_{\text{AI}}^{\text{dyn}} ={}& \mu_{AI}^2 b_T^2 + \frac{\alpha(1 - (1 - \alpha)^{2T})}{2 - \alpha} \rho \sigma_{AI}^2 \nonumber \\
+    &+ \alpha^2 (1 - \rho) \sigma_{AI}^2 \sum_{k=0}^{T-1} (1 - \alpha)^{2k} \|\mathbf{q}_k\|^2
+    \end{align}
+    and $\text{MSE}_{\text{human}}(\rho_h, T) = \sigma_h^2 [\rho_h + (1 - \rho_h)\|\mathbf{q}_T\|^2]$ with $\sigma_h^2 = 225.0$. As $T \to \infty$, $E_{\text{dynamic}}$ converges to $\mu_{AI}^2 + \frac{\alpha \rho \sigma_{AI}^2}{2 - \alpha} + \frac{\alpha(1-\rho)\sigma_{AI}^2}{2 - \alpha}\sum_i \pi_i^2$.
+    \item \textbf{Static AI Noise (Task-Persistent Error):} When deliberating on a fixed factual inquiry where querying the foundation model yields a deterministic, persistent answer, $\hat{\boldsymbol{\theta}}_M(t) \equiv \hat{\boldsymbol{\theta}}_M$ ($\eta_{\text{shared}}(t) \equiv \eta_{\text{shared}}$ and $\boldsymbol{\eta}_{\text{indiv}}(t) \equiv \boldsymbol{\eta}_{\text{indiv}}$) for all $t$. Unrolling Equation~\ref{eq:cT_exact} with time-invariant advice yields:
+    \begin{align}
+    E_{\text{static}} ={}& (1 - \alpha)^{2T} \text{MSE}_{\text{human}}(\rho_h, T) \nonumber \\
+    &+ E_{\text{AI}}^{\text{stat}}(\alpha, \rho, T)
+    \label{eq:static_error}
+    \end{align}
+    where:
+    \begin{equation}
+    E_{\text{AI}}^{\text{stat}}(\alpha, \rho, T) = b_T^2 \left( \mu_{AI}^2 + \rho \sigma_{AI}^2 \right) + (1 - \rho)\sigma_{AI}^2 \|\mathbf{v}_T\|_2^2
+    \end{equation}
+    with $\mathbf{v}_T^\top \equiv \sum_{k=0}^{T-1} \alpha (1 - \alpha)^k \mathbf{q}_k^\top$. In the static regime, multi-round querying provides no temporal variance dampening, driving collective error directly toward the monoculture ceiling ($\mu_{AI}^2 + \rho\sigma_{AI}^2 \approx 18.40$ at $\rho = 0.90$) for any $\alpha > 0$ as $T$ grows large.
 \end{enumerate}
 
-\section{Model & Simulation Methodology}
+\paragraph{Topology Invariance and Stationary Surrogation.}
+The common-mode AI error is exactly topology-invariant, while the complete finite-time collective error exhibits only small topology-dependent residual differences under the parameter settings considered. As $k \to \infty$, the finite-time projection vector converges asymptotically to the stationary distribution, implying that $\|\mathbf{q}_k\|_2^2 \to \|\boldsymbol{\pi}\|_2^2 = \sum_i \pi_i^2$. We therefore use the stationary quantity as a numerical approximation when its difference from the finite-time projection is negligible. In our finite-horizon setting ($T = 30$), $\|\mathbf{q}_k\|_2^2$ converges rapidly toward this limit: on Watts-Strogatz ($\lambda_2 \approx 0.984$, spectral relaxation time $\tau_{\text{rel}} = \frac{1}{1 - \lambda_2} \approx 62$ rounds), $\|\mathbf{q}_k\|_2^2$ increases smoothly from $\|\mathbf{q}_0\|_2^2 = 1/N = 0.001000$ to $\|\mathbf{q}_{30}\|_2^2 \approx 0.001015$ (within $10^{-6}$ of $\sum \pi_i^2 = 0.001016$); on Erd\H{o}s-R\'enyi ($\lambda_2 \approx 0.64$, $\tau_{\text{rel}} \approx 2.8$) $\|\mathbf{q}_{30}\|_2^2 \approx 0.001018$; and on Barab\'asi-Albert ($\lambda_2 \approx 0.86$, $\tau_{\text{rel}} \approx 7.1$) $\|\mathbf{q}_{30}\|_2^2 \approx 0.002474$ (matching $\sum \pi_i^2 = 0.002475$ within $10^{-6}$).
 
-\subsection{Simulation Engine Architecture}
-We model an epistemic community of $N = 1,000$ agents situated on a graph $G = (V, E)$ constructed using NetworkX \cite{hagberg2008exploring}. Parameter sweeps are evaluated over $T = 30$ discrete time steps across 2,970 Monte Carlo runs.\footnote{Replication code, simulation manifests, and analysis scripts are permanently available on GitHub at \url{https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim} and archived on Zenodo (DOI: 10.5281/zenodo.23836280).}
+Formally, letting $\delta_k \equiv \left|\|\mathbf{q}_k\|_2^2 - \|\boldsymbol{\pi}\|_2^2\right|$, the discrepancy between the exact finite-time arithmetic consensus error $E_c(T)$ and the stationary expression $E_m(T)$ is bounded by $|\Delta E| \le \sigma_{\text{human}}^2 (1 - \rho_h)(1 - \alpha)^{2T} \delta_T + \alpha^2 (1 - \rho)\sigma_{AI}^2 \sum_{k=0}^{T-1}(1 - \alpha)^{2k} \delta_k$. On Watts-Strogatz and Erd\H{o}s-R\'enyi graphs, $\delta_k \le 1.81 \times 10^{-5}$ ($\delta_{30} \le 3.1 \times 10^{-7}$), guaranteeing that $|\Delta E| < 0.00004$ across all $\alpha \in [0.01, 1.0]$. On Barab\'asi-Albert scale-free graphs, $\delta_k \le 1.48 \times 10^{-3}$, bounding $|\Delta E| < 0.00005$ at $\alpha = 0.10$ and $< 0.0024$ at $\alpha = 1.0$. Consequently, the difference between the exact finite-time error and the stationary expression is negligible across all practical reliance regimes (e.g., at $\alpha = 0.10, \rho = 0.90$, $E_c^{\text{dyn}} = 4.4251$ on WS, $4.4251$ on ER, and $4.4258$ on BA; stationary $E_m^{\text{dyn}} = 4.4251$ on WS/ER and $4.4262$ on BA). In Table~\ref{tab:macro_results}, the closed-form theory column reports this finite-time evaluation ($4.425$). The empirical simulation across $3,000$ trials yields $4.569 \pm 0.064$, a difference of $+0.144$ ($+2.25\sigma$). With a two-sided significance probability of $P(|Z| > 2) \approx 0.0455$ per cell, standard normal variation naturally predicts an expected count of $\approx 0.82$ cells exceeding $2\sigma$ by chance across 18 cells; an omnibus goodness-of-fit test across all 18 cells ($\chi^2 = 19.2, \text{df} = 18, p = 0.38$) fails to reject the analytical predictions at conventional significance levels.
+
+\subsection{Human Error Correlation and Crossover Boundaries}
+\label{sec:human_correlation_crossover}
+In empirical human groups, individual judgments are rarely orthogonal; decision-makers are subject to correlated estimation errors, common heuristic shortcuts, and shared information sources \citep{lorenz2011social, soll2009strategies, becker2017network}. Let human initial beliefs share pairwise correlation $\rho_h \in [0, 1]$:
+\begin{equation}
+x_i(0) = \theta + \sqrt{\rho_h} \, \eta_{h, \text{shared}} + \sqrt{1 - \rho_h} \, \eta_{h, i}
+\end{equation}
+where $\eta_{h, \text{shared}}, \eta_{h, i} \sim \mathcal{N}(0, \sigma_{\text{human}}^2)$ with $\sigma_{\text{human}} = 15.0$ ($\sigma_{\text{human}}^2 = 225.0$). Crucially, because $\mathbb{E}[\eta_{h, \text{shared}}] = 0$, $\rho_h$ parameterizes correlated zero-mean estimation errors across agents rather than systematic directional bias, which we reserve for the non-zero machine alignment offset $\mu_{AI}$.
+
+The expected squared error of the unassisted human consensus ($\alpha = 0$) at finite horizon $T$ evaluates to:
+\begin{align}
+\text{MSE}_{\text{human}}(\rho_h, T) &= \sigma_{\text{human}}^2 \left[\rho_h + (1 - \rho_h) \|\mathbf{q}_T\|_2^2\right] \nonumber \\
+&= A_T + B_T \rho_h
+\label{eq:human_correlated_mse}
+\end{align}
+where $A_T \equiv \sigma_{\text{human}}^2 \|\mathbf{q}_T\|_2^2 = 225 \|\mathbf{q}_T\|_2^2$ and $B_T \equiv \sigma_{\text{human}}^2 (1 - \|\mathbf{q}_T\|_2^2) = 225 (1 - \|\mathbf{q}_T\|_2^2)$. On Watts-Strogatz small-world graphs at $T = 30$, $\|\mathbf{q}_{30}\|_2^2 \approx 0.001015$, yielding $A_{30} \approx 0.228$ and $B_{30} \approx 224.772$. This evaluates to baseline unassisted errors of $0.229$ ($\rho_h = 0.00$), $4.72$ ($\rho_h = 0.02$), $11.47$ ($\rho_h = 0.05$), and $22.71$ ($\rho_h = 0.10$).
+
+Equating the AI-mediated collective error $E(\alpha, \rho, \rho_h, T)$ in Equations~\ref{eq:dynamic_error}--\ref{eq:static_error} with the unassisted baseline $\text{MSE}_{\text{human}}(\rho_h, T)$ yields the exact finite-time \textbf{crossover correlation threshold} $\rho_h^*(\alpha)$ above which adopting algorithmic reliance $\alpha$ achieves strictly lower collective error than the unassisted human crowd:
+\begin{equation}
+\rho_h^*(\alpha) = \frac{E_{\text{AI}}(\alpha, \rho, T) - A_T \left(1 - (1 - \alpha)^{2T}\right)}{B_T \left(1 - (1 - \alpha)^{2T}\right)}
+\label{eq:crossover_threshold}
+\end{equation}
+where $E_{\text{AI}}(\alpha, \rho, T)$ denotes $E_{\text{AI}}^{\text{dyn}}$ or $E_{\text{AI}}^{\text{stat}}$, respectively. Evaluating Equation~\ref{eq:crossover_threshold} under monopoly monoculture ($\rho = 0.90, T = 30$) on Watts-Strogatz networks reveals:
+\begin{itemize}
+    \item \textbf{Dynamic Noise Model:} At per-step reliance $\alpha = 0.10$ ($w_{\text{cum}} = 95.8\%$), $\rho_h^* \approx 1.87\%$. At moderate per-step reliance $\alpha = 0.40$, $\rho_h^* \approx 3.28\%$. At complete reliance ($\alpha = 1.00$), $\rho_h^* = \frac{18.40 - 0.228}{224.772} \approx 8.08\%$.
+    \item \textbf{Static Noise Model:} At per-step reliance $\alpha = 0.10$ ($w_{\text{cum}} = 95.8\%$), $\rho_h^* \approx 7.42\%$. At moderate per-step reliance $\alpha = 0.40$, rapid saturation to the ceiling ($(1-0.4)^{30} \approx 10^{-7}$) yields $\rho_h^* \approx 8.08\%$. At complete reliance ($\alpha = 1.00$), $\rho_h^* \approx 8.08\%$.
+\end{itemize}
+
+This threshold clarifies a central tension in algorithmic monoculture: the dramatic collective degradation observed under pure monoculture ($\alpha = 1.0$) arises when benchmarking against an idealized, orthogonal human crowd ($\rho_h = 0$). Differentiating Equations~\ref{eq:dynamic_error} and~\ref{eq:static_error} at $\alpha = 0$ yields $\left.\frac{\partial E}{\partial \alpha}\right|_{\alpha=0} = -2T \, \text{MSE}_{\text{human}}(\rho_h) < 0$ for all $\rho_h \ge 0$, establishing that the marginal addition of AI initially decreases collective error even in orthogonal crowds (where a shallow dip exists: dynamic $\alpha^* \approx 0.0017$, error $0.218$ vs.\ $0.229$; static $\alpha^* \approx 0.0004$, a $-1.2\%$ reduction). When human crowds exhibit correlated heuristics ($\rho_h > 0$), this negative initial gradient is amplified by orders of magnitude (e.g., $-2(30)(22.71) \approx -1362.6$ at $\rho_h = 0.10$), dramatically deepening and widening the U-shaped reliance profile. Combined with the boundary condition $E(1) = 18.40 \gg \min_{\alpha \in [0,1]} E(\alpha)$ (e.g., $18.40$ vs.\ optimal $3.82$ at $\rho_h = 0.10$), this negative gradient guarantees that the social optimum $\alpha^*$ lies strictly in the interior $(0, 1)$. Under dynamic noise at per-step $\alpha = 0.10$, AI improves collective accuracy whenever $\rho_h > 1.87\%$, whereas under static task persistence, the AI repeats deterministic errors and improves collective accuracy at per-step $\alpha = 0.10$ only when human correlation exceeds $7.42\%$. Nevertheless, if reliance is calibrated to the static social optimum (per-step $\alpha^* \approx 0.008$, cumulative reliance $w_{\text{cum}} \approx 20\%$), AI anchors the crowd even at modest correlated human error ($\rho_h = 0.02$), reducing collective error by $20\%$.
+
+\subsection{Unassisted Consensus Across Social Topologies}
+At $\alpha = 0$, beliefs evolve via pure DeGroot consensus $\mathbf{x}(t) = \mathbf{W}^t \mathbf{x}(0)$, converging asymptotically to $m(0) = \boldsymbol{\pi}^\top \mathbf{x}(0)$ where $\pi_i = \frac{d_i}{\sum_k d_k}$ for the lazy random-walk trust matrix $W_{ii} = 0.5, W_{ij} = 0.5/d_i$. At finite horizon $T$, the exact unweighted consensus variance is $\sigma_{\text{human}}^2 \|\frac{1}{N}\mathbf{1}^\top \mathbf{W}^T\|_2^2$, which expands from the minimal uniform variance $\sigma_{\text{human}}^2/N = 0.225$ at $T=0$ toward the asymptotic stationary bound $\sigma_{\text{human}}^2 \sum_{i=1}^N \pi_i^2$ ($0.229$ for WS/ER, $0.536$ for BA) as $T$ exceeds the spectral relaxation time $\tau_{\text{rel}} = \frac{1}{1 - \lambda_2(\mathbf{W})}$.
+\begin{enumerate}
+    \item \textbf{Watts-Strogatz Small-World Graphs:} Regular ring lattice with random rewiring ($k=6, p=0.1$). Realized degrees yield $\sum \pi_i^2 \approx 0.001016$, predicting an asymptotic baseline error of $225 \times 0.001016 \approx 0.229$ (empirical at $T=30$: $0.233 \pm 0.010$). Because high spatial clustering ($C \approx 0.44$; analytic $C(p) = C(0)(1-p)^3 \approx 0.437$) and moderately longer characteristic path lengths ($6.1$ vs.\ $2.0$ on ER) yield a second eigenvalue of $\lambda_2(\mathbf{W}) \approx 0.984$ (spectral relaxation time $\tau_{\text{rel}} = \frac{1}{1 - \lambda_2} \approx 62$ rounds), spectral mixing remains incomplete at finite horizon $T=30$, explaining why Watts-Strogatz graphs retain non-zero local diversity ($1.454 \pm 0.011$).
+    \item \textbf{Erd\H{o}s-R\'enyi Random Graphs:} Uniform connection probability ($p=0.05$, $\bar{d} \approx 50$). Realized degrees yield $\sum \pi_i^2 = \frac{1}{N}(1 + \text{Var}(d)/\bar{d}^2) \approx 0.001019$, predicting $225 \times 0.001019 \approx 0.229$ (empirical: $0.231 \pm 0.010$). Rapid spectral expansion drives diversity to $0.000$ well before $T=30$.
+    \item \textbf{Barab\'asi-Albert Scale-Free Graphs:} Preferential attachment ($m=3$). Heavy-tailed degree hubs concentrate stationary weight ($\sum \pi_i^2 \approx 0.00238$ across realized graphs), predicting an elevated baseline error of $225 \times 0.00238 \approx 0.536$, matching the simulated $0.517 \pm 0.023$ and illustrating the finite-sample influence of prominent agents \citep{golub2010naive}.
+\end{enumerate}
+The pooled theoretical baseline across the three topologies is $(0.229 + 0.229 + 0.536)/3 \approx 0.331$, matching the simulated pooled baseline of $0.327 \pm 0.009$ within $0.5$ standard errors.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_collective_error_phase_transition.png}
-\caption{\textbf{Collective Error vs. Algorithmic Reliance: Theory vs. Simulation ($N = 1,000, T = 30$).} Mean Collective Squared Error $(c - \theta)^2$ as a function of reliance $\alpha$ across 30 Monte Carlo trials per condition (shaded bands denote 95\% confidence intervals). Panel A: Monopoly Monoculture ($\rho = 0.90$). Panel B: Oligopoly ($\rho = 0.50$). Panel C: Polyculture control ($\rho = 0.00$). The dashed black line overlays the closed-form analytical prediction (Equation \ref{eq:finite_time_error}). Notice that empirical simulation curves closely match analytical theory across all three topologies.}
+\caption{\textbf{Collective Error vs.\ Algorithmic Reliance ($N = 1,000, T = 30, K = 1,000$ Trials per Condition, 99,000 Runs).} Collective Squared Error $(c(T) - \theta)^2$ as a function of reliance $\alpha$ across independent trials for Watts-Strogatz (blue circles), Erd\H{o}s-R\'enyi (green squares), and Barab\'asi-Albert (red triangles) networks at $\rho_h = 0$. Dashed curves overlay the closed-form analytical prediction (Equation~\ref{eq:dynamic_error}). Left (Panel A): Polyculture ($\rho = 0.00$), stabilizing at the directional bias floor ($\mu_{AI}^2 = 4.00$). Center (Panel B): Correlated Multi-Model ($\rho = 0.50$), escalating to $11.644 \pm 0.293$. Right (Panel C): Monopoly Monoculture ($\rho = 0.90$), escalating to $18.648 \pm 0.468$.}
 \label{fig:phase_transition}
 \end{figure*}
 
-\subsubsection{Agent Prior Initialization}
-At $t = 0$, human agents are initialized with noisy prior beliefs centered around true state $\theta = 100.0$:
-\begin{equation}
-x_i(0) = \theta + \epsilon_i, \quad \epsilon_i \sim \mathcal{N}(0, \sigma_{\text{human}}^2)
-\end{equation}
-where $\sigma_{\text{human}} = 15.0$ (initial individual prior variance $\sigma^2 = 225.0$). Importantly, our baseline assumes an idealized crowd where human priors are unbiased and independent ($\mathbb{E}[\epsilon_i]=0$).
+\section{Model and Simulation Methodology}
 
-\subsubsection{Composite Correlated Algorithmic Advice}
-We evaluate three correlation regimes in Equation \ref{eq:ai_advice} ($\mu_{AI} = 2.0$, $\sigma_{AI} = 4.0$):
+\subsection{Simulation Framework}
+We simulate networked deliberation across $N = 1,000$ agents structured on graphs $G = (V, E)$ generated via NetworkX \citep{hagberg2008exploring}. Parameter sweeps are evaluated over $T = 30$ timesteps across 199,000 total Monte Carlo runs to numerically validate our analytical derivations:\footnote{Replication code, simulation manifests, and analysis scripts are available at \url{https://github.com/Ashuraj-Herode22/algorithmic-monoculture-sim}.}
 \begin{itemize}
-    \item $\rho = 0.90$: \textbf{Monopoly Monoculture} (90\% shared variance).
-    \item $\rho = 0.50$: \textbf{Oligopoly} (50\% shared variance across competing models).
-    \item $\rho = 0.00$: \textbf{Polyculture Control} (0\% shared variance; independent models).
+    \item \textbf{Experiment 1 (Core Reliance Sweep):} 11 reliance levels $\times$ 3 correlation regimes ($\rho \in \{0.00, 0.50, 0.90\}$) $\times$ 3 topologies (Watts-Strogatz, Erd\H{o}s-R\'enyi, Barab\'asi-Albert) $\times$ 1,000 independent trials = 99,000 runs ($3,000$ pooled runs per $(\alpha, \rho)$ cell for $\alpha > 0$; baseline $\alpha = 0.0$ reports $1,000$ trials per topology and $3,000$ pooled cross-topology runs).
+    \item \textbf{Experiment 2 (Human Correlation Sweep):} Evaluated on Watts-Strogatz small-world networks across 20 fine reliance levels $\times$ 4 human correlation levels ($\rho_h \in \{0.00, 0.02, 0.05, 0.10\}$) under monopoly monoculture ($\rho = 0.90$) $\times$ 1,000 independent trials = 80,000 runs.
+    \item \textbf{Experiment 3 (Static vs.\ Dynamic Persistence Sweep):} Evaluated on Watts-Strogatz small-world networks across 20 fine reliance levels under static machine noise ($\rho = 0.90, \rho_h = 0.00$) $\times$ 1,000 independent trials = 20,000 runs (directly compared against the 20,000 dynamic-noise $\rho_h = 0.00$ runs from Experiment 2, yielding 40,000 runs across both arms).
 \end{itemize}
 
-\subsubsection{Hybrid DeGroot Consensus Matrix}
-Trust matrix $\mathbf{W} \in \mathbb{R}^{N \times N}$ is derived from graph adjacency matrix $\mathbf{A}$, where $W_{ii} = 0.5$ (self-trust) and $W_{ij} = 0.5 / \text{deg}(i)$ for $j \in \mathcal{N}(i)$.
+\subsubsection{Agent Prior Initialization}
+At $t = 0$, human agents are initialized with prior beliefs centered around true state $\theta = 100.0$:
+\begin{equation}
+x_i(0) = \theta + \sqrt{\rho_h} \, \eta_{h, \text{shared}} + \sqrt{1 - \rho_h} \, \eta_{h, i}
+\end{equation}
+with $\eta_{h, \text{shared}}, \eta_{h, i} \sim \mathcal{N}(0, \sigma_{\text{human}}^2)$ and $\sigma_{\text{human}} = 15.0$ ($\sigma_{\text{human}}^2 = 225.0$). 
 
-\subsection{Quantitative Metrics}
-At each timestep, we record:
-\begin{enumerate}
-    \item \textbf{Collective Error:} $E_{\text{coll}} = (c(t) - \theta)^2$ where $c(t) = \frac{1}{N}\sum x_i(t)$.
-    \item \textbf{Cognitive Diversity:} $\mathcal{D}(t) = \frac{1}{N}\sum (x_i(t) - c(t))^2$.
-    \item \textbf{Normalized Monoculture Index:} 
-    \begin{equation}
-    \mathcal{M}(t) = 1.0 - \frac{H(t)}{H_{\max}}
-    \end{equation}
-    where $H(t) = -\sum p_k \log_2 p_k$ represents the empirical Shannon Entropy \cite{shannon1948mathematical} across 20 uniform bins, and $H_{\max} = \log_2(20)$.
-\end{enumerate}
+\subsubsection{Algorithmic Advice Parameterization}
+We emphasize that chosen parameter values ($\mu_{AI} = 2.0, \sigma_{AI} = 4.0, \sigma_{\text{human}} = 15.0, \rho = 0.90, T = 30, N = 1,000$) serve as stylized order-of-magnitude benchmarks to illustrate qualitative mechanics rather than empirical constants; specific numerical thresholds and optima are parametric functions of this setup, and per-step reliance $\alpha^*$ is defined relative to the $T=30$ horizon. In our experiments, we evaluate three correlation regimes in Equation~\ref{eq:ai_advice} ($\mu_{AI} = 2.0$, $\sigma_{AI} = 4.0$, total single-query MSE $= \mu_{AI}^2 + \sigma_{AI}^2 = 20.0$):
+\begin{itemize}
+    \item $\rho = 0.90$: \textbf{Monopoly Monoculture} (single centralized model queried across the network).
+    \item $\rho = 0.50$: \textbf{Correlated Multi-Model} (competing frontier models sharing pre-training corpora and alignment pipelines).
+    \item $\rho = 0.00$: \textbf{Polyculture Control} (independent, variance-decorrelated models sharing only baseline alignment offset $\mu_{AI}$).
+\end{itemize}
 
-\section{Experimental Results}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig4_page_decomposition_verification.png}
-\caption{\textbf{Empirical Verification of Page's Diversity Theorem ($N = 1,000$).} Mean Individual Error $\mathbb{E}[(s_i - \theta)^2]$ (orange dashed line), Cognitive Diversity $\mathbb{E}[(s_i - c)^2]$ (green dash-dotted line), and Collective Error $(c - \theta)^2$ (purple solid line) under Watts-Strogatz Small-World topology ($\rho = 0.90$). The experimental curves confirm the exact mathematical identity across all reliance levels.}
-\label{fig:page_verification}
-\end{figure}
+\subsubsection{DeGroot Trust Matrix}
+The row-stochastic trust matrix $\mathbf{W} \in \mathbb{R}^{N \times N}$ is constructed from graph adjacency matrix $\mathbf{A}$ by assigning self-weight $W_{ii} = 0.5$ and uniform neighbor weights $W_{ij} = 0.5 / d_i$ for $j \in \mathcal{N}(i)$.
 
 \begin{table*}[t]
 \centering
-\small
-\setlength{\tabcolsep}{2.8pt}
-\caption{\textbf{Macro-Scale Simulation Results ($N = 1,000$ Agents, $T = 30$ Timesteps, 2,970 Total Runs). Values denote Mean $\pm$ Standard Error of the Mean (SEM) across independent trials ($N = 90$ runs per reliance level).}}
+\caption{\textbf{High-Sample Simulation Results ($N = 1,000$ Agents, $T = 30$ Timesteps, $K = 1,000$ Independent Trials per Condition, 99,000 Total Runs at $\rho_h = 0$).} Values denote Mean $\pm$ Standard Error of the Mean (SEM) across pooled runs ($3,000$ trials per reliance level across WS, ER, and BA topologies) alongside finite-time closed-form theory ($E_c^{\text{dyn}}$, Equation~\ref{eq:dynamic_error}). Baseline $\alpha=0.0$ rows present $K=1,000$ trials for each individual topology and $3,000$ pooled cross-topology baseline runs.}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lccccccccc@{}}
 \toprule
-\textbf{Reliance ($\alpha$)} & \multicolumn{2}{c}{\textbf{Polyculture ($\rho = 0.00$)}} & \multicolumn{2}{c}{\textbf{Oligopoly ($\rho = 0.50$)}} & \multicolumn{2}{c}{\textbf{Monoculture ($\rho = 0.90$)}} & \multicolumn{3}{c}{\textbf{Analytical Theory ($T=30$)}} \\
+\textbf{Reliance} & \multicolumn{2}{c}{\textbf{Polyculture ($\rho = 0.00$)}} & \multicolumn{2}{c}{\textbf{Multi-Model ($\rho = 0.50$)}} & \multicolumn{2}{c}{\textbf{Monoculture ($\rho = 0.90$)}} & \multicolumn{3}{c}{\textbf{Analytical Theory ($T=30$)}} \\
 \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-10}
-& \textbf{Coll. Error} & \textbf{Diversity} & \textbf{Coll. Error} & \textbf{Diversity} & \textbf{Coll. Error} & \textbf{Diversity} & \textbf{Theory ($\rho=0$)} & \textbf{Theory ($\rho=0.5$)} & \textbf{Theory ($\rho=0.9$)} \\
+$\alpha$ & \textbf{Coll.\ Error} & \textbf{Diversity} & \textbf{Coll.\ Error} & \textbf{Diversity} & \textbf{Coll.\ Error} & \textbf{Diversity} & \textbf{Theory ($\rho=0$)} & \textbf{Theory ($\rho=0.5$)} & \textbf{Theory ($\rho=0.9$)} \\
 \midrule
-$\alpha = 0.0$ (WS Small-World) & \multicolumn{6}{c}{Collective Error: $0.224 \pm 0.069$ \quad \vline \quad Diversity: $1.444 \pm 0.004$} & 0.225 & 0.225 & 0.225 \\
-$\alpha = 0.0$ (ER Random)      & \multicolumn{6}{c}{Collective Error: $0.216 \pm 0.062$ \quad \vline \quad Diversity: $0.000 \pm 0.000$} & 0.225 & 0.225 & 0.225 \\
-$\alpha = 0.0$ (BA Scale-Free)  & \multicolumn{6}{c}{Collective Error: $0.578 \pm 0.164$ \quad \vline \quad Diversity: $0.000 \pm 0.000$} & 0.628 & 0.628 & 0.628 \\
-$\alpha = 0.0$ (Pooled Baseline)& \multicolumn{6}{c}{\textbf{Collective Error: $0.339 \pm 0.072$} \quad \vline \quad \textbf{Diversity: $0.481 \pm 0.072$}} & 0.360 & 0.360 & 0.360 \\
+$0.0$ (WS Small-World) & \multicolumn{6}{c}{Collective Error: $0.233 \pm 0.010$ \quad \vline \quad Diversity: $1.454 \pm 0.011$} & $0.229$ & $0.229$ & $0.229$ \\
+$0.0$ (ER Random)      & \multicolumn{6}{c}{Collective Error: $0.231 \pm 0.010$ \quad \vline \quad Diversity: $0.000 \pm 0.000$} & $0.229$ & $0.229$ & $0.229$ \\
+$0.0$ (BA Scale-Free)  & \multicolumn{6}{c}{Collective Error: $0.517 \pm 0.023$ \quad \vline \quad Diversity: $0.000 \pm 0.000$} & $0.536$ & $0.536$ & $0.536$ \\
+$0.0$ (Pooled Baseline)& \multicolumn{6}{c}{\textbf{Collective Error: $0.327 \pm 0.009$} \quad \vline \quad \textbf{Diversity: $0.485 \pm 0.013$}} & $0.331$ & $0.331$ & $0.331$ \\
 \midrule
-$\alpha = 0.1$                 & 3.673 $\pm$ 0.015 & 0.225 $\pm$ 0.001 & 4.358 $\pm$ 0.281 & 0.113 $\pm$ 0.001 & 4.165 $\pm$ 0.373 & 0.023 $\pm$ 0.000 & 3.67 & 4.09 & 4.42 \\
-$\alpha = 0.2$                 & 4.043 $\pm$ 0.019 & 0.813 $\pm$ 0.002 & 4.690 $\pm$ 0.464 & 0.405 $\pm$ 0.002 & 5.114 $\pm$ 0.593 & 0.081 $\pm$ 0.001 & 3.99 & 4.88 & 5.59 \\
-$\alpha = 0.4$                 & 4.057 $\pm$ 0.030 & 2.918 $\pm$ 0.004 & 6.828 $\pm$ 0.660 & 1.449 $\pm$ 0.003 & 9.453 $\pm$ 0.969 & 0.292 $\pm$ 0.001 & 4.00 & 6.00 & 7.60 \\
-$\alpha = 0.6$                 & 4.091 $\pm$ 0.029 & 5.973 $\pm$ 0.007 & 5.072 $\pm$ 0.527 & 3.004 $\pm$ 0.004 & 11.133 $\pm$ 1.380 & 0.608 $\pm$ 0.002 & 4.00 & 7.43 & 10.17 \\
-$\alpha = 0.8$                 & 3.938 $\pm$ 0.041 & 10.472 $\pm$ 0.012 & 10.424 $\pm$ 1.791 & 5.149 $\pm$ 0.006 & 9.727 $\pm$ 1.342 & 1.047 $\pm$ 0.003 & 4.00 & 9.33 & 13.60 \\
-$\alpha = 1.0$ (Pure AI)       & \textbf{3.974 $\pm$ 0.052} & \textbf{16.073 $\pm$ 0.018} & \textbf{10.314 $\pm$ 1.586} & \textbf{8.063 $\pm$ 0.009} & \textbf{16.833 $\pm$ 2.046} & \textbf{1.584 $\pm$ 0.003} & \textbf{4.00} & \textbf{12.00} & \textbf{18.40} \\
+$0.1$ & $3.666 \pm 0.003$ & $0.224 \pm 0.000$ & $4.147 \pm 0.048$ & $0.112 \pm 0.000$ & $4.569 \pm 0.064$ & $0.023 \pm 0.000$ & $3.669$ & $4.09$ & $4.425$ \\
+$0.2$ & $3.992 \pm 0.003$ & $0.808 \pm 0.001$ & $4.908 \pm 0.071$ & $0.403 \pm 0.000$ & $5.636 \pm 0.102$ & $0.081 \pm 0.000$ & $3.992$ & $4.88$ & $5.59$ \\
+$0.4$ & $3.997 \pm 0.005$ & $2.872 \pm 0.002$ & $5.990 \pm 0.113$ & $1.436 \pm 0.001$ & $7.714 \pm 0.171$ & $0.287 \pm 0.000$ & $4.004$ & $6.00$ & $7.60$ \\
+$0.6$ & $4.005 \pm 0.006$ & $6.037 \pm 0.005$ & $7.450 \pm 0.163$ & $3.020 \pm 0.002$ & $9.915 \pm 0.248$ & $0.603 \pm 0.000$ & $4.007$ & $7.43$ & $10.17$ \\
+$0.8$ & $4.016 \pm 0.008$ & $10.347 \pm 0.009$ & $9.420 \pm 0.218$ & $5.174 \pm 0.004$ & $13.298 \pm 0.323$ & $1.035 \pm 0.001$ & $4.011$ & $9.33$ & $13.60$ \\
+$1.0$ (Pure AI) & $\mathbf{3.997 \pm 0.009}$ & $\mathbf{15.980 \pm 0.013}$ & $\mathbf{11.644 \pm 0.293}$ & $\mathbf{7.995 \pm 0.007}$ & $\mathbf{18.648 \pm 0.468}$ & $\mathbf{1.599 \pm 0.001}$ & $\mathbf{4.016}$ & $\mathbf{12.00}$ & $\mathbf{18.40}$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \label{tab:macro_results}
 \end{table*}
 
-\subsection{Collective Error Escalation \& Network Invariance}
-Figure \ref{fig:phase_transition} and Table \ref{tab:macro_results} present the empirical simulation results alongside analytical predictions. 
+\section{Experimental Results}
 
-At $\alpha = 0.0$, unassisted human deliberation achieves high collective accuracy ($0.339 \pm 0.072$) through uncorrelated error cancellation. However, examining baseline performance by topology confirms our theoretical prediction (Equation \ref{eq:human_baseline_var}): Barabási-Albert scale-free graphs exhibit substantially higher consensus error ($0.578 \pm 0.164$, predicted $0.628$) than Watts-Strogatz ($0.224 \pm 0.069$, predicted $0.225$) and Erdős-Rényi ($0.216 \pm 0.062$, predicted $0.225$). Furthermore, diversity at $\alpha=0$ differs markedly across topologies: while Erdős-Rényi and Barabási-Albert graphs reach complete consensus within $T=30$ timesteps ($\mathcal{D} \approx 0.000$), Watts-Strogatz small-world graphs retain residual variance ($\mathcal{D} = 1.444 \pm 0.004$) due to high clustering ($C \approx 0.49$), which slows the rate of global consensus propagation across local clusters.
+\subsection{Collective Error Escalation and Network Invariance}
+Figure~\ref{fig:phase_transition} and Table~\ref{tab:macro_results} present the empirical simulation results across 99,000 Monte Carlo runs alongside closed-form analytical predictions. 
 
-As reliance $\alpha$ increases under \textbf{Monopoly Monoculture} ($\rho = 0.90$), collective error escalates sharply, reaching $16.833 \pm 2.046$ at $\alpha = 1.0$. This represents an absolute escalation of over $+16$ squared error units—a 29- to 82-fold increase depending on network topology, with an average 50-fold escalation relative to the pooled baseline. 
+At $\alpha = 0.0$ with orthogonal priors ($\rho_h = 0$), unassisted human deliberation achieves high collective accuracy ($0.327 \pm 0.009$) through idiosyncratic error cancellation. Disaggregating baseline performance by topology confirms our spectral derivation: Barab\'asi-Albert scale-free networks exhibit higher consensus error ($0.517 \pm 0.023$, predicted $0.536$) than Watts-Strogatz ($0.233 \pm 0.010$, predicted $0.229$) and Erd\H{o}s-R\'enyi ($0.231 \pm 0.010$, predicted $0.229$).
 
-Crucially, because our simulation framework evaluates paired Monte Carlo sweeps across topologies using matched random noise seeds, the close alignment across network topologies reflects the analytical property established in Section 2.2: uniform external advice passes straight through any row-stochastic matrix ($\mathbf{W}\mathbf{1} = \mathbf{1}$) invariant to network structure.
+Under \textbf{Monopoly Monoculture} ($\rho = 0.90$), collective error escalates from baseline to $18.648 \pm 0.468$ at $\alpha = 1.0$. This represents a 36- to 81-fold increase depending on network topology, with an average 57-fold escalation relative to the pooled baseline (though crowd error of $18.6$ remains $12\times$ lower than unassisted individual error of $225.0$ due to baseline scaling as $\mathcal{O}(1/N)$). 
 
-Across the parameter space, empirical Monte Carlo averages are consistent with the closed-form predictions of Equation \ref{eq:finite_time_error}, with empirical cell means generally lying within two standard errors of theoretical expectations (e.g., at $\alpha = 0.1$, empirical $3.673 \pm 0.015$ matches theoretical $3.668$). Modest empirical deviations at intermediate reliance levels (such as monoculture at $\alpha = 0.8$ with $9.727$ vs. theoretical $13.60$, and oligopoly at $\alpha = 0.6$ with $5.072$ vs. theoretical $7.43$) represent finite-sample sampling fluctuations under heavy-tailed squared error distributions.
+Crucially, this error surge is not caused by post-deliberation ``diversity loss'' per se: unassisted human consensus on connected Erd\H{o}s-R\'enyi and Barab\'asi-Albert graphs also converges to zero belief variance ($\text{Diversity}(T) = 0.000$) as agents agree, yet achieves minimal error because initial human errors cancel out during aggregation. Rather, collective error escalates under monoculture because external AI advice continuously injects \textbf{non-canceling directional bias ($\mu_{AI}$)} and \textbf{shared systemic error ($\sqrt{\rho}\eta_{\text{shared}}$)} that shift the consensus trajectory $m(t)$ itself.
 
-\subsection{The Oligopoly Trap: Correlated Frontier Models}
-Industry proponents often suggest that competition among multiple frontier models (e.g., GPT-4, Claude, Gemini) protects against monoculture. 
-
-Our model demonstrates that if competing commercial models share substantial pre-training data and alignment practices such that their residual error correlation is around $\rho \approx 0.50$, an oligopoly fails to preserve crowd wisdom: Collective Error escalates from $0.339 \pm 0.072$ to $10.314 \pm 1.586$ at $\alpha = 1.0$.
+Across all reliance levels $\alpha \ge 0.1$, the three network topologies collapse onto the identical analytical error trajectory (Figure~\ref{fig:phase_transition}), empirically confirming our proof that row-stochastic networks are transparent to uniform external signals. With $3,000$ pooled trials per cell, empirical averages match Equation~\ref{eq:dynamic_error} across the full parameter space: at $\alpha = 0.1$, empirical error ($4.569 \pm 0.064$) tracks theory within $2.3$ standard errors ($4.42$); at $\alpha = 0.6$, empirical error ($9.915 \pm 0.248$) matches theory ($10.17$); and at $\alpha = 1.0$, empirical error ($18.648 \pm 0.468$) aligns with the theoretical ceiling ($18.40$).
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig2_cognitive_diversity_collapse.png}
-\caption{\textbf{Cognitive Diversity vs. Reliance: Monoculture vs. Oligopoly ($N = 1,000$).} Panel A: Monopoly Monoculture ($\rho = 0.90$). Panel B: Oligopoly ($\rho = 0.50$). Monoculture restricts individual belief variance to $(1 - \rho)\sigma_{AI}^2 \approx 1.584$, whereas oligopoly preserves intermediate variance $\approx 8.063$.}
-\label{fig:diversity_collapse}
+\includegraphics[width=\columnwidth]{figures/fig2_belief_variance_dispersion.png}
+\caption{\textbf{Belief Variance and Residual Dispersion under Algorithmic Mediation ($N = 1,000, T = 30$).} Empirical crowd diversity $\frac{1}{N}\sum_i (x_i(T) - c(T))^2$ as a function of reliance $\alpha$ across topologies (Equation~\ref{eq:asymptotic_diversity}). Residual belief diversity scales directly with idiosyncratic variance $(1 - \rho)\sigma_{AI}^2$ as $\alpha \to 1$, bounding terminal diversity at $1.60$ under monopoly monoculture ($\rho = 0.90$) and $8.00$ under multi-model competition ($\rho = 0.50$).}
+\label{fig:belief_variance}
 \end{figure}
-
-\subsection{The Polyculture Control: Decorrelated Advice}
-Under the polyculture control ($\rho = 0.00$, Figure \ref{fig:phase_transition}C), once algorithmic advice is introduced ($\alpha \ge 0.1$), Collective Error remains bounded near the theoretical directional bias floor ($\mu_{AI}^2 = 4.0$), stabilizing at $3.974 \pm 0.052$ at $\alpha = 1.0$. 
-
-Cognitive diversity in the polyculture regime expands proportionally with reliance, reaching $16.073 \pm 0.018$. Crucially, while polyculture successfully eliminates the correlated-variance term ($\rho\sigma_{AI}^2$), collective error still stabilizes near the directional bias floor ($3.974$)—which remains approximately 12-fold higher than the unassisted crowd ($0.339$). This demonstrates that algorithmic pluralism filters out shared noise, but cannot overcome persistent directional bias shared across models.
-
-\subsection{Decomposition Analysis \& The Micro-Macro Dilemma}
-Figure \ref{fig:page_verification} illustrates the exact decomposition formalized by Page's Diversity Theorem (Equation \ref{eq:page_theorem}). Real-world individual human decision-makers rarely possess instantaneous access to a deliberative crowd of 1,000 interacting peers. For an isolated decision-maker evaluating choices alone, querying a centralized foundation model (expected error $\mu_{AI}^2 + \sigma_{AI}^2 = 2^2 + 4^2 = 20.0$) represents an overwhelming 11-fold variance reduction compared to unassisted solitary heuristics ($\sigma_{\text{human}}^2 = 225.0$). 
-
-The paradox arises precisely from this ecological disconnect: individual agents, acting with local heuristic rationality to improve their own estimates, adopt the shared algorithm. However, when networked crowds substitute peer deliberation with shared algorithmic advice ($\alpha > 0$), this individual heuristic reliance triggers a systemic micro-macro dilemma. Because all agents query foundation models with correlated error ($\rho = 0.90$), the non-canceling correlated component ($\rho \sigma_{AI}^2$) enters the crowd mean directly. In accordance with Page's identity ($\mathrm{Error}_{\mathrm{coll}} = \overline{\mathrm{Error}}_{\mathrm{ind}} - \mathrm{Diversity}$), the loss of independent error cancellation drives both post-deliberation individual error and collective error sharply upward.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{figures/fig5_trajectory_convergence.png}
-\caption{\textbf{Deliberation Trajectories and Belief Convergence ($N = 1,000, T = 30$).} Step-by-step belief evolution over $t \in [0, 30]$ under Watts-Strogatz topology ($\rho = 0.90$). Shaded bands denote $\pm 1$ standard deviation. While $\alpha = 0.0$ preserves broad exploration, higher reliance values ($\alpha \ge 0.5$) compress variance rapidly around biased targets, with steady-state reached within 15 timesteps.}
-\label{fig:trajectories}
+\includegraphics[width=\columnwidth]{figures/fig3_optimal_reliance_tradeoff.png}
+\caption{\textbf{The Optimal Reliance Trade-Off ($N = 1,000, T = 30, K = 1,000$).} Collective Squared Error as a function of per-step reliance $\alpha$ across four human correlation regimes ($\rho_h \in \{0.00, 0.02, 0.05, 0.10\}$) on Watts-Strogatz graphs under dynamic AI noise ($\rho = 0.90$). Solid curves denote analytical theory (Equation~\ref{eq:dynamic_error}); markers denote empirical Monte Carlo trials ($\pm$ SEM). When human crowd error is correlated ($\rho_h > 0$), collective error exhibits a U-shaped profile: calibrated per-step reliance ($\alpha^* \in [0.024, 0.056]$, cumulative reliance $w_{\text{cum}} \in [51\%, 82\%]$) significantly lowers collective error by anchoring correlated human error, whereas excessive reliance ($\alpha \to 1.0$) drives error up toward the monoculture ceiling ($18.40$).}
+\label{fig:optimal_tradeoff}
 \end{figure}
 
-\section{Discussion \& Sociotechnical Governance}
+\subsection{Correlated Multi-Model Competition}
+A common intuition in technological policy is that market competition among multiple foundation model providers will naturally prevent algorithmic monoculture. Our results (Figure~\ref{fig:phase_transition}B, Table~\ref{tab:macro_results}) demonstrate that when competing models share overlapping web pre-training corpora and alignment protocols such that between-model error correlation remains $\rho = 0.50$, collective error still escalates to $11.644 \pm 0.293$ at $\alpha = 1.0$ (analytical prediction: $12.00$). Moreover, this formulation represents an idealized exchangeable ensemble (effectively an infinite pool of competing models with mutual covariance $\rho=0.50$). In a realistic oligopolistic market where agents partition their queries evenly across a finite number $M$ of providers with within-provider correlation $\rho_{\text{within}} = 0.90$ (as in monopoly monoculture) and between-provider correlation $\rho_{\text{between}} = 0.50$, the effective pairwise correlation is $\rho_{\text{eff}} = 0.50 + \frac{0.40}{M}$. At complete reliance ($\alpha = 1.0$), collective error evaluates to $\mu_{AI}^2 + \sigma_{AI}^2 (0.50 + \frac{0.40}{M}) = 4 + 16(0.50 + \frac{0.40}{M})$, yielding $15.20$ for a duopoly ($M=2$), $14.13$ for $M=3$, and $13.28$ for $M=5$ (interpolating smoothly between $18.40$ at $M=1$ and $12.00$ as $M \to \infty$). Market multiplicity with correlated models thus provides limited epistemic protection.
 
-\subsection{The Ecological Fallacy of Local AI Auditing}
-Current regulatory approaches to AI safety focus almost exclusively on \textbf{individual-level auditing}: benchmarking prompt accuracy, evaluating toxicity, and measuring individual bias. Our results illustrate that micro-level auditing is fundamentally incomplete. A foundation model can be demonstrably superior to an isolated human guessing alone ($20.0$ vs. $225.0$), yet deployment across an interconnected network can simultaneously trigger macroscopic collective error through variance destruction and synchronized error cascades \cite{lazer2018science, lorenz2011social}.
+\subsection{The Polyculture Control: Independent Advice}
+Under the polyculture control ($\rho = 0.00$, Figure~\ref{fig:phase_transition}A), idiosyncratic machine variance cancels across the crowd and collective error stabilizes at the squared directional bias floor ($\mu_{AI}^2 = 4.00$), reaching $3.997 \pm 0.009$ at $\alpha = 1.0$. While variance decorrelation eliminates the $\rho\sigma_{AI}^2$ penalty, any shared directional alignment offset $\mu_{AI} \neq 0$ persists unattenuated in the crowd consensus.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig4_static_vs_dynamic_persistence.png}
+\caption{\textbf{Temporal Model Persistence: Dynamic vs.\ Static Machine Advice ($N = 1,000, T = 30, K = 1,000$).} Comparing collective error under dynamic temporal stochasticity (blue circles, Equation~\ref{eq:dynamic_error}) versus persistent task-level error (red squares, Equation~\ref{eq:static_error}) on Watts-Strogatz graphs ($\rho = 0.90, \rho_h = 0$). When foundation models repeat deterministic mistakes on a given task, multi-round deliberation provides no temporal variance dampening, rapidly saturating at the monoculture ceiling ($18.40$).}
+\label{fig:static_vs_dynamic}
+\end{figure}
+
+\subsection{Dynamic vs.\ Static AI Noise: Quantitative Regimes}
+As illustrated in Figure~\ref{fig:static_vs_dynamic}, the temporal persistence of machine errors governs the quantitative shape of the reliance trade-off. Table~\ref{tab:dynamic_vs_static} compares the optimal social reliance $\alpha^*$, percentage error reduction relative to unassisted deliberation, and stylized Epistemic Reliance Overshoot Ratio ($\mathcal{R}_{\text{overshoot}}$) across realistic human correlation levels ($\rho_h \in \{0.02, 0.05, 0.10\}$).
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Analytic Evaluation of Optimal Social Reliance ($\alpha^*$), Error Reduction vs.\ Unassisted Humans, and Stylized Epistemic Reliance Overshoot Ratio ($\mathcal{R}_{\text{overshoot}}$) Under Dynamic vs.\ Static AI Noise ($\rho = 0.90, T = 30$).} Per-step optimal reliance $\alpha^*$ accumulates to $w_{\text{cum}} \in [51\%, 82\%]$ under dynamic noise and $[20\%, 55\%]$ under static noise over $T=30$ rounds. Primary $\mathcal{R}_{\text{overshoot}}$ evaluates collective error when agents adopt their regime-specific isolated optimum ($\alpha_{\text{isolated}}^{\text{dyn}} = 0.106$ under dynamic noise; $\alpha_{\text{step}} = 0.080$ under static persistence) relative to the social optimum $\alpha^*$; parenthetical values report complete per-step reliance ($\alpha_{\text{step}} = 1.0$, MSE $= 18.40$).}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Human Corr. ($\rho_h$)} & \textbf{Unassisted MSE} & \textbf{Dynamic Noise (Opt $\alpha^*$ / Cut / Ratio)} & \textbf{Static Noise (Opt $\alpha^*$ / Cut / Ratio)} \\
+\midrule
+$\rho_h = 0.02$ & $4.72$  & $0.024$ / $51\%$ / $2.0$ ($8.0$) & $0.008$ / $20\%$ / $4.1$ ($4.9$) \\
+$\rho_h = 0.05$ & $11.47$ & $0.041$ / $72\%$ / $1.4$ ($5.7$) & $0.016$ / $38\%$ / $2.2$ ($2.6$) \\
+$\rho_h = 0.10$ & $22.71$ & $0.056$ / $83\%$ / $1.2$ ($4.8$) & $0.026$ / $55\%$ / $1.5$ ($1.8$) \\
+\bottomrule
+\end{tabular}%
+}
+\label{tab:dynamic_vs_static}
+\end{table}
+
+Under dynamic noise, temporal averaging across rounds dampens shared sampling variance by a factor of $\frac{\alpha}{2-\alpha}$, yielding a socially optimal per-step reliance of $\alpha^* \in [0.024, 0.056]$ (cumulative reliance $w_{\text{cum}} \in [51\%, 82\%]$ over $T=30$ rounds) and reducing collective error by $51\%\text{--}83\%$. Under static task persistence, where the model outputs fixed errors across queries, temporal variance dampening disappears; the social optimum shifts downward to per-step $\alpha^* \in [0.008, 0.026]$ (cumulative reliance $w_{\text{cum}} \in [20\%, 55\%]$), achieving $20\%\text{--}55\%$ error reductions.
+
+\subsection{Private Benchmarks vs.\ Epistemic Overshoot}
+To understand why decentralized agents over-rely on foundation models, consider the decision problem of an isolated individual choosing reliance without social interaction:
+\begin{itemize}
+    \item \textbf{Static Task-Persistent Environment:} When deliberating on a fixed factual query where AI advice is deterministic, the agent chooses a single-shot convex combination of their private prior and machine advice:
+    \begin{align}
+    \min_{\alpha} \mathbb{E}[(x_i - \theta)^2] &= (1 - \alpha)^2 \sigma_h^2 + \alpha^2 (\mu_{AI}^2 + \sigma_{AI}^2) \nonumber \\
+    &= 225 (1 - \alpha)^2 + 20 \alpha^2
+    \end{align}
+    Differentiating yields the single-shot private optimum:
+    \begin{equation}
+    \frac{d}{d\alpha}\mathbb{E}[(x_i - \theta)^2] = 0 \implies \alpha_{\text{isolated}}^* = \frac{225}{245} \approx 0.918
+    \end{equation}
+    dropping individual error from $225.0$ to $18.37$ (a $12.25\times$ local accuracy gain). Over $T=30$ rounds, retaining $(1 - 0.918) = 0.082$ weight on the human prior corresponds to a per-step reliance of $\alpha_{\text{step}} = 1 - (1 - 0.918)^{1/30} \approx 0.080$.
+    \item \textbf{Dynamic Temporal Stochasticity:} When an isolated agent queries the model at each round with independent stochastic draws, multi-round querying averages out idiosyncratic sampling variance. The agent minimizes:
+    \begin{align}
+    \min_\alpha \Big[ (1 - \alpha)^{2T}\sigma_{\text{human}}^2 &+ \mu_{AI}^2(1 - (1-\alpha)^T)^2 \nonumber \\
+    &+ \sigma_{AI}^2\frac{\alpha(1 - (1-\alpha)^{2T})}{2-\alpha} \Big]
+    \end{align}
+    For $T=30$, numerical optimization yields $\alpha_{\text{isolated}}^{\text{dyn}} \approx 0.106$. Here, temporal filtering drives isolated individual error down to $4.89$—a $46.0\times$ local accuracy improvement over unassisted heuristics ($225.0$).
+\end{itemize}
+
+\textbf{Macro-Level Overshoot Under Hypothesized Correlation Neglect:} When decentralized agents enter a connected social network, under the hypothesis that individuals exhibit correlation neglect \citep[cf.][]{demarzo2003persuasion, enke2019correlation}—treating neighbor opinions as independent signals and failing to observe how shared algorithmic reliance propagates through the network—they adopt their private reliance benchmarks ($\alpha_{\text{step}} \approx 0.080$ in static tasks, $\alpha_{\text{isolated}}^{\text{dyn}} \approx 0.106$ in dynamic tasks) rather than internalizing the positive epistemic externality of unassisted human priors.
+
+Defining the stylized \textbf{Epistemic Reliance Overshoot Ratio ($\mathcal{R}_{\text{overshoot}}$)} as the ratio of collective error under the regime-specific isolated benchmark to minimum collective error at the social optimum $\alpha^*$:
+\begin{equation}
+\mathcal{R}_{\text{overshoot}} = \frac{E(\alpha_{\text{isolated}}^{\text{bench}}, \rho, \rho_h, T)}{\min_{\alpha} E(\alpha, \rho, \rho_h, T)}
+\end{equation}
+Unlike the classical game-theoretic Price of Anarchy \citep{koutsoupias1999worst, roughgarden2002bad}, which measures the degradation of social welfare in a strategic Nash equilibrium, this ratio captures the epistemic welfare penalty incurred when boundedly rational agents adopt individually optimal reliance benchmarks under correlation neglect \citep{demarzo2003persuasion, enke2019correlation}. Recently, \citet{kleinberg2026price} proved a tight upper bound of $2.0$ on the Price of Anarchy in a non-cooperative matching market with algorithmic monoculture. In our continuous networked deliberation setting, decentralized agents do not strategically game the network; rather, under behavioral correlation neglect, they fail to internalize how private reliance choices propagate through social aggregation, adopting their isolated decision-theoretic benchmarks ($\alpha_{\text{step}} \approx 0.080$ in static tasks, $\alpha_{\text{isolated}}^{\text{dyn}} \approx 0.106$ in dynamic tasks). Our stylized ratio thus quantifies the macro-level welfare loss from uncoordinated adoption of locally optimal advice, spanning $[1.5, 4.1]$ under static task persistence and $[1.2, 2.0]$ under dynamic noise (Table~\ref{tab:dynamic_vs_static}). At complete per-step reliance ($\alpha_{\text{step}} = 1.0$, MSE $= 18.40$; parenthetical values in Table~\ref{tab:dynamic_vs_static}), the overshoot ratio reaches $[4.8, 8.0]$ relative to the dynamic social optimum and $[1.8, 4.9]$ relative to the static social optimum due to the absence of temporal variance averaging at complete reliance (where $\frac{\alpha}{2-\alpha} = 1$).
+
+Crucially, when human error correlation exceeds $\rho_h^* = 8.08\%$, unassisted human consensus error exceeds the pure monoculture ceiling ($\text{MSE}_{\text{human}} > 18.40$). In this regime, complete reliance ($\alpha_{\text{step}} = 1.0$, MSE $= 18.40$) does not degrade accuracy below the unassisted human baseline ($22.71$ at $\rho_h = 0.10$), but instead represents an \textbf{epistemic overshoot}: complete per-step reliance forfeits about $64$ percentage points of collective error reduction ($77\%$ of achievable gains) relative to the dynamic social optimum at $\rho_h = 0.10$, rising to about $80$ percentage points (nearly $100\%$ of achievable gains) just above the $8.08\%$ crossover threshold. Meanwhile, decentralized adoption of the dynamic isolated benchmark ($\alpha_{\text{isolated}}^{\text{dyn}} = 0.106$, error $4.56$, a $79.9\%$ reduction) forfeits $3.3$ percentage points relative to the social optimum ($83.2\%$, Table~\ref{tab:dynamic_vs_static}).
+
+\section{Discussion and Sociotechnical Governance}
+
+\subsection{Individual Auditing vs.\ Collective Integrity}
+Current evaluation frameworks for foundation models focus almost exclusively on isolated single-user benchmarks. Our analytical and empirical results demonstrate that micro-level validation is insufficient to guarantee macro-level epistemic safety. A foundation model that reduces individual error by over 12-fold in static tasks ($18.37$ vs.\ $225.0$) or 46-fold under dynamic sampling ($4.89$ vs.\ $225.0$) can simultaneously degrade collective accuracy by 57-fold in orthogonal crowds (though absolute crowd error of $18.6$ remains $12\times$ lower than unassisted individual error of $225.0$ due to baseline error scaling as $\mathcal{O}(1/N)$) or induce an epistemic overshoot of up to $4.1\times$ at the private reliance benchmark and up to $8.0\times$ at complete per-step reliance ($\alpha_{\text{step}} = 1.0$) in correlated crowds.
 
 \subsection{Algorithmic Diversity as Public Infrastructure}
-Policymakers frequently debate antitrust in AI through the lens of market concentration. Our findings formalize antitrust as an \textbf{epistemic necessity}. If multiple commercial AI vendors fine-tune their architectures on identical pre-training data, they produce an effective oligopoly ($\rho \ge 0.50$) that fails to preserve collective intelligence. Preserving societal resilience requires structural interventions:
+Preserving distributed collective intelligence requires treating statistical independence across AI systems as public epistemic infrastructure:
 \begin{enumerate}
-    \item \textbf{Deliberate Algorithmic Pluralism:} Promoting decentralized, locally fine-tuned models trained on distinct cultural, methodological, and institutional corpora.
-    \item \textbf{Variance-Injecting Ensembles:} Designing user interfaces that intentionally present multi-perspective, decorrelated responses rather than a single synthetic consensus.
-    \item \textbf{Structural Human Anchoring and Staggered Deliberation:} Because uniform advice penetrates any row-stochastic graph identically (Equation \ref{eq:steady_state_error}), structural network clustering alone cannot buffer against monoculture. Epistemic buffering instead requires either preserving unassisted human anchor\'\' nodes ($\alpha_i = 0$) who do not consult synthetic advice, or implementing staggered deliberation protocols that decouple timing and prevent synchronized algorithmic cascades across communities \cite{acemoglu2010spread}.
+    \item \textbf{True Epistemic Pluralism:} Training ensembles of models on curated, non-overlapping data partitions and distinct alignment objectives to drive inter-model error correlation $\rho \to 0$ and center directional offsets ($\mathbb{E}[\mu_{AI}] = 0$). We note that while distinct data pipelines and alignment architectures reduce correlation, statistical independence cannot be assumed a priori and must be empirically validated across tasks.
+    \item \textbf{Calibrated Reliance Protocols:} Institutional workflows (e.g., clinical diagnostics, intelligence forecasting, peer review) should require participants to record independent human priors before consulting foundation models, bounding per-step reliance—illustratively near $\alpha^* \in [0.01, 0.06]$ under our stylized benchmark parameters (cumulative reliance $w_{\text{cum}} \in [26\%, 84\%]$ over $T=30$ rounds)—to prevent unassisted signals from being prematurely drowned out.
+    \item \textbf{Epistemic Stubbornness vs.\ Passive Unassisted Nodes:} Because row-stochastic networks satisfy $(\mathbf{I} - (\mathbf{I} - \mathbf{D}_\alpha)\mathbf{W})\mathbf{1} = \mathbf{D}_\alpha\mathbf{1}$ on any connected graph with non-zero AI adoption ($\mathbf{D}_\alpha = \text{diag}(\boldsymbol{\alpha}) \neq \mathbf{0}$), merely setting $\alpha_i = 0$ for a subset of nodes only delays the characteristic timescale of bias absorption ($\tau_{\text{abs}}$). Unassisted nodes passively average their neighbors, ultimately absorbing $100\%$ of external machine bias $\mu_{AI}$ as $t$ grows. Crucially, merely designating nodes as socially stubborn ($W_{ii} = 1$) is insufficient if those agents continue to consult AI ($\alpha_i > 0$), because their belief updates $x_i(t+1) = (1 - \alpha_i) x_i(t) + \alpha_i \hat{\theta}_{M, i}(t)$ continue to incorporate external machine advice, inexorably pulling them toward the AI estimate. True long-term structural resilience requires \textbf{epistemically stubborn human anchors} that combine zero AI reliance ($\alpha_i = 0$) with persistent belief anchoring—either through complete social insulation ($W_{ii} = 1$ with $\alpha_i = 0$) or Friedkin-Johnsen persistence \citep{friedkin1990social, acemoglu2013opinion} where $x_i(t+1) = (1 - \alpha_i)[(1 - \gamma_i)\sum_j W_{ij} x_j(t) + \gamma_i x_i(0)] + \alpha_i \hat{\theta}_{M, i}(t)$, which at $\alpha_i = 0$ reduces to permanent attachment to their initial pre-AI human prior ($x_i(t+1) = (1 - \gamma_i)\sum_j W_{ij} x_j(t) + \gamma_i x_i(0)$ with $\gamma_i > 0$). Such anchors permanently pin the stationary opinion profile away from pure machine monoculture.
 \end{enumerate}
 
-\section{Limitations \& Future Work}
-While our framework formalizes macro-scale graphs ($N = 1,000$) and 2,970 Monte Carlo runs, several critical limitations define future research:
-\begin{enumerate}
-    \item \textbf{Idealized Human Crowd Assumption:} Our baseline assumes human priors are independent and zero-mean ($\mathbb{E}[\epsilon_i]=0$). In this regime, unassisted crowds achieve near-zero error through the Law of Large Numbers. Consequently, external AI advice can only improve collective judgment if its shared error ($\mu_{AI}^2 + \rho\sigma_{AI}^2$) is strictly lower than the crowd's baseline aggregation error. As derived in Section 2.3, if real human crowds exhibit shared cognitive or perceptual bias exceeding $\rho_h^* \approx 8.1\%$, foundation model mediation actually surpasses human crowd accuracy, establishing a quantifiable boundary for when algorithmic monoculture transitions from harmful to beneficial.
-    \item \textbf{Heterogeneous Network Reliance:} We evaluated homogeneous reliance $\alpha$ across nodes. A promising theoretical extension is evaluating degree-correlated reliance $\alpha_i = f(\text{deg}(i))$, where central hubs adopt AI at higher rates than peripheral nodes.
-    \item \textbf{Empirical Calibration with Real-World LLMs:} In this initial formalization, foundation model advice is parameterized through Gaussian structural error and synthetic correlation ($\rho$). A vital next step is empirically measuring the actual pairwise error correlation matrix ($\rho_{\text{empirical}}$) across commercial models (e.g., GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) on structured forecasting benchmarks.
-\end{enumerate}
+\section{Limitations and Future Work}
+First, our model parameterizes foundation model errors via Gaussian structural residuals with scalar correlation $\rho \in [0, 1]$; future empirical work should estimate full error covariance matrices from multi-LLM benchmark residuals \citep{kim2025correlated}. Second, while we analyze homogeneous reliance $\alpha$ to establish exact mean-field bounds, real-world networks exhibit heterogeneous, degree-correlated adoption ($\alpha_i$ scaling with node centrality $d_i$), where hub adoption disproportionately accelerates monocultural lock-in. Third, our framework models machine errors $\boldsymbol{\eta}_{AI}$ and human cognitive heuristics $\boldsymbol{\eta}_h$ as mutually independent random vectors ($\mathbb{E}[\boldsymbol{\eta}_{h, \text{shared}} \eta_{\text{shared}}] = 0$); in practice, because foundation models are pre-trained on corpora of human text that encode common human cognitive biases, machine and human errors may be positively cross-correlated, which would further diminish the epistemic benefits of AI advice. Finally, extending DeGroot linear updating to Bayesian agents who dynamically estimate model correlation represents a promising avenue for theoretical extension.
 
 \section{Conclusion}
-This study identifies and formalizes the \textbf{Algorithmic Monoculture Paradox}: individual heuristic reliance on centralized foundation models can precipitate collective epistemic degradation. Through analytical derivation and discrete-event network simulations, we demonstrate that cognitive diversity is a necessary mathematical buffer against collective error. As artificial intelligence becomes deeply woven into human deliberative networks, safeguarding uncorrelated, diverse human inquiry is not merely a social preference, but a structural requirement for collective intelligence.
+This study formalizes the \textbf{Algorithmic Monoculture Paradox}: while foundation models provide substantial accuracy gains for isolated decision-makers, uncoordinated reliance in connected networks accumulates shared machine bias and erodes the wisdom of crowds. When human decision-makers suffer from correlated human errors ($\rho_h > 0$), collective error follows a U-shaped trajectory where calibrated per-step AI reliance ($\alpha^* \in [0.008, 0.056]$, corresponding to cumulative reliance weights of $w_{\text{cum}} \in [20\%, 82\%]$ over $T=30$ rounds) significantly improves collective judgment, whereas individually rational reliance overshoots the social optimum.
 
-\bibliographystyle{plain}
-\bibliography{references}
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\fontsize{8.0pt}{9.0pt}\selectfont
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+
+\bibitem[{Acemoglu et~al.(2013)}]{acemoglu2013opinion}
+Acemoglu, D.; Como, G.; Fagnani, F.; and Ozdaglar, A. 2013.
+\newblock Opinion Fluctuations and Disagreement in Social Networks.
+\newblock \emph{Mathematics of Operations Research}, 38(1): 1--27.
+
+\bibitem[{Barab{\'a}si and Albert(1999)}]{barabasi1999emergence}
+Barab{\'a}si, A.-L.; and Albert, R. 1999.
+\newblock Emergence of Scaling in Random Networks.
+\newblock \emph{Science}, 286(5439): 509--512.
+
+\bibitem[{Becker, Brackbill, and Centola(2017)}]{becker2017network}
+Becker, J.; Brackbill, D.; and Centola, D. 2017.
+\newblock Network Dynamics of Social Influence in the Wisdom of Crowds.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 114(26): E5070--E5076.
+
+\bibitem[{Bommasani et~al.(2022)}]{bommasani2022opportunities}
+Bommasani, R.; et~al. 2022.
+\newblock On the Opportunities and Risks of Foundation Models.
+\newblock \emph{arXiv preprint arXiv:2108.07258}.
+
+\bibitem[{DeGroot(1974)}]{degroot1974reaching}
+DeGroot, M.~H. 1974.
+\newblock Reaching a Consensus.
+\newblock \emph{Journal of the American Statistical Association}, 69(345): 118--121.
+
+\bibitem[{DeMarzo, Vayanos, and Zwiebel(2003)}]{demarzo2003persuasion}
+DeMarzo, P.~M.; Vayanos, D.; and Zwiebel, J. 2003.
+\newblock Persuasion Bias, Social Influence, and Unidimensional Opinions.
+\newblock \emph{The Quarterly Journal of Economics}, 118(3): 909--968.
+
+\bibitem[{Doshi and Hauser(2024)}]{doshi2024generative}
+Doshi, A.~R.; and Hauser, O.~P. 2024.
+\newblock Generative AI Enhances Individual Creativity but Reduces the Collective Diversity of Novel Content.
+\newblock \emph{Science Advances}, 10(28): eadn5290.
+
+\bibitem[{Enke and Zimmermann(2019)}]{enke2019correlation}
+Enke, B.; and Zimmermann, F. 2019.
+\newblock Correlation Neglect in Belief Formation.
+\newblock \emph{The Review of Economic Studies}, 86(1): 313--332.
+
+\bibitem[{Friedkin and Johnsen(1990)}]{friedkin1990social}
+Friedkin, N.~E.; and Johnsen, E.~C. 1990.
+\newblock Social Influence and Opinions.
+\newblock \emph{Journal of Mathematical Sociology}, 15(3-4): 193--206.
+
+\bibitem[{Galton(1907)}]{galton1907vox}
+Galton, F. 1907.
+\newblock Vox Populi.
+\newblock \emph{Nature}, 75(1949): 450--451.
+
+\bibitem[{Golub and Jackson(2010)}]{golub2010naive}
+Golub, B.; and Jackson, M.~O. 2010.
+\newblock Na{\"\i}ve Learning in Social Networks and the Wisdom of Crowds.
+\newblock \emph{American Economic Journal: Microeconomics}, 2(1): 112--149.
+
+\bibitem[{Hagberg, Schult, and Swart(2008)}]{hagberg2008exploring}
+Hagberg, A.; Schult, D.~A.; and Swart, P.~J. 2008.
+\newblock Exploring Network Structure, Dynamics, and Function using NetworkX.
+\newblock In \emph{Proceedings of the 7th Python in Science Conference (SciPy)}, 11--15.
+
+\bibitem[{Kim et~al.(2025)}]{kim2025correlated}
+Kim, E.~M.; Garg, A.; Peng, K.; and Garg, N. 2025.
+\newblock Correlated Errors in Large Language Models.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning (ICML)}, volume 267 of \emph{Proceedings of Machine Learning Research}, 30038--30066. PMLR.
+
+\bibitem[{Kleinberg and Raghavan(2021)}]{kleinberg2021algorithmic}
+Kleinberg, J.; and Raghavan, M. 2021.
+\newblock Algorithmic Monoculture and Social Welfare.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 118(22): e2018340118.
+
+\bibitem[{Kleinberg, Sinanaj, and Tardos(2026)}]{kleinberg2026price}
+Kleinberg, R.; Sinanaj, E.; and Tardos, {\'E}. 2026.
+\newblock Price of Anarchy of Algorithmic Monoculture.
+\newblock \emph{arXiv preprint arXiv:2604.00444}.
+
+\bibitem[{Koutsoupias and Papadimitriou(1999)}]{koutsoupias1999worst}
+Koutsoupias, E.; and Papadimitriou, C. 1999.
+\newblock Worst-Case Equilibria.
+\newblock In \emph{Proceedings of the 16th Annual Conference on Theoretical Aspects of Computer Science (STACS)}, 404--413.
+
+\bibitem[{Krogh and Vedelsby(1995)}]{krogh1995neural}
+Krogh, A.; and Vedelsby, J. 1995.
+\newblock Neural Network Ensembles, Cross Validation, and Active Learning.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 7: 231--238.
+
+\bibitem[{Lorenz et~al.(2011)}]{lorenz2011social}
+Lorenz, J.; Rauhut, H.; Schweitzer, F.; and Helbing, D. 2011.
+\newblock How Social Influence Can Undermine the Wisdom of Crowd Effect.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 108(22): 9020--9025.
+
+\bibitem[{Page(2007)}]{page2007difference}
+Page, S.~E. 2007.
+\newblock \emph{The Difference: How the Power of Diversity Creates Better Groups, Firms, Schools, and Societies}.
+\newblock Princeton University Press.
+
+\bibitem[{Roughgarden and Tardos(2002)}]{roughgarden2002bad}
+Roughgarden, T.; and Tardos, {\'E}. 2002.
+\newblock How Bad Is Selfish Routing?
+\newblock \emph{Journal of the ACM}, 49(2): 236--259.
+
+\bibitem[{Soll and Larrick(2009)}]{soll2009strategies}
+Soll, J.~B.; and Larrick, R.~P. 2009.
+\newblock Strategies for Revising Judgment: How (and How Well) People Use Others' Opinions.
+\newblock \emph{Journal of Experimental Psychology: Learning, Memory, and Cognition}, 35(3): 780--805.
+
+\bibitem[{Watts and Strogatz(1998)}]{watts1998collective}
+Watts, D.~J.; and Strogatz, S.~H. 1998.
+\newblock Collective Dynamics of `Small-World' Networks.
+\newblock \emph{Nature}, 393(6684): 440--442.
+
+\bibitem[{Wu, Black, and Chandrasekaran(2025)}]{wu2025generative}
+Wu, F.; Black, E.; and Chandrasekaran, V. 2025.
+\newblock Generative Monoculture in Large Language Models.
+\newblock In \emph{Proceedings of the 13th International Conference on Learning Representations (ICLR)}.
+\newblock arXiv:2407.02209.
+
+\bibitem[{Zollman(2007)}]{zollman2007communication}
+Zollman, K.~J. 2007.
+\newblock The Communication Structure of Epistemic Communities.
+\newblock \emph{Philosophy of Science}, 74(5): 574--587.
+
+\end{thebibliography}
 
 \end{document}

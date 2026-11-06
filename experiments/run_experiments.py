@@ -1,8 +1,14 @@
 """
 Experiment Runner and Publication Visualization Generator (Macro-Scale Suite).
-Executes systematic parameter sweeps across macro-scale networks (N = 1,000 agents),
-evaluating 3 network topologies, 11 reliance levels (alpha), and 3 correlation regimes (rho),
-saving raw data (2,970 total runs) and generating high-DPI publication figures.
+Executes systematic parameter sweeps across macro-scale networks (N = 1,000 agents, T = 30 timesteps).
+Supports rapid prototyping sweeps as well as full master simulation suites (199,000 total Monte Carlo runs):
+  - Experiment 1 (Core Reliance Sweep): 11 reliance levels x 3 correlation regimes (rho in {0.0, 0.5, 0.9})
+    x 3 topologies (Watts-Strogatz, Erdős-Rényi, Barabási-Albert) x 1,000 trials = 99,000 runs.
+  - Experiment 2 (Human Correlation Sweep): 20 fine reliance levels x 4 human correlation levels
+    (rho_h in {0.00, 0.02, 0.05, 0.10}) under monopoly monoculture (rho = 0.90) x 1,000 trials = 80,000 runs.
+  - Experiment 3 (Static vs. Dynamic Persistence Sweep): 20 fine reliance levels under static
+    machine noise (rho = 0.90, rho_h = 0.00) x 1,000 trials = 20,000 runs (compared against Exp 2).
+Saves raw simulation manifests, empirical summary statistics, and generates high-DPI publication figures.
 """
 
 import sys
